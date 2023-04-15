@@ -15,7 +15,6 @@ import classNames from 'classnames';
 import ProductList from './ProductList';
 import ProductGrid from './ProductGrid';
 import { ProductContext } from 'context/Context';
-import CartModal from '../cart/CartModal';
 import usePagination from 'hooks/usePagination';
 import Flex from 'components/common/Flex';
 
@@ -235,7 +234,6 @@ const Products = () => {
           </div>
         </Card.Footer>
       </Card>
-      <CartModal />
     </>
   );
 };

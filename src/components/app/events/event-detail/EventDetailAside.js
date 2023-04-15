@@ -1,4 +1,3 @@
-import Events from 'components/pages/user/profile/Events';
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -30,7 +29,6 @@ const EventDetailAside = () => {
           <p className="fs--1 mb-0">No Refunds</p>
         </Card.Body>
       </Card>
-      <Events cardTitle="Events you may like" events={events.slice(2, 5)} />
     </div>
   );
 };

@@ -4,16 +4,14 @@ import NavbarTop from 'components/navbar/top/NavbarTop';
 import NavbarVertical from 'components/navbar/vertical/NavbarVertical';
 import AppContext from 'context/Context';
 import Footer from 'components/footer/Footer';
-import ProductProvider from 'components/app/e-commerce/ProductProvider';
 import classNames from 'classnames';
 
 const MainLayout = () => {
   const { hash, pathname } = useLocation();
   const isKanban = pathname.includes('kanban');
-  // const isChat = pathname.includes('chat');
 
   const {
-    config: { isFluid, navbarPosition }
+    config: { navbarPosition }
   } = useContext(AppContext);
 
   useEffect(() => {
@@ -33,18 +31,16 @@ const MainLayout = () => {
   }, [pathname]);
 
   return (
-    <div className={isFluid ? 'container-fluid' : 'container'}>
+    <div className='container-fluid'>
       {(navbarPosition === 'vertical' || navbarPosition === 'combo') && (
         <NavbarVertical />
       )}
-      <ProductProvider>
         <div className={classNames('content', { 'pb-0': isKanban })}>
           <NavbarTop />
           {/*------ Main Routes ------*/}
           <Outlet />
-          {!isKanban && <Footer />}
+          <Footer />
         </div>
-      </ProductProvider>
     </div>
   );
 };

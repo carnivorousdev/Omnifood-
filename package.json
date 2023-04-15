@@ -1,6 +1,5 @@
 {
-  "homepage": "falconreact.prium.me",
-  "name": "falcon-react",
+  "name": "mealapp",
   "version": "3.5.0",
   "private": true,
   "dependencies": {
@@ -70,7 +69,7 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -80,32 +79,18 @@
     "build:css": "webpack --config webpack.config.js",
     "watch:css": "webpack --config webpack.config.js --watch"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
+
   "browserslist": [
     ">0.2%",
     "not dead",
     "not op_mini all"
   ],
   "devDependencies": {
-    "clean-webpack-plugin": "^4.0.0-alpha.0",
     "css-loader": "^4.3.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.24.0",
     "gh-pages": "^3.2.3",
     "mini-css-extract-plugin": "^0.11.3",
     "prettier": "^2.3.2",
     "sass": "^1.38.0",
-    "sass-loader": "^10.1.1",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^4.6.0",
-    "webpack-fix-style-only-entries": "^0.6.1",
-    "webpack-rtl-plugin": "^2.0.0"
+    "sass-loader": "^10.1.1"
   }
 }

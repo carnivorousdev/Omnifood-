@@ -2,7 +2,6 @@ import IconGroup from 'components/common/icon/IconGroup';
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import EventDetailsGmap from './EventDetailsGmap';
 import socialIcons from 'data/socialIcons';
 
 const EventDetailContent = () => {
@@ -56,8 +55,6 @@ const EventDetailContent = () => {
         </Link>
         <h5 className="fs-0 mt-5 mb-2 ">Share with friends </h5>
         <IconGroup icons={socialIcons} />
-
-        <EventDetailsGmap />
       </Card.Body>
     </Card>
   );

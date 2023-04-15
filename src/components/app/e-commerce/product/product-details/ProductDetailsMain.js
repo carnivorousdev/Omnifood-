@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import { ProductContext } from 'context/Context';
 import useProductHook from '../useProductHook';
 import StarRating from 'components/common/StarRating';
-import QuantityController from '../../QuantityController';
 
 const ProductDetailsMain = ({ product }) => {
   const {
@@ -98,16 +97,6 @@ const ProductDetailsMain = ({ product }) => {
         </p>
       )}
       <Row>
-        <Col xs="auto" className="pe-0">
-          <div className="">
-            <QuantityController
-              quantity={productCount}
-              handleChange={handleQuantityChange}
-              handleIncrease={handleQuantityIncrease}
-              handleDecrease={handleQuantityDecrease}
-            />
-          </div>
-        </Col>
         <Col xs="auto" className="px-2 px-md-3">
           <IconButton
             iconClassName="me-sm-2"

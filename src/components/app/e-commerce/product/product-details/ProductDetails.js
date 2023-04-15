@@ -5,7 +5,6 @@ import ProductDetailsMedia from './ProductDetailsMedia';
 import ProductDetailsMain from './ProductDetailsMain';
 import ProductDetailsFooter from './ProductDetailsFooter';
 import { ProductContext } from 'context/Context';
-import CartModal from '../../cart/CartModal';
 import Flex from 'components/common/Flex';
 
 const ProductDetails = () => {
@@ -43,7 +42,6 @@ const ProductDetails = () => {
           </Row>
         </Card.Body>
       </Card>
-      <CartModal />
     </>
   ) : (
     <Navigate to={`/e-commerce/product/product-details/${products[0].id}`} />
