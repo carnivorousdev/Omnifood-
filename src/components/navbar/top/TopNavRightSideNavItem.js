@@ -22,7 +22,7 @@ const TopNavRightSideNavItem = () => {
         >
           <OverlayTrigger
             key="left"
-            placement={isRTL ? 'bottom' : 'left'}
+            placement=''
             overlay={
               <Tooltip id="ThemeColor">
                 {isDark ? 'Switch to light theme' : 'Switch to dark theme'}

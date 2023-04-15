@@ -27,7 +27,7 @@ const Logo = ({ at, width, className, textClass, ...rest }) => {
         )}
       >
         <img className="me-2" src={logo} alt="Logo" width={width} />
-        <span className={classNames('font-sans-serif', textClass)}>falcon</span>
+        <span className={classNames('font-sans-serif', textClass)}>Meal App</span>
       </div>
     </Link>
   );

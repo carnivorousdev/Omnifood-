@@ -11,28 +11,11 @@ const NavbarDropdownApp = ({ items }) => {
     <Row>
       <Col md={5}>
         <Nav className="flex-column">
-          {routes.unTitled.map(route => (
-            <NavbarNavLink key={route.name} route={route} />
-          ))}
-          <NavbarNavLink label="Email" title="Email" />
-          {routes.email.map(route => (
-            <NavbarNavLink key={route.name} route={route} />
-          ))}
           <NavbarNavLink label="Events" title="Events" />
           {routes.events.map(route => (
             <NavbarNavLink key={route.name} route={route} />
           ))}
-          <NavbarNavLink label="Social" title="Social" />
-          {routes.social.map(route => (
-            <NavbarNavLink key={route.name} route={route} />
-          ))}
         </Nav>
-      </Col>
-      <Col md={5}>
-        <NavbarNavLink label="E Commerce" title="E Commerce" />
-        {routes.eCommerce.map(route => (
-          <NavbarNavLink key={route.name} route={route} />
-        ))}
       </Col>
     </Row>
   );

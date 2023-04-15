@@ -6,14 +6,9 @@ import MainLayout from './MainLayout';
 import ErrorLayout from './ErrorLayout';
 import { toast, ToastContainer } from 'react-toastify';
 import { CloseButton } from 'components/common/Toast';
-import OrderDetails from 'components/app/e-commerce/orders/order-details/OrderDetails';
-import Products from 'components/app/e-commerce/product/Products';
-import ProductDetails from 'components/app/e-commerce/product/product-details/ProductDetails';
-import Orders from 'components/app/e-commerce/orders/order-list/Orders';
 import CreateEvent from 'components/app/events/create-an-event/CreateEvent';
 import EventList from 'components/app/events/event-list/EventList';
 import EventDetail from 'components/app/events/event-detail/EventDetail';
-import Ecommerce from 'components/dashboards/e-commerce';
 import Error404 from 'components/errors/Error404';
 import Error500 from 'components/errors/Error500';
 import SimpleLogin from 'components/authentication/simple/Login';
@@ -75,7 +70,7 @@ const Layout = () => {
             path="authentication/simple/reset-password"
             element={<SimplePasswordReset />}
           />
-       
+
           <Route
             path="authentication/simple/lock-screen"
             element={<SimpleLockScreen />}
@@ -107,30 +102,6 @@ const Layout = () => {
         <Route element={<MainLayout />}>
           {/*Dashboard*/}
           <Route path="/" element={<Dashboard />} />
-          <Route path="dashboard/e-commerce" element={<Ecommerce />} />
-
-          {/* E Commerce */}
-          <Route
-            path="e-commerce/orders/order-details"
-            element={<OrderDetails />}
-          />
-          <Route path="e-commerce/orders/order-list" element={<Orders />} />
-
-          <Route
-            path="e-commerce/product/product-details"
-            element={<ProductDetails />}
-          />
-          <Route
-            path="e-commerce/product/product-details/:productId"
-            element={<ProductDetails />}
-          />
-
-          <Route
-            path="e-commerce/product/:productLayout"
-            element={<Products />}
-          />
-
-
           {/*App*/}
           <Route path="events/event-detail" element={<EventDetail />} />
           <Route path="events/create-an-event" element={<CreateEvent />} />

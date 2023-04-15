@@ -1,12 +1,6 @@
 import React, { useContext } from 'react';
-import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Button, Tooltip } from 'react-bootstrap';
 import AppContext from 'context/Context';
-
-const renderTooltip = props => (
-  <Tooltip id="button-tooltip" {...props}>
-    Toggle Navigation
-  </Tooltip>
-);
 
 const ToggleButton = () => {
   const {
@@ -22,12 +16,6 @@ const ToggleButton = () => {
   };
 
   return (
-    <OverlayTrigger
-      placement={
-        isFluid ? (isRTL ? 'bottom' : 'right') : isRTL ? 'bottom' : 'left'
-      }
-      overlay={renderTooltip}
-    >
       <div className="toggle-icon-wrapper">
         <Button
           variant="link"
@@ -40,7 +28,6 @@ const ToggleButton = () => {
           </span>
         </Button>
       </div>
-    </OverlayTrigger>
   );
 };
 
