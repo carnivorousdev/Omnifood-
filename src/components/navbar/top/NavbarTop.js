@@ -4,14 +4,14 @@ import classNames from 'classnames';
 import AppContext from 'context/Context';
 import Logo from 'components/common/Logo';
 import SearchBox from './SearchBox';
-import NavbarTopDropDownMenus from './NavbarTopDropDownMenus';
 import { navbarBreakPoint, topNavbarBreakpoint } from 'config';
 import TopNavRightSideNavItem from './TopNavRightSideNavItem';
 import { useLocation } from 'react-router';
 
+
 const NavbarTop = () => {
   const {
-    config: { showBurgerMenu, navbarPosition, navbarCollapsed },
+    config: { showBurgerMenu, navbarPosition },
     setConfig
   } = useContext(AppContext);
 
@@ -21,9 +21,7 @@ const NavbarTop = () => {
   const [showDropShadow, setShowDropShadow] = useState(false);
 
   const handleBurgerMenu = () => {
-    navbarPosition === 'top' && setConfig('navbarCollapsed', !navbarCollapsed);
-    (navbarPosition === 'vertical' || navbarPosition === 'combo') &&
-      setConfig('showBurgerMenu', !showBurgerMenu);
+    setConfig('showBurgerMenu', !showBurgerMenu);
   };
 
   const setDropShadow = () => {
@@ -40,16 +38,13 @@ const NavbarTop = () => {
     return () => window.removeEventListener('scroll', setDropShadow);
   }, []);
 
+
   return (
     <Navbar
-      className={classNames('navbar-glass  fs--1 navbar-top sticky-kit pt-3', {
+      className={classNames('navbar-glass  fs--1 navbar-top sticky-kit', {
         'navbar-glass-shadow': showDropShadow && !isChat
       })}
-      expand={
-        navbarPosition === 'top' || navbarPosition === 'combo'
-          ? topNavbarBreakpoint
-          : true
-      }
+      expand={true}
     >
       <Navbar.Toggle
         className={classNames('toggle-icon-wrapper me-md-3 me-2', {
@@ -69,29 +64,16 @@ const NavbarTop = () => {
           </span>
         </button>
       </Navbar.Toggle>
-
       <Logo at="navbar-top" width={150} id="topLogo" />
-
-      {navbarPosition === 'top' || navbarPosition === 'combo' ? (
-        <Navbar.Collapse
-          in={navbarCollapsed}
-          className="scrollbar pb-3 pb-lg-0"
-        >
-          <Nav navbar>
-            <NavbarTopDropDownMenus />
-          </Nav>
-        </Navbar.Collapse>
-      ) : (
-        <Nav
-          navbar
-          className={`align-items-center d-none d-${topNavbarBreakpoint}-block`}
-          as="ul"
-        >
-          <Nav.Item as="li">
-            <SearchBox />
-          </Nav.Item>
-        </Nav>
-      )}
+      <Nav
+        navbar
+        className={`align-items-center d-none d-${topNavbarBreakpoint}-block`}
+        as="ul"
+      >
+        <Nav.Item as="li">
+          <SearchBox />
+        </Nav.Item>
+      </Nav>
 
       <TopNavRightSideNavItem />
     </Navbar>

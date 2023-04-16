@@ -9,6 +9,7 @@ import classNames from 'classnames';
 const MainLayout = () => {
   const { hash, pathname } = useLocation();
   const isKanban = pathname.includes('kanban');
+  
 
   const {
     config: { navbarPosition }
@@ -29,6 +30,9 @@ const MainLayout = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  
+
 
   return (
     <div className='container-fluid'>

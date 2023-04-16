@@ -6,8 +6,6 @@ import MainLayout from './MainLayout';
 import ErrorLayout from './ErrorLayout';
 import { toast, ToastContainer } from 'react-toastify';
 import { CloseButton } from 'components/common/Toast';
-import CreateEvent from 'components/app/events/create-an-event/CreateEvent';
-import EventList from 'components/app/events/event-list/EventList';
 import EventDetail from 'components/app/events/event-detail/EventDetail';
 import Error404 from 'components/errors/Error404';
 import Error500 from 'components/errors/Error500';
@@ -75,10 +73,7 @@ const Layout = () => {
           <Route path="dashboard" element={<Dashboard />} />
           {/*App*/}
           <Route path="events/event-detail" element={<EventDetail />} />
-          <Route path="events/create-an-event" element={<CreateEvent />} />
-          <Route path="events/event-list" element={<EventList />} />
         </Route>
-
         <Route path="*" element={<Navigate to="/errors/404" replace />} />
       </Routes>
       <ToastContainer

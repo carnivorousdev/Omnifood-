@@ -14,7 +14,7 @@ const App = ({ locationUrl }) => {
       background-size: cover;
       `
     }
-  })
+  },[])
 
   return (
     <Router basename={process.env.PUBLIC_URL}>

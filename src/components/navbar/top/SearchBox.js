@@ -42,7 +42,6 @@ const SearchBox = () => {
           )}
         </Form>
       </Dropdown.Toggle>
-     
     </Dropdown>
   );
 };

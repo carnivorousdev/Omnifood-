@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, Fragment } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Nav, Navbar } from 'react-bootstrap';
@@ -66,9 +66,7 @@ const NavbarVertical = () => {
         <div className="navbar-vertical-content scrollbar">
           <Nav className="flex-column" as="ul">
             {routes.map(route => (
-              <Fragment key={route.label}>
-                <NavbarVerticalMenu routes={route.children} />
-              </Fragment>
+              <NavbarVerticalMenu routes={route.children} />
             ))}
           </Nav>
         </div>

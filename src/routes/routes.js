@@ -3,23 +3,25 @@ export const appRoutes = {
   label: 'app',
   children: [
     {
-      name: 'Events',
-      icon: 'calendar-day',
+      name: 'Categories',
+      icon: 'category',
       active: true,
       children: [
-        {
-          name: 'Create an event',
-          to: '/events/create-an-event',
-          active: true
-        },
         {
           name: 'Event detail',
           to: '/events/event-detail',
           active: true
         },
+      ]
+    },
+    {
+      name: 'Area',
+      icon: 'area',
+      active: true,
+      children: [
         {
-          name: 'Event list',
-          to: '/events/event-list',
+          name: 'Event detail',
+          to: '/events/event-detail',
           active: true
         }
       ]

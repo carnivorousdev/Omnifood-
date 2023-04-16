@@ -13,11 +13,13 @@ const CollapseItems = ({ route }) => {
     const checkLink = children => {
       if (children.to === pathname) {
         return true;
-      }
+      } 
+    
       return (
         Object.prototype.hasOwnProperty.call(children, 'children') &&
         children.children.some(checkLink)
       );
+      
     };
     return childrens.some(checkLink);
   };
@@ -34,7 +36,6 @@ const CollapseItems = ({ route }) => {
           'text-500': !route.active
         })}
         aria-expanded={open}
-        // {...route}
       >
         <NavbarVerticalMenuItem route={route} />
       </Nav.Link>
@@ -74,7 +75,6 @@ const NavbarVerticalMenu = ({ routes }) => {
           <NavLink
             end={route.exact}
             to={route.to}
-            state={{ open: route.to === '/authentication-modal' }}
             className={({ isActive }) =>
               isActive ? 'active nav-link' : 'nav-link'
             }
