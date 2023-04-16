@@ -8,7 +8,6 @@ import useToggleStyle from './hooks/useToggleStyle';
 
 const Main = props => {
   const configState = {
-    isFluid: getItemFromStore('isFluid', settings.isFluid),
     isRTL: getItemFromStore('isRTL', settings.isRTL),
     isDark: getItemFromStore('isDark', settings.isDark),
     navbarPosition: getItemFromStore('navbarPosition', settings.navbarPosition),
@@ -16,10 +15,7 @@ const Main = props => {
       'isNavbarVerticalCollapsed',
       settings.isNavbarVerticalCollapsed
     ),
-    navbarStyle: getItemFromStore('navbarStyle', settings.navbarStyle),
-    currency: settings.currency,
     showBurgerMenu: settings.showBurgerMenu,
-    showSettingPanel: false,
     navbarCollapsed: false
   };
 
@@ -38,12 +34,10 @@ const Main = props => {
         key,
         value,
         setInStore: [
-          'isFluid',
           'isRTL',
           'isDark',
           'navbarPosition',
           'isNavbarVerticalCollapsed',
-          'navbarStyle'
         ].includes(key)
       }
     });

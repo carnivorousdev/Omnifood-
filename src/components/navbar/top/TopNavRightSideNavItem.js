@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import { Nav, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 import ProfileDropdown from 'components/navbar/top/ProfileDropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AppContext from 'context/Context';
 
 const TopNavRightSideNavItem = () => {
   const {
-    config: { isDark, isRTL },
+    config: { isDark },
     setConfig
   } = useContext(AppContext);
   return (
@@ -20,22 +20,12 @@ const TopNavRightSideNavItem = () => {
           className="px-2 theme-control-toggle"
           onClick={() => setConfig('isDark', !isDark)}
         >
-          <OverlayTrigger
-            key="left"
-            placement=''
-            overlay={
-              <Tooltip id="ThemeColor">
-                {isDark ? 'Switch to light theme' : 'Switch to dark theme'}
-              </Tooltip>
-            }
-          >
-            <div className="theme-control-toggle-label">
-              <FontAwesomeIcon
-                icon={isDark ? 'sun' : 'moon'}
-                className="fs-0"
-              />
-            </div>
-          </OverlayTrigger>
+          <div className="theme-control-toggle-label">
+            <FontAwesomeIcon
+              icon={isDark ? 'sun' : 'moon'}
+              className="fs-0"
+            />
+          </div>
         </Nav.Link>
       </Nav.Item>
       <ProfileDropdown />

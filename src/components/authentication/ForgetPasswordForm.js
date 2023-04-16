@@ -1,38 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Row, Col, Spinner } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { firestoreAuth } from 'config'
+import { useForm } from 'react-hook-form';
+import Flex from 'components/common/Flex';
+import { sendPasswordResetEmail } from "firebase/auth";
 
 const ForgetPasswordForm = () => {
-  // State
-  const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
+  const [loading, setLoading] = useState(false);
 
-  // Handler
-  const handleSubmit = e => {
-    e.preventDefault();
-    if (email) {
-      toast.success(`An email is sent to ${email} with password reset link`, {
-        theme: 'colored'
+  const onSubmit = data => {
+    setLoading(true)
+    sendPasswordResetEmail(firestoreAuth, data.email)
+      .then(() => {
+        toast.success(`Password reset email sent!`, {
+          theme: 'colored'
+        });
+        navigate('/')
+      })
+      .catch((error) => {
+        setLoading(false)
+        toast.error(`${error.message}`, {
+          theme: 'colored'
+        });
       });
-    }
   };
 
+
+  useEffect(() => {
+    document.title = "Meal App | Forget Password";
+  }, []);
+
   return (
-    <Form className="mt-4" onSubmit={handleSubmit}>
+    <Form className="mt-4" noValidate
+      onSubmit={handleSubmit(onSubmit)}
+      role="form">
       <Form.Group className="mb-3">
         <Form.Control
           placeholder={'Email address'}
-          value={email}
           name="email"
-          onChange={({ target }) => setEmail(target.value)}
           type="email"
+          isInvalid={!!errors.email}
+          {...register('email', {
+            required: 'Email Id is required',
+            pattern: {
+              value:
+                /[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})/i,
+              message: 'Email must be valid'
+            }
+          })
+          }
         />
+        <Form.Control.Feedback type="invalid">
+          {errors.email && errors.email.message}
+        </Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Button className="w-100" type="submit" disabled={!email}>
+        {loading ? (
+          <Row className="g-0">
+            <Col xs={12} className="w-100 h-100 my-3">
+              <Flex className="align-items-center justify-content-center">
+                <Spinner animation="border" variant="primary" />
+              </Flex>
+            </Col>
+          </Row>
+        ) : (<Button className="w-100" type="submit" >
           Send reset link
-        </Button>
+        </Button>)}
       </Form.Group>
     </Form>
   );

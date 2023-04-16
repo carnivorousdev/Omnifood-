@@ -13,7 +13,6 @@ import routes from 'routes/routes';
 const NavbarVertical = () => {
   const {
     config: {
-      navbarStyle,
       isNavbarVerticalCollapsed,
       showBurgerMenu
     }
@@ -49,9 +48,7 @@ const NavbarVertical = () => {
   return (
     <Navbar
       expand={navbarBreakPoint}
-      className={classNames('navbar-vertical', {
-        [`navbar-${navbarStyle}`]: navbarStyle !== 'transparent'
-      })}
+      className={classNames('navbar-vertical transparent')}
       variant="light"
     >
       <Flex alignItems="center">

@@ -3,6 +3,7 @@ import { Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { firestoreAuth } from 'config'
 
 const Error404 = () => {
   return (
@@ -21,7 +22,7 @@ const Error404 = () => {
           </a>
           .
         </p>
-        <Link className="btn btn-primary btn-sm mt-3" to="/">
+        <Link className="btn btn-primary btn-sm mt-3" to={firestoreAuth.currentUser ? '/dashboard' : '/'}>
           <FontAwesomeIcon icon={faHome} className="me-2" />
           Take me home
         </Link>
