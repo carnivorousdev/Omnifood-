@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import logo from 'assets/img/illustrations/falcon.png';
+import logo from 'assets/img/illustrations/omnifood-logo.png';
+import { firestoreAuth } from 'config'
 
 const Logo = ({ at, width, className, textClass, ...rest }) => {
   return (
     <Link
-      to="/"
+      to={firestoreAuth.currentUser ? '/dashboard' : "/"}
       className={classNames(
         'text-decoration-none',
         { 'navbar-brand text-left': at === 'navbar-vertical' },
@@ -26,8 +27,7 @@ const Logo = ({ at, width, className, textClass, ...rest }) => {
           className
         )}
       >
-        <img className="me-2" src={logo} alt="Logo" width={width} />
-        <span className={classNames('font-sans-serif', textClass)}>Meal App</span>
+        <img className="me-2 font-sans-serif" src={logo} alt="Logo" width={width ? width : 300} />
       </div>
     </Link>
   );

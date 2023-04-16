@@ -1,4 +1,3 @@
-import imageFile1 from 'assets/img/products/3-thumb.png';
 import imageFile2 from 'assets/img/icons/zip.png';
 import imageMember1 from 'assets/img/team/1.jpg';
 import imageMember2 from 'assets/img/team/2.jpg';
@@ -45,7 +44,6 @@ const autoCompleteInitialItem = [
     id: 6,
     catagories: 'suggestionFiles',
     url: '#!',
-    img: imageFile1,
     file: true,
     title: 'iPhone',
     imgAttrs: {

@@ -41,7 +41,7 @@ const LoginForm = ({ hasLabel }) => {
   };
 
   useEffect(() => {
-    document.title = "Meal App";
+    document.title = "Omnifood";
   }, []);
 
   return (

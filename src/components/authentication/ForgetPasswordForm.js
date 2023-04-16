@@ -36,7 +36,7 @@ const ForgetPasswordForm = () => {
 
 
   useEffect(() => {
-    document.title = "Meal App | Forget Password";
+    document.title = "Omnifood | Forget Password";
   }, []);
 
   return (

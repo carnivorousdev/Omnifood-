@@ -42,7 +42,7 @@ const RegistrationForm = ({ hasLabel }) => {
   };
 
   useEffect(() => {
-    document.title = "Meal App | Register";
+    document.title = "Omnifood | Register";
   }, []);
 
   return (

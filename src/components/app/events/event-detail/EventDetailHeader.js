@@ -1,5 +1,4 @@
 import React from 'react';
-import eventBanner from 'assets/img/generic/13.jpg';
 import { Card, Row, Col, Button } from 'react-bootstrap';
 import Flex from 'components/common/Flex';
 import Calendar from 'components/common/Calendar';
@@ -15,9 +14,6 @@ const EventDetailHeader = () => {
   };
   return (
     <Card className="p-0 mb-3">
-      {!!eventBanner && (
-        <img className="card-img-top" src={eventBanner} alt="" />
-      )}
       <Card.Body className="overflow-hidden">
         <Row className="flex-center">
           <Col>
