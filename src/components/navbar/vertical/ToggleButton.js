@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { Button, Tooltip } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import AppContext from 'context/Context';
 
 const ToggleButton = () => {
   const {
-    config: { isNavbarVerticalCollapsed, isFluid, isRTL },
+    config: { isNavbarVerticalCollapsed },
     setConfig
   } = useContext(AppContext);
 

@@ -55,26 +55,12 @@ const LoginForm = ({ hasLabel, layout }) => {
 
       <Row className="justify-content-between align-items-center">
         <Col xs="auto">
-          <Form.Check type="checkbox" id="rememberMe">
-            <Form.Check.Input
-              type="checkbox"
-              name="remember"
-              checked={formData.remember}
-              onChange={e =>
-                setFormData({
-                  ...formData,
-                  remember: e.target.checked
-                })
-              }
-            />
-            <Form.Check.Label className="mb-0">Remember Me</Form.Check.Label>
-          </Form.Check>
         </Col>
 
         <Col xs="auto">
           <Link
             className="fs--1 mb-0"
-            to={`/authentication/${layout}/forgot-password`}
+            to={`forgot-password`}
           >
             Forget Password?
           </Link>
