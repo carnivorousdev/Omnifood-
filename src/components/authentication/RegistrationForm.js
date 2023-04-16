@@ -71,52 +71,48 @@ const RegistrationForm = ({ hasLabel }) => {
           {errors.email && errors.email.message}
         </Form.Control.Feedback>
       </Form.Group>
-
-      <Row className="g-2 mb-3">
-        <Form.Group as={Col} sm={6}>
-          {hasLabel && <Form.Label>Password</Form.Label>}
-          <Form.Control
-            placeholder={!hasLabel ? 'Password' : ''}
-            name="password"
-            type="password"
-            isInvalid={!!errors.password}
-            {...register('password', {
-              required: 'You must specify a password',
-              minLength: {
-                value: 2,
-                message: 'Password must have at least 2 characters'
-              },
-              pattern: {
-                value:
-                  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/,
-                message: 'Password should be strong(Use special characters)'
-              }
-            })}
-          />
-          <Form.Control.Feedback type="invalid">
-            {errors.password && errors.password.message}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group as={Col} sm={6}>
-          {hasLabel && <Form.Label>Confirm Password</Form.Label>}
-          <Form.Control
-            placeholder={!hasLabel ? 'Confirm Password' : ''}
-            name="confirmPassword"
-            type="password"
-            isInvalid={!!errors.confirmPassword}
-            {...register('confirmPassword', {
-              required: 'You must confirm password',
-              validate: value =>
-                value === watch('password') ||
-                'Passwords are not matching'
-            })}
-          />
-          <Form.Control.Feedback type="invalid">
-            {errors.confirmPassword && errors.confirmPassword.message}
-          </Form.Control.Feedback>
-        </Form.Group>
-      </Row>
-
+      <Form.Group  className="mb-3">
+        {hasLabel && <Form.Label>Password</Form.Label>}
+        <Form.Control
+          placeholder={!hasLabel ? 'Password' : ''}
+          name="password"
+          type="password"
+          isInvalid={!!errors.password}
+          {...register('password', {
+            required: 'You must specify a password',
+            minLength: {
+              value: 2,
+              message: 'Password must have at least 2 characters'
+            },
+            pattern: {
+              value:
+                /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/,
+              message: 'Password should be strong(Use special characters)'
+            }
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.password && errors.password.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+      <Form.Group  className="mb-3">
+        {hasLabel && <Form.Label>Confirm Password</Form.Label>}
+        <Form.Control
+          placeholder={!hasLabel ? 'Confirm Password' : ''}
+          name="confirmPassword"
+          type="password"
+          isInvalid={!!errors.confirmPassword}
+          {...register('confirmPassword', {
+            required: 'You must confirm password',
+            validate: value =>
+              value === watch('password') ||
+              'Passwords are not matching'
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.confirmPassword && errors.confirmPassword.message}
+        </Form.Control.Feedback>
+      </Form.Group>
       <Form.Group className="mb-3">
         <Form.Check type="checkbox" className="form-check">
           <Form.Check.Input

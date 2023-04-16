@@ -4,8 +4,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { firestoreAuth } from 'config'
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const Error404 = () => {
+  const [userData, setUserData] = useState(null)
+
+  useEffect(() => {
+    onAuthStateChanged(firestoreAuth, (user) => {
+      if (user) {
+        setUserData(user)
+      } else {
+        setUserData(null)
+      }
+    });
+  }, [])
+
   return (
     <Card className="text-center">
       <Card.Body className="p-5">
@@ -22,7 +36,7 @@ const Error404 = () => {
           </a>
           .
         </p>
-        <Link className="btn btn-primary btn-sm mt-3" to={firestoreAuth.currentUser ? '/dashboard' : '/'}>
+        <Link className="btn btn-primary btn-sm mt-3" to={userData ? '/dashboard' : '/'}>
           <FontAwesomeIcon icon={faHome} className="me-2" />
           Take me home
         </Link>

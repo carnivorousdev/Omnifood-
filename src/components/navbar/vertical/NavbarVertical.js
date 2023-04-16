@@ -48,17 +48,20 @@ const NavbarVertical = () => {
   return (
     <Navbar
       expand={navbarBreakPoint}
-      className={classNames('navbar-vertical transparent')}
+      className={classNames('navbar-vertical')}
       variant="light"
     >
       <Flex alignItems="center">
         <ToggleButton />
-        <Logo at="navbar-vertical" width={100} />
+        <Logo at="navbar-vertical" width={150} />
       </Flex>
       <Navbar.Collapse
         in={showBurgerMenu}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        style={{
+          backgroundImage: 'none'
+        }}
       >
         <div className="navbar-vertical-content scrollbar">
           <Nav className="flex-column" as="ul">

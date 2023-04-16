@@ -11,7 +11,7 @@ const ErrorLayout = () => {
     <Section className="py-0">
       <Row className="flex-center min-vh-100 py-6">
         <Col sm={11} md={9} lg={7} xl={6} className="col-xxl-5">
-          <Logo />
+          <Logo width={null}/>
           <Outlet />
         </Col>
       </Row>

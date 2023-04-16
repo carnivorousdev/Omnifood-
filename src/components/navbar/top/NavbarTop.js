@@ -6,7 +6,6 @@ import Logo from 'components/common/Logo';
 import SearchBox from './SearchBox';
 import NavbarTopDropDownMenus from './NavbarTopDropDownMenus';
 import { navbarBreakPoint, topNavbarBreakpoint } from 'config';
-import autoCompleteInitialItem from 'data/autocomplete/autocomplete';
 import TopNavRightSideNavItem from './TopNavRightSideNavItem';
 import { useLocation } from 'react-router';
 
@@ -43,8 +42,7 @@ const NavbarTop = () => {
 
   return (
     <Navbar
-      className={classNames('navbar-glass  fs--1 navbar-top sticky-kit', {
-        // 'navbar-glass-shadow': showDropShadow
+      className={classNames('navbar-glass  fs--1 navbar-top sticky-kit pt-3', {
         'navbar-glass-shadow': showDropShadow && !isChat
       })}
       expand={
@@ -72,7 +70,7 @@ const NavbarTop = () => {
         </button>
       </Navbar.Toggle>
 
-      <Logo at="navbar-top" width={100} id="topLogo" />
+      <Logo at="navbar-top" width={150} id="topLogo" />
 
       {navbarPosition === 'top' || navbarPosition === 'combo' ? (
         <Navbar.Collapse
@@ -90,7 +88,7 @@ const NavbarTop = () => {
           as="ul"
         >
           <Nav.Item as="li">
-            <SearchBox autoCompleteItem={autoCompleteInitialItem} />
+            <SearchBox />
           </Nav.Item>
         </Nav>
       )}

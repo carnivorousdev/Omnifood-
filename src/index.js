@@ -7,7 +7,7 @@ import 'helpers/initFA';
 ReactDOM.render(
   <React.StrictMode>
     <Main>
-      <App />
+      <App locationUrl={location.origin} />
     </Main>
   </React.StrictMode>,
   document.getElementById('main')

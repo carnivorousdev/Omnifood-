@@ -66,21 +66,21 @@ const Layout = () => {
           />
         </Route>
 
-        {userData ? <Route element={<MainLayout />}>
+        <Route element={<MainLayout />}>
           {/*Dashboard*/}
           <Route path="dashboard" element={<Dashboard />} />
           {/*App*/}
           <Route path="events/event-detail" element={<EventDetail />} />
           <Route path="events/create-an-event" element={<CreateEvent />} />
           <Route path="events/event-list" element={<EventList />} />
-        </Route> : null}
+        </Route>
 
         <Route path="*" element={<Navigate to="/errors/404" replace />} />
       </Routes>
       <ToastContainer
         closeButton={CloseButton}
         icon={false}
-        position={toast.POSITION.TOP_LEFT}
+        position={toast.POSITION.TOP_CENTER}
       />
     </>
   );

@@ -22157,6 +22157,9 @@ h5 {
   .navbar-vertical-content {
   width: 14.5rem !important;
 }
+.navbar-vertical-collapsed-hover{
+  border-radius: 5%;
+}
 .navbar-top {
   position: sticky;
   top: 0;

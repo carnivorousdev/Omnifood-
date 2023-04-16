@@ -32,7 +32,7 @@ const MainLayout = () => {
 
   return (
     <div className='container-fluid'>
-      {(navbarPosition === 'vertical' || navbarPosition === 'combo') && (
+      {navbarPosition === 'vertical'  && (
         <NavbarVertical />
       )}
         <div className={classNames('content', { 'pb-0': isKanban })}>
