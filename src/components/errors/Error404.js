@@ -6,6 +6,7 @@ import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { firestoreAuth } from 'config'
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const Error404 = () => {
   const [userData, setUserData] = useState(null)

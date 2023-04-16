@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { useNavigate, Navigate, Route, Routes } from 'react-router-dom';
 import AuthSimpleLayout from './AuthSimpleLayout';
 import is from 'is_js';
 import MainLayout from './MainLayout';
@@ -18,11 +18,12 @@ import Dashboard from 'components/dashboards/default';
 import AppContext from 'context/Context';
 import { onAuthStateChanged } from "firebase/auth";
 import { firestoreAuth } from 'config'
+import Logo from '../assets/img/illustrations/Bg-lg.png'
 
 const Layout = () => {
+  const navigate = useNavigate()
   const HTMLClassList = document.getElementsByTagName('html')[0].classList;
   useContext(AppContext);
-  const [userData, setUserData] = useState(null)
   useEffect(() => {
     if (is.windows()) {
       HTMLClassList.add('windows');
@@ -38,13 +39,16 @@ const Layout = () => {
   useEffect(() => {
     onAuthStateChanged(firestoreAuth, (user) => {
       if (user) {
-        let uid = user.uid;
-        setUserData(uid)
+        navigate("/dashboard")
+        document.body.style = 'none'
       } else {
-        setUserData(null)
+        navigate("/")
+        document.body.style = `background: url(${Logo}) no-repeat center;
+        background-size: cover;
+        `
       }
     });
-  }, [])
+  },[])
 
   return (
     <>
