@@ -8,7 +8,6 @@ import { navbarBreakPoint, topNavbarBreakpoint } from 'config';
 import TopNavRightSideNavItem from './TopNavRightSideNavItem';
 import { useLocation } from 'react-router';
 
-
 const NavbarTop = () => {
   const {
     config: { showBurgerMenu, navbarPosition },
@@ -37,7 +36,6 @@ const NavbarTop = () => {
     window.addEventListener('scroll', setDropShadow);
     return () => window.removeEventListener('scroll', setDropShadow);
   }, []);
-
 
   return (
     <Navbar

@@ -40,14 +40,17 @@ const ProfileDropdown = () => {
         as={Link} to="#!"
         className="pe-0 ps-2 nav-link"
       >
-        <Avatar src={userData.photoURL ? userData.photoURL : team4} />
-      </Dropdown.Toggle> : ''}
+        <Avatar src={userData.photoURL ? userData.photoURL : team4} size="xl" className="status-online" />
+      </Dropdown.Toggle> : null}
 
       <Dropdown.Menu className="dropdown-caret dropdown-menu-card  dropdown-menu-end">
         <div className="bg-white rounded-2 py-2 dark__bg-1000">
           {userData ? <Dropdown.Item>
             {userData.displayName ? userData.displayName : userData.email}
           </Dropdown.Item> : null}
+          <Dropdown.Item as={Link} to="#!">
+            Settings
+          </Dropdown.Item>
           <Dropdown.Item onClick={() => handleLogOut()}>
             Logout
           </Dropdown.Item>

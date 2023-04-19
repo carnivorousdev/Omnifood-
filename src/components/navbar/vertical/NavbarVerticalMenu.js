@@ -1,25 +1,18 @@
-import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Nav, Collapse } from 'react-bootstrap';
 import NavbarVerticalMenuItem from './NavbarVerticalMenuItem';
 import classNames from 'classnames';
 import AppContext from 'context/Context';
 
 const CollapseItems = ({ route }) => {
-  const { pathname } = useLocation();
-
   const openCollapse = childrens => {
     const checkLink = children => {
-      if (children.to === pathname) {
-        return true;
-      } 
-    
       return (
         Object.prototype.hasOwnProperty.call(children, 'children') &&
         children.children.some(checkLink)
       );
-      
+
     };
     return childrens.some(checkLink);
   };
@@ -48,15 +41,6 @@ const CollapseItems = ({ route }) => {
   );
 };
 
-CollapseItems.propTypes = {
-  route: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    icon: PropTypes.string,
-    children: PropTypes.array.isRequired,
-    active: PropTypes.bool
-  }).isRequired
-};
-
 const NavbarVerticalMenu = ({ routes }) => {
   const {
     config: { showBurgerMenu },
@@ -73,8 +57,7 @@ const NavbarVerticalMenu = ({ routes }) => {
       return (
         <Nav.Item as="li" key={route.name} onClick={handleNavItemClick}>
           <NavLink
-            end={route.exact}
-            to={route.to}
+            to={route.idCategory ? `/category/${route.name}` : `/areas/${route.name}`}
             className={({ isActive }) =>
               isActive ? 'active nav-link' : 'nav-link'
             }
@@ -86,11 +69,6 @@ const NavbarVerticalMenu = ({ routes }) => {
     }
     return <CollapseItems route={route} key={route.name} />;
   });
-};
-
-NavbarVerticalMenu.propTypes = {
-  routes: PropTypes.arrayOf(PropTypes.shape(NavbarVerticalMenuItem.propTypes))
-    .isRequired
 };
 
 export default NavbarVerticalMenu;

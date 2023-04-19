@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Nav, Navbar } from 'react-bootstrap';
@@ -9,6 +9,7 @@ import Logo from 'components/common/Logo';
 import NavbarVerticalMenu from './NavbarVerticalMenu';
 import ToggleButton from './ToggleButton';
 import routes from 'routes/routes';
+import bgNavbar from 'assets/img/illustrations/bg-navbar.png';
 
 const NavbarVertical = () => {
   const {
@@ -31,6 +32,8 @@ const NavbarVertical = () => {
     };
   }, [isNavbarVerticalCollapsed, HTMLClassList]);
 
+
+
   //Control mouseEnter event
   let time = null;
   const handleMouseEnter = () => {
@@ -44,7 +47,6 @@ const NavbarVertical = () => {
     clearTimeout(time);
     HTMLClassList.remove('navbar-vertical-collapsed-hover');
   };
-
   return (
     <Navbar
       expand={navbarBreakPoint}
@@ -66,7 +68,9 @@ const NavbarVertical = () => {
         <div className="navbar-vertical-content scrollbar">
           <Nav className="flex-column" as="ul">
             {routes.map(route => (
-              <NavbarVerticalMenu routes={route.children} />
+              <Fragment key={route.label}>
+                <NavbarVerticalMenu routes={route.children} />
+              </Fragment>
             ))}
           </Nav>
         </div>

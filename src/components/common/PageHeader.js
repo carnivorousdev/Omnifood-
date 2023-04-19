@@ -44,7 +44,7 @@ const PageHeader = ({
 );
 
 PageHeader.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   preTitle: PropTypes.string,
   titleTag: PropTypes.string,
   description: PropTypes.string,

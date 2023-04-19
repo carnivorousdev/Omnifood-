@@ -2,6 +2,10 @@ import React from 'react';
 import Flex from 'components/common/Flex';
 import { BiCategoryAlt } from 'react-icons/bi';
 import { AiOutlineAreaChart } from 'react-icons/ai'
+import Avatar from 'components/common/Avatar';
+import Flag from 'react-world-flags'
+import Image from 'assets/img/icons/image.png';
+
 const NavbarVerticalMenuItem = ({ route }) => {
   return (
     <Flex alignItems="center">
@@ -12,7 +16,19 @@ const NavbarVerticalMenuItem = ({ route }) => {
             : route.icon == 'area' ? <AiOutlineAreaChart className="text-success fs-1" /> : null}
         </span>
       )}
-      <span className="nav-link-text ps-1">{route.name}</span>
+      {route.strCategoryThumb && (
+        <span className="nav-link-icon">
+          <Avatar src={route.strCategoryThumb} size="s" />
+        </span>
+      )}
+      {route.areaCode && (
+        <span className="nav-link-icon">
+          <Flag code={route.areaCode} fallback={<span className="nav-link-icon">
+            <Avatar src={Image} size="s" />
+          </span>} className='avatar-s avatar' />
+        </span>
+      )}
+      <span className="nav-link-text ps-1 ">{route.name}</span>
     </Flex>
   );
 };

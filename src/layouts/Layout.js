@@ -6,17 +6,20 @@ import MainLayout from './MainLayout';
 import ErrorLayout from './ErrorLayout';
 import { toast, ToastContainer } from 'react-toastify';
 import { CloseButton } from 'components/common/Toast';
-import EventDetail from 'components/app/events/event-detail/EventDetail';
 import Error404 from 'components/errors/Error404';
 import Error500 from 'components/errors/Error500';
 import SimpleLogin from 'components/authentication/simple/Login';
 import SimpleRegistration from 'components/authentication/simple/Registration';
 import SimpleForgetPassword from 'components/authentication/simple/ForgetPassword';
-import Dashboard from 'components/dashboards/default';
 import AppContext from 'context/Context';
 import { onAuthStateChanged } from "firebase/auth";
 import { firestoreAuth } from 'config'
 import Logo from '../assets/img/illustrations/Bg-lg.png'
+import Landing from 'components/dashboard/Landing';
+import MealDetail from 'components/app/MealDetails/MealDetail';
+import Areas from 'components/dashboard/Areas';
+import Categories from 'components/dashboard/Categories';
+
 
 const Layout = () => {
   const navigate = useNavigate()
@@ -69,10 +72,10 @@ const Layout = () => {
         </Route>
 
         <Route element={<MainLayout />}>
-          {/*Dashboard*/}
-          <Route path="dashboard" element={<Dashboard />} />
-          {/*App*/}
-          <Route path="events/event-detail" element={<EventDetail />} />
+          <Route path="dashboard" element={<Landing />} />
+          <Route path="mealdetails/:detailedId" element={<MealDetail />} />
+          <Route path="areas/:areas" element={<Areas />} />
+          <Route path="category/:category" element={<Categories />} />
         </Route>
         <Route path="*" element={<Navigate to="/errors/404" replace />} />
       </Routes>
