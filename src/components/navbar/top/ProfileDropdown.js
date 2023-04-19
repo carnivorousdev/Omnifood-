@@ -45,7 +45,7 @@ const ProfileDropdown = () => {
 
       <Dropdown.Menu className="dropdown-caret dropdown-menu-card  dropdown-menu-end">
         <div className="bg-white rounded-2 py-2 dark__bg-1000">
-          {userData ? <Dropdown.Item>
+          {userData ? <Dropdown.Item as={Link} to={`profile/${userData.displayName ? userData.displayName : userData.email}`}>
             {userData.displayName ? userData.displayName : userData.email}
           </Dropdown.Item> : null}
           <Dropdown.Item as={Link} to="#!">

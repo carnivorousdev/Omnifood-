@@ -19,6 +19,7 @@ import Landing from 'components/dashboard/Landing';
 import MealDetail from 'components/app/MealDetails/MealDetail';
 import Areas from 'components/dashboard/Areas';
 import Categories from 'components/dashboard/Categories';
+import Profile from 'components/app/profile/Profile';
 
 
 const Layout = () => {
@@ -49,7 +50,7 @@ const Layout = () => {
         `
       }
     });
-  },[])
+  }, [])
 
   return (
     <>
@@ -76,6 +77,7 @@ const Layout = () => {
           <Route path="mealdetails/:detailedId" element={<MealDetail />} />
           <Route path="areas/:areas" element={<Areas />} />
           <Route path="category/:category" element={<Categories />} />
+          <Route path="profile/:profileName" element={<Profile />} />
         </Route>
         <Route path="*" element={<Navigate to="/errors/404" replace />} />
       </Routes>

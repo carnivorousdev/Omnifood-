@@ -23,7 +23,7 @@ const TopNavRightSideNavItem = () => {
           <div className="theme-control-toggle-label">
             <FontAwesomeIcon
               icon={isDark ? 'sun' : 'moon'}
-              className="fs-1"
+              className="fs-0"
             />
           </div>
         </Nav.Link>
