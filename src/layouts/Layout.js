@@ -5,7 +5,6 @@ import is from 'is_js';
 import MainLayout from './MainLayout';
 import ErrorLayout from './ErrorLayout';
 import { toast, ToastContainer } from 'react-toastify';
-import { CloseButton } from 'components/common/Toast';
 import Error404 from 'components/errors/Error404';
 import Error500 from 'components/errors/Error500';
 import SimpleLogin from 'components/authentication/simple/Login';
@@ -20,6 +19,7 @@ import MealDetail from 'components/app/MealDetails/MealDetail';
 import Areas from 'components/dashboard/Areas';
 import Categories from 'components/dashboard/Categories';
 import Profile from 'components/app/profile/Profile';
+import AllBookMarksList from 'components/app/BookMarks/AllBookMarksList';
 
 
 const Layout = () => {
@@ -38,19 +38,23 @@ const Layout = () => {
     }
   }, [HTMLClassList]);
 
-  useEffect(() => {
-    onAuthStateChanged(firestoreAuth, (user) => {
-      if (user) {
-        navigate("/dashboard")
-        document.body.style = 'none'
-      } else {
-        navigate("/")
-        document.body.style = `background: url(${Logo}) no-repeat center;
-        background-size: cover;
-        `
-      }
-    });
-  }, [])
+  // useEffect(() => {
+  //   onAuthStateChanged(firestoreAuth, (user) => {
+  //     if (window.location.href.includes('register') || window.location.href.includes('forgot-password')) {
+  //       return
+  //     } else {
+  //       if (user) {
+  //         navigate("/dashboard")
+  //         document.body.style = 'none'
+  //       } else {
+  //         navigate("/")
+  //         document.body.style = `background: url(${Logo}) no-repeat center;
+  //         background-size: cover;
+  //         `
+  //       }
+  //     }
+  //   });
+  // }, [])
 
   return (
     <>
@@ -76,15 +80,15 @@ const Layout = () => {
           <Route path="dashboard" element={<Landing />} />
           <Route path="mealdetails/:detailedId" element={<MealDetail />} />
           <Route path="areas/:areas" element={<Areas />} />
+          <Route path="all_bookmarks" element={<AllBookMarksList />} />
           <Route path="category/:category" element={<Categories />} />
           <Route path="profile/:profileName" element={<Profile />} />
         </Route>
         <Route path="*" element={<Navigate to="/errors/404" replace />} />
       </Routes>
       <ToastContainer
-        closeButton={CloseButton}
-        icon={false}
         position={toast.POSITION.TOP_CENTER}
+        autoClose={3000}
       />
     </>
   );

@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, Form, Row, Col, Spinner } from 'react-bootstrap';
-import Divider from 'components/common/Divider';
-import SocialAuthButtons from './SocialAuthButtons';
-import { createUserWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth"
 import { useNavigate } from 'react-router-dom';
 import { firestoreAuth } from 'config'
 import { useForm } from 'react-hook-form';
@@ -22,16 +20,24 @@ const RegistrationForm = ({ hasLabel }) => {
   } = useForm();
   const [loading, setLoading] = useState(false);
 
-  // Handler
   const onSubmit = data => {
     setLoading(true)
     createUserWithEmailAndPassword(firestoreAuth, data.email, data.confirmPassword)
       .then(() => {
-        setLoading(false)
-        toast.success(`Successfully registered`, {
-          theme: 'colored'
-        });
-        navigate('/')
+        sendEmailVerification(firestoreAuth.currentUser).then(() => {
+          setLoading(false)
+          toast.success(`Successfully registered.`, {
+            theme: 'colored'
+          });
+          location.replace('/')
+        })
+          .catch((err) => {
+            setLoading(false)
+            toast.error(`${err.message}`, {
+              theme: 'colored'
+            });
+          })
+
       })
       .catch((error) => {
         setLoading(false)
@@ -71,7 +77,7 @@ const RegistrationForm = ({ hasLabel }) => {
           {errors.email && errors.email.message}
         </Form.Control.Feedback>
       </Form.Group>
-      <Form.Group  className="mb-3">
+      <Form.Group className="mb-3">
         {hasLabel && <Form.Label>Password</Form.Label>}
         <Form.Control
           placeholder={!hasLabel ? 'Password' : ''}
@@ -95,7 +101,7 @@ const RegistrationForm = ({ hasLabel }) => {
           {errors.password && errors.password.message}
         </Form.Control.Feedback>
       </Form.Group>
-      <Form.Group  className="mb-3">
+      <Form.Group className="mb-3">
         {hasLabel && <Form.Label>Confirm Password</Form.Label>}
         <Form.Control
           placeholder={!hasLabel ? 'Confirm Password' : ''}

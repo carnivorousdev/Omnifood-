@@ -11,11 +11,11 @@ const MealDetailContent = ({ lookUpdata }) => {
         <hr />
         <p dangerouslySetInnerHTML={{ __html: lookUpdata.strInstructions }} />
         <h5 className="fs-0 mt-5 mb-2 ">Tags </h5>
-        <span
+        {lookUpdata.strTags && <span
           className="badge border link-secondary text-decoration-none me-1"
         >
-          {lookUpdata.strTags}
-        </span>
+          {lookUpdata.strTags.replace(/,/g, ', ')}
+        </span>}
         <Link
           to={`/category/${lookUpdata.strCategory}`}
           className="badge border link-info text-decoration-none me-1"

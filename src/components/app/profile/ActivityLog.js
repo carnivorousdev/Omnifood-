@@ -12,7 +12,7 @@ const ActivityLog = ({ activities, ...rest }) => {
       <Card.Header className="bg-light">
         <Flex justifyContent="between">
           <h5 className="mb-1 mb-md-0">Activity log</h5>
-          <Link to="/social/activity-log" className="font-sans-serif">
+          <Link to="#!" className="font-sans-serif">
             All logs
           </Link>
         </Flex>

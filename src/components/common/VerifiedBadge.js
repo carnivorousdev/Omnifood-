@@ -10,7 +10,7 @@ const VerifiedBadge = ({ placement = 'top' }) => {
         <FontAwesomeIcon
           icon="check-circle"
           transform="shrink-4 down-2"
-          className="text-primary me-1"
+          className="text-primary"
         />
       </span>
     </OverlayTrigger>

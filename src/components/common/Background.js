@@ -39,7 +39,7 @@ const Background = ({ image, overlay, position, video, className, style }) => {
 };
 
 Background.propTypes = {
-  image: PropTypes.string.isRequired,
+  image: PropTypes.string,
   overlay: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   position: PropTypes.oneOfType([
     PropTypes.string,

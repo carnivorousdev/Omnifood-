@@ -17,14 +17,15 @@ const Banner = ({ userData }) => {
               <h4 className="mb-1">
                 {userData.displayName ? userData.displayName : 'Anthony Hopkins'} <VerifiedBadge />
               </h4>
-              <h5 className="fs-0 fw-normal">
+              {/* <h5 className="fs-0 fw-normal">
                 Senior Software Engineer at Technext Limited
-              </h5>
+              </h5> */}
               <div className="border-dashed-bottom my-4 d-lg-none" />
             </Col>
-            <Col className="ps-2 ps-lg-3">
+            <Col sm={3}></Col>
+            <Col>
               <Link to="#!" className='icon-item'>
-                <BsFillPencilFill className="text-800 fs-1" />
+                <BsFillPencilFill className="text-800 fs-0" />
               </Link>
             </Col>
           </Row>

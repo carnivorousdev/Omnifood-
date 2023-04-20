@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { Button, Form, Row, Col, Spinner } from 'react-bootstrap';
 import Divider from 'components/common/Divider';
 import SocialAuthButtons from './SocialAuthButtons';
-import { signInWithEmailAndPassword } from "firebase/auth"
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth"
 import { useNavigate } from 'react-router-dom';
 import { firestoreAuth } from 'config'
 import { useForm } from 'react-hook-form';
@@ -25,11 +25,20 @@ const LoginForm = ({ hasLabel }) => {
     setLoading(true)
     signInWithEmailAndPassword(firestoreAuth, data.email, data.password)
       .then(() => {
-        setLoading(false)
-        toast.success(`Logged in as ${data.email}`, {
-          theme: 'colored'
-        });
-        navigate('dashboard')
+        onAuthStateChanged(firestoreAuth, async (user) => {
+          if (user.emailVerified) {
+            setLoading(false)
+            toast.success(`Logged in as ${data.email}`, {
+              theme: 'colored'
+            });
+            navigate('dashboard')
+          } else {
+            setLoading(false)
+            toast.error(`Email not verified`, {
+              theme: 'colored'
+            });
+          }
+        })
       })
       .catch(() => {
         setLoading(false)

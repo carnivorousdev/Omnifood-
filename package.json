@@ -37,6 +37,8 @@
     "is_js": "^0.9.0",
     "leaflet": "^1.7.1",
     "leaflet.tilelayer.colorfilter": "^1.2.5",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "plyr": "^3.6.8",
     "prism-react-renderer": "^1.2.1",
     "react": "^17.0.2",

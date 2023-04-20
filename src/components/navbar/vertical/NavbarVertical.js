@@ -50,7 +50,7 @@ const NavbarVertical = () => {
   return (
     <Navbar
       expand={navbarBreakPoint}
-      className={classNames('navbar-vertical')}
+      className='navbar-vertical'
       variant="light"
     >
       <Flex alignItems="center">

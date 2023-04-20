@@ -1,10 +1,28 @@
 import React from 'react';
 import { Card, Col, Row, Form } from 'react-bootstrap';
-import events from 'data/events/events';
-import Event from './Event';
+import Event from './BookMark';
 import Flex from 'components/common/Flex';
+import { useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useEffect } from 'react';
+import _ from 'lodash';
+import { doc, getDoc } from 'firebase/firestore';
+import { OmnifoodServer } from 'config';
+import { firestoreAuth } from 'config'
 
-const EventList = () => {
+const AllBookMarksList = () => {
+  const [bookMarksData, setBookMarksData] = useState([])
+  useEffect(() => {
+    onAuthStateChanged(firestoreAuth, async (user) => {
+      if (user) {
+        const docRef = doc(OmnifoodServer, "Users", user.email);
+        const docSnap = await getDoc(docRef);
+        var result = _.omit(docSnap.data(), ['accessToken',
+          'emailVerified', 'isAnonymous', 'phoneNumber', 'providerData', 'userEmail', 'userName', 'userProfilePhoto']);
+        setBookMarksData(Object.values(result))
+      } else return
+    });
+  }, [])
   return (
     <Card>
       <Card.Header
@@ -13,8 +31,8 @@ const EventList = () => {
         alignItems="center"
         className="bg-light"
       >
-        <h5 className="mb-0"> Events</h5>
-        <Form.Group>
+        <h5 className="mb-0">All Bookmarks</h5>
+        {/* <Form.Group>
           <Form.Select size="sm" aria-label="Default select example">
             <option value="1">Select Category</option>
             <option value="2">Health &amp; Wellness</option>
@@ -29,13 +47,13 @@ const EventList = () => {
             <option value="11">Entertainment</option>
             <option value="12">Other</option>
           </Form.Select>
-        </Form.Group>
+        </Form.Group> */}
       </Card.Header>
       <Card.Body className="fs--1">
         <Row>
-          {events.map((event, index) => (
-            <Col key={event.id} md={6} className="h-100">
-              <Event details={event} isLast={index === events.length - 1} />
+          {bookMarksData.map((event, index) => (
+            <Col key={event.idMeal} md={6} className="h-100">
+              <Event details={event} isLast={index === bookMarksData.length - 1} />
             </Col>
           ))}
         </Row>
@@ -44,4 +62,4 @@ const EventList = () => {
   );
 };
 
-export default EventList;
+export default AllBookMarksList;

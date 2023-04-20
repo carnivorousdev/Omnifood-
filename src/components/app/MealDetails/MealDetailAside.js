@@ -1,26 +1,7 @@
-import axios from 'axios';
-import Avatar from 'components/common/Avatar';
-import React, { useEffect, useState } from 'react';
-import { Card, Col, OverlayTrigger, Row, Table, Tooltip } from 'react-bootstrap';
-import { toast } from 'react-toastify';
+import React from 'react';
+import { Card, Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 
 const MealDetailAside = ({ lookUpdata }) => {
-  // if (lookUpdata) {
-  //   Object.keys(lookUpdata).forEach((key) => {
-  //     if (lookUpdata[key] == null || lookUpdata[key] == '') {
-  //       delete lookUpdata[key];
-  //     }
-  //   });
-  // }
-  // const getImageUrl = (props) => {
-  //   axios.get(process.env.REACT_APP_PHOTO_URL + `${props}.png`, { responseType: "blob" })
-  //     .then((response) => {
-  //       var reader = new window.FileReader();
-  //       reader.readAsDataURL(response.data);
-  //       return reader.result
-  //     })
-  // }
-
   return (
     <div className="sticky-sidebar">
       <Card className="mb-3 fs--1">

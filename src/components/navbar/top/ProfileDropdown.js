@@ -11,12 +11,13 @@ import { toast } from 'react-toastify';
 const ProfileDropdown = () => {
   const [userData, setUserData] = useState(null)
   const navigate = useNavigate()
+  
   const handleLogOut = () => {
     signOut(firestoreAuth).then(() => {
       toast.success(`Logged out successfully`, {
         theme: 'colored'
       });
-      navigate('/')
+      location.replace('/')
     }).catch((error) => {
       toast.error(`${error.message}`, {
         theme: 'colored'
@@ -33,6 +34,7 @@ const ProfileDropdown = () => {
       }
     });
   }, [])
+
   return (
     <Dropdown navbar={true} as="li">
       {userData ? <Dropdown.Toggle
