@@ -1,16 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import AuthSimpleLayout from './AuthSimpleLayout';
 import MainLayout from './MainLayout';
 import ErrorLayout from './ErrorLayout';
 import { toast, ToastContainer } from 'react-toastify';
 import Error404 from 'components/errors/Error404';
 import Error500 from 'components/errors/Error500';
-import SimpleLogin from 'components/authentication/simple/Login';
-import SimpleRegistration from 'components/authentication/simple/Registration';
-import SimpleForgetPassword from 'components/authentication/simple/ForgetPassword';
-import is from 'is_js';
-import AppContext from 'context/Context';
 import Landing from 'components/dashboard/Landing';
 import MealDetail from 'components/app/MealDetails/MealDetail';
 import Areas from 'components/dashboard/Areas';
@@ -18,22 +12,24 @@ import Categories from 'components/dashboard/Categories';
 import Profile from 'components/app/profile/Profile';
 import AllBookMarksList from 'components/app/BookMarks/AllBookMarksList';
 import Settings from 'components/app/profile/Settings';
+import AppContext from 'context/Context';
+import is from 'is_js';
 
 
-const Layout = () => {
-  const HTMLClassList = document.getElementsByTagName('html')[0].classList;
-  useContext(AppContext);
-  useEffect(() => {
-    if (is.windows()) {
-      HTMLClassList.add('windows');
-    }
-    if (is.chrome()) {
-      HTMLClassList.add('chrome');
-    }
-    if (is.firefox()) {
-      HTMLClassList.add('firefox');
-    }
-  }, [HTMLClassList]);
+const AuthenticatedLayout = () => {
+    const HTMLClassList = document.getElementsByTagName('html')[0].classList;
+    useContext(AppContext);
+    useEffect(() => {
+      if (is.windows()) {
+        HTMLClassList.add('windows');
+      }
+      if (is.chrome()) {
+        HTMLClassList.add('chrome');
+      }
+      if (is.firefox()) {
+        HTMLClassList.add('firefox');
+      }
+    }, [HTMLClassList]);
 
   return (
     <>
@@ -41,18 +37,6 @@ const Layout = () => {
         <Route element={<ErrorLayout />}>
           <Route path="errors/404" element={<Error404 />} />
           <Route path="errors/500" element={<Error500 />} />
-        </Route>
-        {/* <Route path="landing" element={WithoutAuthLanding} /> */}
-        <Route element={<AuthSimpleLayout />}>
-          <Route path="/" element={<SimpleLogin />} />
-          <Route
-            path="register"
-            element={<SimpleRegistration />}
-          />
-          <Route
-            path="forgot-password"
-            element={<SimpleForgetPassword />}
-          />
         </Route>
 
         <Route element={<MainLayout />}>
@@ -74,4 +58,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default AuthenticatedLayout;

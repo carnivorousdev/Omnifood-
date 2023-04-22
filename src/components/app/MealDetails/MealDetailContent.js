@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AiFillYoutube } from 'react-icons/ai'
+import ReactYoutubePlayer from 'react-player/youtube';
 
 const MealDetailContent = ({ lookUpdata }) => {
   return (
@@ -28,10 +29,11 @@ const MealDetailContent = ({ lookUpdata }) => {
         >
           {lookUpdata.strArea}
         </Link>
-        <h5 className="fs-0 mt-5 mb-2 ">View More</h5>
-        <a className='icon-item' href={lookUpdata.strYoutube} target='_blank'>
-          <AiFillYoutube className="text-youtube fs-3" />
-        </a>
+          {lookUpdata.strYoutube && <ReactYoutubePlayer
+            url={lookUpdata.strYoutube}
+            controls={true}
+            className="react-player mt-3 mb-2 shadow"
+          />}
       </Card.Body>}
     </Card>
   );

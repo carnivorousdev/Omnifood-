@@ -11,6 +11,8 @@ import { firestoreAuth } from 'config'
 import { useForm } from 'react-hook-form';
 import Flex from 'components/common/Flex';
 import { useEffect } from 'react';
+import { OmnifoodServer } from 'config';
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 
 const LoginForm = ({ hasLabel }) => {
   const navigate = useNavigate();
@@ -27,11 +29,34 @@ const LoginForm = ({ hasLabel }) => {
       .then(() => {
         onAuthStateChanged(firestoreAuth, async (user) => {
           if (user.emailVerified) {
-            setLoading(false)
-            toast.success(`Logged in as ${data.email}`, {
-              theme: 'colored'
-            });
-            navigate('dashboard')
+            const documentRef = doc(OmnifoodServer, data.email, 'User-Data')
+            const docSnap = await getDoc(documentRef);
+            if (docSnap.exists()) {
+              await updateDoc(documentRef, {
+                accessToken: user.accessToken,
+              }, { capital: true }, { merge: true });
+              setLoading(false)
+              toast.success(`Logged in as ${data.email}`, {
+                theme: 'colored'
+              });
+              navigate('dashboard')
+            } else {
+              await setDoc(documentRef, {
+                userName: user.displayName,
+                userEmail: user.email,
+                userProfilePhoto: user.photoURL,
+                accessToken: user.accessToken,
+                providerData: user.providerData,
+                emailVerified: user.emailVerified,
+                isAnonymous: user.isAnonymous,
+              }, { capital: true }, { merge: true });
+              setLoading(false)
+              toast.success(`Logged in as ${data.email}`, {
+                theme: 'colored'
+              });
+              navigate('dashboard')
+            }
+            localStorage.setItem('SignedInEmail', JSON.stringify(data.email))
           } else {
             setLoading(false)
             toast.error(`Email not verified`, {
@@ -122,7 +147,7 @@ const LoginForm = ({ hasLabel }) => {
           <Row className="g-0">
             <Col xs={12} className="w-100 h-100 my-3">
               <Flex className="align-items-center justify-content-center">
-                <Spinner animation="border" variant="primary" />
+                <Spinner animation="border" variant="success" size='sm' />
               </Flex>
             </Col>
           </Row>

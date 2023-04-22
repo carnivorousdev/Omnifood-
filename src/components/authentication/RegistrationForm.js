@@ -144,7 +144,7 @@ const RegistrationForm = ({ hasLabel }) => {
           <Row className="g-0">
             <Col xs={12} className="w-100 h-100 my-3">
               <Flex className="align-items-center justify-content-center">
-                <Spinner animation="border" variant="primary" />
+                <Spinner animation="border" variant="success" size='sm'/>
               </Flex>
             </Col>
           </Row>

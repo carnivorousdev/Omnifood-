@@ -38,44 +38,43 @@ const Areas = () => {
             })
     }, [areas])
 
-
     return (
         <>
-            <div className="position-relative light mb-3">
-                <Background video={[video3]} className="rounded-soft w-100" overlay={1}/>
-                <div className="position-relative vh-25 d-flex flex-center">
-                    <Flex className='align-items-center'>
-                        <h4 className="fs-4 fw-bold text-warning ms-3"> {areas}</h4>
-                    </Flex>
-                </div>
-            </div>
-            {AreaLoading ? <Row className="g-0">
-                <Col xs={12} className="w-100 h-100 my-3">
-                    <Flex className="align-items-center justify-content-center">
-                        <Spinner animation="border" variant="primary" />
-                    </Flex>
+            {AreaLoading ? <Row className="g-0 w-100 h-100" >
+                <Col xs={12} className='d-flex align-items-center justify-content-center' style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
+                    <Spinner animation="border" variant="success" size='sm' />
                 </Col>
-            </Row> : AreaData.length > 0 &&
-            <Card className="h-100 p-2">
-                <Flex alignItems='strech' justifyContent='between' wrap='wrap'>
-                    {AreaData.map((item) => (
-                        <Card key={item.idMeal} style={{ width: '20rem' }} className='flex-fill m-2'>
-                            <FalconLightBox image={item.strMealThumb}>
-                                <Card.Img src={item.strMealThumb} />
-                            </FalconLightBox>
-                            <Card.Body>
-                                <Card.Title as='h5'>
-                                    {item.strMeal}
-                                </Card.Title>
-                                <Button variant="outline-warning" size="sm" onClick={() => { navigate(`/mealdetails/${item.idMeal}`) }}>
-                                    Detailed view
-                                    <FontAwesomeIcon icon="chevron-right" className="ms-1 fs--2" />
-                                </Button>
-                            </Card.Body>
-                        </Card>
-                    ))}
-                </Flex>
-            </Card>}
+            </Row> : <>
+                <div className="position-relative light mb-3">
+                    <Background video={[video3]} className="rounded-soft w-100" overlay={1} />
+                    <div className="position-relative vh-25 d-flex flex-center">
+                        <Flex className='align-items-center'>
+                            <h4 className="fs-4 fw-bold text-warning ms-3"> {areas}</h4>
+                        </Flex>
+                    </div>
+                </div>
+                {AreaData.length > 0 &&
+                    <Card className="h-100 p-2">
+                        <Flex alignItems='strech' justifyContent='between' wrap='wrap'>
+                            {AreaData.map((item) => (
+                                <Card key={item.idMeal} style={{ width: '20rem' }} className='flex-fill m-2'>
+                                    <FalconLightBox image={item.strMealThumb}>
+                                        <Card.Img src={item.strMealThumb} />
+                                    </FalconLightBox>
+                                    <Card.Body>
+                                        <Card.Title as='h5'>
+                                            {item.strMeal}
+                                        </Card.Title>
+                                        <Button variant="outline-warning" size="sm" onClick={() => { navigate(`/mealdetails/${item.idMeal}`) }}>
+                                            Detailed view
+                                            <FontAwesomeIcon icon="chevron-right" className="ms-1 fs--2" />
+                                        </Button>
+                                    </Card.Body>
+                                </Card>
+                            ))}
+                        </Flex>
+                    </Card>}
+            </>}
         </>
     );
 };

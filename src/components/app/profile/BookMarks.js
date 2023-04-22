@@ -11,18 +11,18 @@ const BookMarks = ({ cardTitle, events, ...rest }) => {
       <Card.Body className="fs--1 border-bottom">
         {events.map((event, index) => (
           <BookMark
-            key={event.idMeal}
+            key={index}
             details={event}
             isLast={index === events.length - 1}
           />
         ))}
       </Card.Body>
 
-      <FalconCardFooterLink
+      {events.length > 4 && <FalconCardFooterLink
         title="All Bookmarks"
         to="/all_bookmarks"
         size="sm"
-      />
+      />}
     </Card>
   );
 };

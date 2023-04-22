@@ -1,50 +1,65 @@
 import React from 'react';
 import ProfileBanner from './Banner';
-import { Col, Row } from 'react-bootstrap';
-import activities from '../../data/activities';
+import { Col, Row, Spinner } from 'react-bootstrap';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { onAuthStateChanged } from "firebase/auth"
-import { firestoreAuth } from 'config'
-import ActivityLog from './ActivityLog';
 import { doc, getDoc } from "firebase/firestore";
 import { OmnifoodServer } from 'config';
-import _ from 'lodash';
 import BookMarks from './BookMarks';
+import { toast } from 'react-toastify';
+
+
 
 const Profile = () => {
   const [userData, setUserData] = useState(null)
   const [bookMarksData, setBookMarksData] = useState([])
+  const [getBookMarksLoading, setBookMarksLoading] = useState(false)
+
+  const getData = async () => {
+    setBookMarksLoading(true)
+    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
+    const docRef = doc(OmnifoodServer, SignedInEmail, 'Bookmarks-Data');
+    const documentRef = doc(OmnifoodServer, SignedInEmail, 'User-Data')
+    const docSnap1 = await getDoc(documentRef);
+    setUserData(docSnap1.data())
+    const docSnap2 = await getDoc(docRef);
+    if (docSnap2.exists()) {
+      var result = docSnap2.data()
+      setBookMarksData(Object.values(result))
+      setBookMarksLoading(false)
+    } else {
+      setBookMarksLoading(false)
+      toast.error(`No bookmarks found for ${docSnap2.data().userName}`, {
+        theme: 'colored'
+      });
+      setBookMarksData([])
+    }
+  }
+
   useEffect(() => {
-    onAuthStateChanged(firestoreAuth, async (user) => {
-      if (user) {
-        setUserData(user)
-        const docRef = doc(OmnifoodServer, "Users", user.email);
-        const docSnap = await getDoc(docRef);
-        var result = _.omit(docSnap.data(), ['accessToken',
-          'emailVerified', 'isAnonymous', 'phoneNumber', 'providerData', 'userEmail', 'userName', 'userProfilePhoto']);
-        setBookMarksData(Object.values(result))
-      } else {
-        setUserData(null)
-      }
-    });
+    getData()
+    document.title = "Omnifood | Profile";
   }, [])
 
   return (
     <>
-      <ProfileBanner userData={userData} />
-      <Row className="g-3">
-        {/* <Col lg={8}>
-          <ActivityLog className="mt-3" activities={activities.slice(4, 9)} />
-        </Col> */}
-        {bookMarksData.length > 0 && <Col lg={12}>
-          <BookMarks
-            className="mb-3"
-            cardTitle="Bookmarks"
-            events={bookMarksData.slice(0, 4)}
-          />
-        </Col>}
-      </Row>
+      {getBookMarksLoading ?
+        <Row className="g-0 w-100 h-100" >
+          <Col xs={12} className='d-flex align-items-center justify-content-center' style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
+            <Spinner animation="border" variant="success" size='sm' />
+          </Col>
+        </Row> : <>
+          <ProfileBanner userData={userData} />
+          {bookMarksData.length > 0 && <Row className="g-3">
+            <Col lg={12}>
+              <BookMarks
+                className="mb-3"
+                cardTitle="Bookmarks"
+                events={bookMarksData.slice(0, 4)}
+              />
+            </Col>
+          </Row>}
+        </>}
     </>
   );
 };

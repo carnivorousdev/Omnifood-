@@ -3,21 +3,22 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import logo from 'assets/img/illustrations/omnifood-logo.png';
-import { firestoreAuth } from 'config'
-import { onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc } from "firebase/firestore";
+import { OmnifoodServer } from 'config';
 
 const Logo = ({ at, width, className, textClass, ...rest }) => {
   const [userData, setUserData] = useState(null)
 
   useEffect(() => {
-    onAuthStateChanged(firestoreAuth, (user) => {
-      if (user) {
-        setUserData(user)
-      } else {
-        setUserData(null)
-      }
-    });
+    getDocument()
   }, [])
+
+  const getDocument = async () => {
+    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
+    const documentRef = doc(OmnifoodServer, SignedInEmail, 'User-Data')
+    const docSnap = await getDoc(documentRef);
+    setUserData(docSnap.data())
+  }
 
   return (
     <>

@@ -3,24 +3,24 @@ import { Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
-import { firestoreAuth } from 'config'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc } from "firebase/firestore";
+import { OmnifoodServer } from 'config';
 
 const Error404 = () => {
   const [userData, setUserData] = useState(null)
 
   useEffect(() => {
-    onAuthStateChanged(firestoreAuth, (user) => {
-      if (user) {
-        setUserData(user)
-      } else {
-        setUserData(null)
-      }
-    });
+    getDocument()
   }, [])
 
+  const getDocument = async () => {
+    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
+    const documentRef = doc(OmnifoodServer, SignedInEmail, 'User-Data')
+    const docSnap = await getDoc(documentRef);
+    setUserData(docSnap.data())
+  }
   return (
     <Card className="text-center">
       <Card.Body className="p-5">

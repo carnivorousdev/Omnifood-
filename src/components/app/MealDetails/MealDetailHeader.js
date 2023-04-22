@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 import { Card, Row, Col, Spinner, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Flex from 'components/common/Flex';
 import FalconLightBox from 'components/common/FalconLightBox';
-import { Timestamp, deleteField, doc, getDoc, updateDoc } from "firebase/firestore";
-import { onAuthStateChanged } from 'firebase/auth';
-import { firestoreAuth } from 'config'
+import { Timestamp, deleteField, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { OmnifoodServer } from 'config';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
@@ -17,82 +15,82 @@ const MealDetailHeader = ({ lookUpdata }) => {
 
   useEffect(() => {
     if (lookUpdata) {
-      onAuthStateChanged(firestoreAuth, async (user) => {
-        if (user) {
-          const docRef = doc(OmnifoodServer, "Users", user.email);
-          const docSnap = await getDoc(docRef);
-          var result = _.findKey(docSnap.data(), { 'idMeal': lookUpdata.idMeal });
-          if (result) {
-            setHeartColor(true)
-          } else {
-            setHeartColor(false)
-          }
-        } else return
-      });
+      getDocument()
     } else return
   }, [lookUpdata])
 
-  const addToBookMark = (data) => {
-    onAuthStateChanged(firestoreAuth, async (user) => {
-      if (user) {
-        try {
-          const UserRef = doc(OmnifoodServer, "Users", user.email)
-          data['dateModified'] = Timestamp.now()
-          await updateDoc(UserRef, {
-            ['Liked-Item' + data.idMeal]: data
-          }, { capital: true }, { merge: true });
-          toast.success(`Added to Bookmarks`, {
-            theme: 'colored'
-          });
-          setLoading(false)
-          setHeartColor(true)
-        } catch (err) {
-          toast.error(`${err.message}`, {
-            theme: 'colored'
-          });
-          setLoading(false)
-        }
-      } else return
-    });
+  const getDocument = async () => {
+    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
+    const documentRef = doc(OmnifoodServer, SignedInEmail, 'Bookmarks-Data')
+    const docSnap = await getDoc(documentRef);
+    if (docSnap.exists()) {
+      var result = _.findKey(docSnap.data(), { 'idMeal': lookUpdata.idMeal });
+      if (result) {
+        setHeartColor(true)
+      } else {
+        setHeartColor(false)
+      }
+    } else {
+      setHeartColor(false)
+    }
   }
 
-  const removeFromBookMark = (data) => {
-    onAuthStateChanged(firestoreAuth, async (user) => {
-      if (user) {
-        try {
-          const UserRef = doc(OmnifoodServer, "Users", user.email)
-          await updateDoc(UserRef, {
-            ['Liked-Item' + data.idMeal]: deleteField()
-          });
-          toast.success(`Removed from Bookmarks`, {
-            theme: 'colored'
-          });
-          setLoading(false)
-          setHeartColor(false)
-        } catch (err) {
-          toast.error(`${err.message}`, {
-            theme: 'colored'
-          });
-          setLoading(false)
-        }
-      } else return
-    });
+  const addToBookMark = async (data) => {
+    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
+    const documentRef = doc(OmnifoodServer, SignedInEmail, 'Bookmarks-Data')
+    data['dateModified'] = Timestamp.now()
+    const docSnap = await getDoc(documentRef);
+    if (docSnap.exists()) {
+      await updateDoc(documentRef, {
+        [data.idMeal]: data
+      }, { capital: true }, { merge: true });
+      toast.success(`Added to Bookmarks`, {
+        theme: 'colored'
+      });
+      setLoading(false)
+      setHeartColor(true)
+    } else {
+      await setDoc(documentRef, {
+        [data.idMeal]: data
+      }, { capital: true }, { merge: true });
+      toast.success(`Added to Bookmarks`, {
+        theme: 'colored'
+      });
+      setLoading(false)
+      setHeartColor(true)
+    }
   }
 
-  const checkAddToBookMark = (lookUpdata) => {
-    onAuthStateChanged(firestoreAuth, async (user) => {
-      if (user) {
-        const docRef = doc(OmnifoodServer, "Users", user.email);
-        const docSnap = await getDoc(docRef);
-        var result = _.findKey(docSnap.data(), { 'idMeal': lookUpdata.idMeal });
-        if (result) {
-          removeFromBookMark(lookUpdata)
-        } else {
-          addToBookMark(lookUpdata)
-        }
-      } else return
+  const removeFromBookMark = async (data) => {
+    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
+    const documentRef = doc(OmnifoodServer, SignedInEmail, 'Bookmarks-Data')
+    await updateDoc(documentRef, {
+      [data.idMeal]: deleteField()
     });
+    toast.warn(`Removed from Bookmarks`, {
+      theme: 'colored'
+    });
+    setLoading(false)
+    setHeartColor(false)
   }
+
+  const checkAddToBookMark = async (lookUpdata) => {
+    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
+    const docRef = doc(OmnifoodServer, SignedInEmail, 'Bookmarks-Data');
+    const docSnap = await getDoc(docRef);
+    var result = _.findKey(docSnap.data(), { 'idMeal': lookUpdata.idMeal });
+    if (docSnap.exists()) {
+      var result = _.findKey(docSnap.data(), { 'idMeal': lookUpdata.idMeal });
+      if (result) {
+        removeFromBookMark(lookUpdata)
+      } else {
+        addToBookMark(lookUpdata)
+      }
+    } else {
+      addToBookMark(lookUpdata)
+    }
+  }
+
   return (
     <Card className="p-0 mb-3">
       {lookUpdata && (

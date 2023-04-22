@@ -41,6 +41,11 @@ const Categories = () => {
 
     return (
         <>
+        {CategoryLoading?<Row className="g-0 w-100 h-100" >
+          <Col xs={12} className='d-flex align-items-center justify-content-center' style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
+            <Spinner animation="border" variant="success" size='sm'/>
+          </Col>
+        </Row>:<>
             <div className="position-relative light mb-3">
                 <Background video={[video1]} className="rounded-soft w-100" overlay={1}/>
                 <div className="position-relative vh-25 d-flex flex-center">
@@ -49,13 +54,7 @@ const Categories = () => {
                     </Flex>
                 </div>
             </div>
-            {CategoryLoading ? <Row className="g-0">
-                <Col xs={12} className="w-100 h-100 my-3">
-                    <Flex className="align-items-center justify-content-center">
-                        <Spinner animation="border" variant="primary" />
-                    </Flex>
-                </Col>
-            </Row> : CategoryData.length > 0 &&
+            {CategoryData.length > 0 &&
             <Card className="h-100 p-2">
                 <Flex alignItems='strech' justifyContent='between' wrap='wrap'>
                     {CategoryData.map((item) => (
@@ -76,6 +75,7 @@ const Categories = () => {
                     ))}
                 </Flex>
             </Card>}
+        </>}
         </>
     );
 };

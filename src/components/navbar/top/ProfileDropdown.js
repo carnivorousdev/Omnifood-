@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
-import team4 from 'assets/img/team/7.jpg';
+import loadingGif from 'assets/img/illustrations/Spinner.gif';
 import Avatar from 'components/common/Avatar';
-import { onAuthStateChanged, signOut } from "firebase/auth"
-import { useNavigate } from 'react-router-dom';
+import { signOut } from "firebase/auth"
 import { firestoreAuth } from 'config'
 import { toast } from 'react-toastify';
+import { doc, getDoc } from 'firebase/firestore';
+import { OmnifoodServer } from 'config';
 
 const ProfileDropdown = () => {
-  const [userData, setUserData] = useState(null)
-  const navigate = useNavigate()
-  
+  const [userData, setUserData] = useState({
+    userProfilePhoto: null,
+    userName: null,
+    userEmail: null
+  })
   const handleLogOut = () => {
     signOut(firestoreAuth).then(() => {
       toast.success(`Logged out successfully`, {
@@ -25,32 +28,33 @@ const ProfileDropdown = () => {
     });
   }
 
+  const getDocument = async () => {
+    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
+    const documentRef = doc(OmnifoodServer, SignedInEmail, 'User-Data')
+    const docSnap = await getDoc(documentRef);
+    setUserData(docSnap.data())
+  }
+
   useEffect(() => {
-    onAuthStateChanged(firestoreAuth, (user) => {
-      if (user) {
-        setUserData(user)
-      } else {
-        setUserData(null)
-      }
-    });
+    getDocument()
   }, [])
 
   return (
     <Dropdown navbar={true} as="li">
-      {userData ? <Dropdown.Toggle
+      <Dropdown.Toggle
         bsPrefix="toggle"
         as={Link} to="#!"
         className="pe-0 ps-2 nav-link"
       >
-        <Avatar src={userData.photoURL ? userData.photoURL : team4} size="xl" className="status-online" />
-      </Dropdown.Toggle> : null}
+        <Avatar src={userData.userProfilePhoto ? userData.userProfilePhoto : loadingGif} size="xl" className={userData.userProfilePhoto ? "status-online" : ''} />
+      </Dropdown.Toggle>
 
       <Dropdown.Menu className="dropdown-caret dropdown-menu-card  dropdown-menu-end">
         <div className="bg-white rounded-2 py-2 dark__bg-1000">
-          {userData ? <Dropdown.Item as={Link} to={`profile/${userData.displayName ? userData.displayName : userData.email}`}>
-            {userData.displayName ? userData.displayName : userData.email}
-          </Dropdown.Item> : null}
-          <Dropdown.Item as={Link} to="#!">
+          <Dropdown.Item as={Link} to={`profile/${userData.userName ? userData.userName : userData.userEmail}`}>
+            {userData.userName ? userData.userName : userData.userEmail}
+          </Dropdown.Item>
+          <Dropdown.Item as={Link} to="/settings">
             Settings
           </Dropdown.Item>
           <Dropdown.Item onClick={() => handleLogOut()}>
