@@ -22,7 +22,9 @@ const App = ({ locationUrl }) => {
 
   useEffect(() => {
     if (window.location.href == currentLocationPath + 'login' || window.location.href.includes('register') || window.location.href.includes('forgot-password')) {
-
+      document.body.style = `background: url(${Logo}) no-repeat center;
+      background-size: cover;
+      `
     } else {
       document.body.style = 'none'
     }
