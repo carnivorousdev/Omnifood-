@@ -184,7 +184,6 @@ const Landing = () => {
         });
       });
   };
-  console.log('StorageData', StorageData)
   return (
     <>
       {ShowCaseLoading ? <Row className="g-0 w-100 h-100" >

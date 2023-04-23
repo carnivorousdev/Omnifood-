@@ -45,7 +45,6 @@ const AllBookMarksList = () => {
   }
 
   const handleSelect = (filter) => {
-    console.log(filter.strArea)
     const filteredArray = _.filter(bookMarksData, { 'strArea': filter.strArea });
     if (filteredArray.length > 0) {
       setFilteredData(filteredArray)

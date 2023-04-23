@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import 'react-toastify/dist/ReactToastify.min.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import Layout from './layouts/Layout';
 import Logo from './assets/img/illustrations/Bg-lg.png'
 import './App.css';

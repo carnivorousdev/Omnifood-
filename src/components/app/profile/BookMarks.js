@@ -4,7 +4,7 @@ import { Card } from 'react-bootstrap';
 import FalconCardFooterLink from 'components/common/FalconCardFooterLink';
 import BookMark from '../BookMarks/BookMark';
 
-const BookMarks = ({ cardTitle, events, ...rest }) => {
+const BookMarks = ({ cardTitle, events, allBookMarksData, ...rest }) => {
   return (
     <Card {...rest}>
       <FalconCardHeader title={cardTitle} light />
@@ -18,7 +18,7 @@ const BookMarks = ({ cardTitle, events, ...rest }) => {
         ))}
       </Card.Body>
 
-      {events.length > 4 && <FalconCardFooterLink
+      {allBookMarksData.length > 4 && <FalconCardFooterLink
         title="All Bookmarks"
         to="/all_bookmarks"
         size="sm"

@@ -56,6 +56,7 @@ const Profile = () => {
                 className="mb-3"
                 cardTitle="Bookmarks"
                 events={bookMarksData.slice(0, 4)}
+                allBookMarksData={bookMarksData}
               />
             </Col>
           </Row>}
