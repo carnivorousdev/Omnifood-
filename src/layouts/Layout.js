@@ -18,6 +18,7 @@ import Categories from 'components/dashboard/Categories';
 import Profile from 'components/app/profile/Profile';
 import AllBookMarksList from 'components/app/BookMarks/AllBookMarksList';
 import Settings from 'components/app/profile/Settings';
+import WithoutAuthLanding from 'components/landing/Landing';
 
 
 const Layout = () => {
@@ -42,9 +43,9 @@ const Layout = () => {
           <Route path="errors/404" element={<Error404 />} />
           <Route path="errors/500" element={<Error500 />} />
         </Route>
-        {/* <Route path="landing" element={WithoutAuthLanding} /> */}
+        <Route path="/" element={<WithoutAuthLanding />} />
         <Route element={<AuthSimpleLayout />}>
-          <Route path="/" element={<SimpleLogin />} />
+          <Route path="/login" element={<SimpleLogin />} />
           <Route
             path="register"
             element={<SimpleRegistration />}

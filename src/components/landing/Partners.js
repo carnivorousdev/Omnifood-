@@ -1,5 +1,5 @@
 import React from 'react';
-import partnerList from 'data/partner/partnerList';
+import featureList from '../data/featureList';
 import Section from 'components/common/Section';
 import { Row, Col, Image } from 'react-bootstrap';
 
@@ -12,9 +12,14 @@ const Partner = props => (
 const Partners = () => {
   return (
     <Section bg="light" className="py-3 shadow-sm">
+      <Row className="justify-content-center text-center">
+        <Col lg={8} xl={7} xxl={6} className="col-xxl-6">
+          <h1 className='fs-0 fw-bold'>AS FEATURED IN</h1>
+        </Col>
+      </Row>
       <Row className="flex-center">
-        {partnerList.map((partner, index) => (
-          <Partner key={index} {...partner} />
+        {featureList.map((feature, index) => (
+          <Partner key={index} {...feature} />
         ))}
       </Row>
     </Section>

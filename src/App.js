@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import 'react-toastify/dist/ReactToastify.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import Layout from './layouts/Layout';
-import Logo from './assets/img/illustrations/Bg-lg.png'
+import Logo from './assets/img/illustrations/bg-navbar.png'
 import './App.css';
 import ScrollToTop from 'react-scroll-to-top';
 import { Col, Row, Spinner } from 'react-bootstrap';
 import AuthenticatedLayout from 'layouts/AuthenticatedLayout';
-import { doc, getDoc } from "firebase/firestore";
-import { OmnifoodServer } from 'config';
+import { onAuthStateChanged } from 'firebase/auth';
+import { firestoreAuth } from 'config'
 
-const App = () => {
+const App = ({ locationUrl }) => {
+  const currentLocationPath = locationUrl + '/'
   const [userData, setUserData] = useState(null)
   const [appLoading, setAppLoading] = useState(false)
 
@@ -19,14 +20,27 @@ const App = () => {
     evt.preventDefault();
   }, false);
 
-  const getUserData = async () => {
+  useEffect(() => {
+    if (window.location.href == currentLocationPath + 'login' || window.location.href.includes('register') || window.location.href.includes('forgot-password')) {
+
+    } else {
+      document.body.style = 'none'
+    }
+  })
+
+  const getUserData = () => {
     setAppLoading(true)
-    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
-    const documentRef = doc(OmnifoodServer, SignedInEmail, 'User-Data')
-    const docSnap = await getDoc(documentRef);
-    setUserData(docSnap.data())
-    setAppLoading(false)
+    onAuthStateChanged(firestoreAuth, async (user) => {
+      if (user) {
+        setAppLoading(false)
+        setUserData(user)
+      } else {
+        setAppLoading(false)
+        setUserData(null)
+      }
+    })
   }
+
   useEffect(() => {
     getUserData()
   }, [])

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Row, Col, Image } from 'react-bootstrap';
@@ -41,18 +40,6 @@ const Process = ({
       </Col>
     </Row>
   );
-};
-
-Process.propTypes = {
-  icon: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
-  iconText: PropTypes.string.isRequired,
-  isFirst: PropTypes.bool,
-  color: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  inverse: PropTypes.bool,
-  children: PropTypes.node
 };
 
 export default Process;

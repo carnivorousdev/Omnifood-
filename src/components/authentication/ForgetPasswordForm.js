@@ -24,7 +24,7 @@ const ForgetPasswordForm = () => {
         toast.success(`Password reset email sent!`, {
           theme: 'colored'
         });
-        navigate('/')
+        navigate('/login')
       })
       .catch((error) => {
         setLoading(false)

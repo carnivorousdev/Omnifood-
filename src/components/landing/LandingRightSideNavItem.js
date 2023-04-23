@@ -9,7 +9,7 @@ import AppContext from 'context/Context';
 
 const LandingRightSideNavItem = () => {
   const {
-    config: { isDark, isRTL },
+    config: { isDark },
     setConfig
   } = useContext(AppContext);
 
@@ -17,12 +17,12 @@ const LandingRightSideNavItem = () => {
     <Nav navbar className="ms-auto">
       <Nav.Item as={'li'}>
         <Nav.Link
-          className="pe-2 theme-switch-toggle"
+          className="theme-switch-toggle"
           onClick={() => setConfig('isDark', !isDark)}
         >
           <OverlayTrigger
-            key="left"
-            placement={isRTL ? 'bottom' : 'left'}
+            key="bottom"
+            placement='bottom'
             overlay={
               <Tooltip id="ThemeColor" className="d-none d-lg-block">
                 {isDark ? 'Switch to light theme' : 'Switch to dark theme'}
@@ -33,7 +33,6 @@ const LandingRightSideNavItem = () => {
               <div className="theme-switch-toggle-label">
                 <FontAwesomeIcon
                   icon={isDark ? 'sun' : 'moon'}
-                  className="me-2"
                 />
               </div>
               <p className="d-lg-none mb-0">

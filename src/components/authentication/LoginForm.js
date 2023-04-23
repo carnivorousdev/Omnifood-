@@ -70,7 +70,7 @@ const LoginForm = ({ hasLabel }) => {
         toast.error('User not found', {
           theme: 'colored'
         });
-        navigate('register')
+        navigate('/register')
       });
   };
 
@@ -135,7 +135,7 @@ const LoginForm = ({ hasLabel }) => {
         <Col xs="auto">
           <Link
             className="fs--1 mb-0"
-            to={`forgot-password`}
+            to={`/forgot-password`}
           >
             Forget Password?
           </Link>
