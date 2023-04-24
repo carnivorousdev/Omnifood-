@@ -34,7 +34,7 @@ const MealDetailAside = ({ lookUpdata }) => {
                       </Tooltip>
                     }
                   >
-                    <Col className='text-800 text-capitalize text-truncate' sm={5}>{lookUpdata[`strMeasure${i + 1}`]}</Col>
+                    <Col className='text-800 text-capitalize text-truncate' sm={5}>{lookUpdata[`strMeasure${i + 1}`] == '' ? 'As per your taste' : lookUpdata[`strMeasure${i + 1}`]}</Col>
                   </OverlayTrigger>
 
                 </Row>

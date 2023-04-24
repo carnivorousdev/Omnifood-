@@ -18,7 +18,7 @@ ReactDOM.render(
   <Suspense fallback={loadingMarkup}>
     <BrowserRouter>
       <Main>
-        <App locationUrl={location.origin} />
+        <App/>
       </Main>
     </BrowserRouter>
   </Suspense>,

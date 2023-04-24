@@ -39,7 +39,7 @@ const LoginForm = ({ hasLabel }) => {
               toast.success(`Logged in as ${data.email}`, {
                 theme: 'colored'
               });
-              navigate('dashboard')
+              location.replace('/dashboard')
             } else {
               await setDoc(documentRef, {
                 userName: user.displayName,
@@ -54,7 +54,7 @@ const LoginForm = ({ hasLabel }) => {
               toast.success(`Logged in as ${data.email}`, {
                 theme: 'colored'
               });
-              navigate('dashboard')
+              location.replace('/dashboard')
             }
             localStorage.setItem('SignedInEmail', JSON.stringify(data.email))
           } else {
@@ -70,12 +70,12 @@ const LoginForm = ({ hasLabel }) => {
         toast.error('User not found', {
           theme: 'colored'
         });
-        navigate('/register')
+        location.replace('/register')
       });
   };
 
   useEffect(() => {
-    document.title = "Omnifood";
+    document.title = "Omnifood | Login";
   }, []);
 
   return (
@@ -88,6 +88,7 @@ const LoginForm = ({ hasLabel }) => {
           placeholder={!hasLabel ? 'Email address' : ''}
           name="email"
           type="email"
+          disabled={loading}
           isInvalid={!!errors.email}
           {...register('email', {
             required: 'Email Id is required',
@@ -110,6 +111,7 @@ const LoginForm = ({ hasLabel }) => {
           placeholder={!hasLabel ? 'Password' : ''}
           name="password"
           type="password"
+          disabled={loading}
           isInvalid={!!errors.password}
           {...register('password', {
             required: 'You must specify a password',
@@ -132,14 +134,14 @@ const LoginForm = ({ hasLabel }) => {
       <Row className="justify-content-between align-items-center">
         <Col xs="auto">
         </Col>
-        <Col xs="auto">
+        {loading ? '' : <Col xs="auto">
           <Link
             className="fs--1 mb-0"
             to={`/forgot-password`}
           >
             Forget Password?
           </Link>
-        </Col>
+        </Col>}
       </Row>
 
       <Form.Group>

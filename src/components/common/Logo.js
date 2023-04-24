@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import logo from 'assets/img/illustrations/omnifood-logo.png';
 import { onAuthStateChanged } from 'firebase/auth';
 import { firestoreAuth } from 'config'
-import { Col, Row, Spinner } from 'react-bootstrap';
 
 const Logo = ({ at, width, className, textClass, ...rest }) => {
   const [userData, setUserData] = useState(null)
@@ -30,11 +29,29 @@ const Logo = ({ at, width, className, textClass, ...rest }) => {
 
   return (
     <>
-      {loading ? <Row className="g-0">
-        <Col xs={12} className='d-flex align-items-center justify-content-center' style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
-          <Spinner animation="border" variant="primary" size='sm' />
-        </Col>
-      </Row> : <>
+      {loading ? <Link
+        to='#!'
+        className={classNames(
+          'text-decoration-none',
+          { 'navbar-brand text-left': at === 'navbar-vertical' },
+          { 'navbar-brand text-left': at === 'navbar-top' }
+        )}
+        {...rest}
+      >
+        <div
+          className={classNames(
+            'd-flex',
+            {
+              'align-items-center py-4': at === 'navbar-vertical',
+              'align-items-center': at === 'navbar-top',
+              'flex-center fw-bolder fs-5 mb-4': at === 'auth'
+            },
+            className
+          )}
+        >
+          <img className="me-2 font-sans-serif" src={logo} alt="Logo" width={width ? width : 300} />
+        </div>
+      </Link> : <>
         {userData ? <Link
           to='/dashboard'
           className={classNames(

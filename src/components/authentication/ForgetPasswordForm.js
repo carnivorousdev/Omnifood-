@@ -48,6 +48,7 @@ const ForgetPasswordForm = () => {
           placeholder={'Email address'}
           name="email"
           type="email"
+          disabled={loading}
           isInvalid={!!errors.email}
           {...register('email', {
             required: 'Email Id is required',

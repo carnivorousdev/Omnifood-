@@ -35,7 +35,7 @@ const Hero = () => {
             <br />
             meal delivered to your door, every single day
           </h1>
-          <p className="lead text-white opacity-75">
+          <p className="lead text-white opacity-75 fst-italic">
             Feast Your Senses with Omnifood's Exquisite Creations
           </p>
           <Button

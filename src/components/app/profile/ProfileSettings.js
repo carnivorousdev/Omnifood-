@@ -25,7 +25,8 @@ const ProfileSettings = ({ userData }) => {
       const stringFiles = [];
       if (acceptedFiles.length) {
         acceptedFiles.map(file => {
-          const userProfileAvatar = ref(storage, 'Omnifood Inc./' + userData.userEmail);
+          const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
+          const userProfileAvatar = ref(storage, SignedInEmail + '/' + 'Profile_Image/');
           setAvatarLoader(true)
           const reader = new FileReader();
           reader.readAsDataURL(file);
@@ -51,11 +52,12 @@ const ProfileSettings = ({ userData }) => {
     },
   });
 
-  const handleRemove = path => {
+  const handleRemove = file => {
     setAvatarLoader(true)
-    const deleteRef = ref(storage, 'Omnifood Inc./' + userData.userEmail);
+    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
+    const deleteRef = ref(storage, SignedInEmail + '/' + 'Profile_Image/');
     deleteObject(deleteRef).then(() => {
-      setFiles(files.filter(file => file.path !== path));
+      setFiles(files.filter(file => file.path !== file.path));
       setAvatarLoader(false)
     }).catch((error) => {
       toast.error(`${error.message}`, {
@@ -75,9 +77,10 @@ const ProfileSettings = ({ userData }) => {
   const onSubmit = data => {
     setUpdateLoader(true)
     let fullName = data.firstName + ' ' + data.lastName
-    getDownloadURL(ref(storage, 'Omnifood Inc./' + userData.userEmail))
+    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
+    getDownloadURL(ref(storage, SignedInEmail + '/' + 'Profile_Image/'))
       .then(async (url) => {
-        const documentRef = doc(OmnifoodServer, "Users", userData.userEmail)
+        const documentRef = doc(OmnifoodServer, SignedInEmail, 'User-Data')
         let payload = {
           firstName: data.firstName,
           lastName: data.lastName,
@@ -119,6 +122,7 @@ const ProfileSettings = ({ userData }) => {
               <Form.Label>First Name</Form.Label>
               <Form.Control
                 type="text"
+                disabled={UpdateLoader}
                 placeholder="First Name"
                 name="firstName"
                 isInvalid={!!errors.firstName}
@@ -136,6 +140,7 @@ const ProfileSettings = ({ userData }) => {
               <Form.Control
                 type="text"
                 placeholder="Last Name"
+                disabled={UpdateLoader}
                 name="lastName"
                 isInvalid={!!errors.lastName}
                 {...register('lastName', {
@@ -176,6 +181,7 @@ const ProfileSettings = ({ userData }) => {
               <Form.Control
                 type="number"
                 placeholder="Phone"
+                disabled={UpdateLoader}
                 name="phone"
                 isInvalid={!!errors.phone}
                 {...register('phone', {
@@ -198,6 +204,7 @@ const ProfileSettings = ({ userData }) => {
             <Form.Label>Profile Heading</Form.Label>
             <Form.Control
               type="text"
+              disabled={UpdateLoader}
               placeholder="Profile Heading"
               name="heading"
               isInvalid={!!errors.heading}
@@ -211,13 +218,13 @@ const ProfileSettings = ({ userData }) => {
           </Form.Group>
 
           <Row className="mb-3 g-3">
-            <div {...getRootProps({ className: 'dropzone-area py-3' })}>
+            {UpdateLoader ? '' : <div {...getRootProps({ className: 'dropzone-area py-3' })}>
               <input {...getInputProps()} />
               <Flex justifyContent="center">
                 <img src={cloudUpload} alt="" width={25} className="me-2" />
                 <p className="fs-0 mb-0 text-700">Upload profile photo</p>
               </Flex>
-            </div>
+            </div>}
 
             {avatarLoader ? <Row className="g-0">
               <Col xs={12} className="w-100 h-100 my-3">
@@ -248,7 +255,7 @@ const ProfileSettings = ({ userData }) => {
 
                   <CardDropdown>
                     <div className="py-2">
-                      <Dropdown.Item className="text-danger" onClick={() => handleRemove(file.path)}>
+                      <Dropdown.Item className="text-danger" onClick={() => handleRemove(file)}>
                         Remove
                       </Dropdown.Item>
                     </div>

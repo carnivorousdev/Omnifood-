@@ -9,6 +9,7 @@ import ToggleButton from './ToggleButton';
 import { AreaCodes } from 'routes/routes';
 import axios from 'axios';
 import _ from 'lodash';
+import bgNavbar from 'assets/img/illustrations/bg-navbar.png';
 
 const NavbarVertical = () => {
   const [loading, setLoading] = useState(false)
@@ -16,7 +17,7 @@ const NavbarVertical = () => {
   const {
     config: {
       isNavbarVerticalCollapsed,
-      showBurgerMenu
+      showBurgerMenu,
     }
   } = useContext(AppContext);
 
@@ -55,7 +56,7 @@ const NavbarVertical = () => {
 
   const getRoutesData = () => {
     setLoading(true)
-    let CategoryData = {}, AreaData = {}
+    let CategoryData = {}, AreaData = {}, IngredientData = {}
     axios.get(process.env.REACT_APP_BASE_URL + `categories.php`)
       .then(res => {
         let MealDataByCategory = res.data.categories
@@ -91,16 +92,51 @@ const NavbarVertical = () => {
                 }
               ]
             }
-            setRoutesData([CategoryData, AreaData])
-            setLoading(false)
+            axios.get(process.env.REACT_APP_BASE_URL + `list.php?i=list`)
+              .then(res => {
+                let MealDataByIngredient = res.data.meals
+                IngredientData = {
+                  label: 'ingredientData',
+                  children: [
+                    {
+                      active: true,
+                      icon: 'ingredient',
+                      name: 'Ingredients',
+                      children: getIngredientChildrenData(MealDataByIngredient.slice(0, 300))
+                    }
+                  ]
+                }
+                setRoutesData([CategoryData, AreaData, IngredientData])
+                setLoading(false)
+              })
           })
       })
+  }
+  // const getImage = async (ingredientImageURL) => {
+  //   const response = await axios.get(process.env.REACT_APP_PHOTO_URL + ingredientImageURL + '.png', {
+  //     responseType: "arraybuffer",
+  //   });
+  //   const base64Image = Buffer.from(response.data, 'binary').toString('base64');
+  //   const imageUrl = `data:image/jpeg;base64,${base64Image}`;
+  //   return imageUrl
+  // };
+
+  const getIngredientChildrenData = (ingredientData) => {
+    const data = ingredientData.map((ele) => {
+      return {
+        name: ele.strIngredient,
+        active: true,
+        idIngredient: ele.idIngredient,
+        strIngredientThumb: process.env.REACT_APP_PHOTO_URL + ele.strIngredient + '.png'
+      }
+    })
+    return data
   }
 
   const getAreaChildrenData = (areaData) => {
     const data = areaData.map((ele) => {
       return {
-        name: ele.strArea != 'Unknown' && ele.strArea,
+        name: ele.strArea,
         active: true,
         areaCode: ele.areaCode
       }
@@ -121,7 +157,7 @@ const NavbarVertical = () => {
   return (
     <Navbar
       expand={navbarBreakPoint}
-      className='navbar-vertical'
+      className='navbar-vertical navbar-vibrant'
       variant="light"
     >
       <Flex alignItems="center">
@@ -137,7 +173,7 @@ const NavbarVertical = () => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={{
-          backgroundImage: 'none'
+          backgroundImage: `linear-gradient(-45deg, rgba(0, 160, 255, 0.86), #0048a2),url(${bgNavbar})`
         }}
       >
         <div className="navbar-vertical-content scrollbar">

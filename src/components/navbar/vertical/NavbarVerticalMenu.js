@@ -57,7 +57,10 @@ const NavbarVerticalMenu = ({ routes }) => {
       return (
         <Nav.Item as="li" key={route.name} onClick={handleNavItemClick}>
           <NavLink
-            to={route.idCategory ? `/category/${route.name}` : `/areas/${route.name}`}
+            to={route.idCategory ? `/category/${route.name}` :
+              route.strIngredientThumb ?
+                `/ingredient/${route.name}` :
+                `/areas/${route.name}`}
             className={({ isActive }) =>
               isActive ? 'active nav-link' : 'nav-link'
             }

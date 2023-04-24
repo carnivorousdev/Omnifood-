@@ -62,6 +62,7 @@ const RegistrationForm = ({ hasLabel }) => {
           placeholder={!hasLabel ? 'Email address' : ''}
           name="email"
           isInvalid={!!errors.email}
+          disabled={loading}
           type="email"
           {...register('email', {
             required: 'Email Id is required',
@@ -83,6 +84,7 @@ const RegistrationForm = ({ hasLabel }) => {
           placeholder={!hasLabel ? 'Password' : ''}
           name="password"
           type="password"
+          disabled={loading}
           isInvalid={!!errors.password}
           {...register('password', {
             required: 'You must specify a password',
@@ -107,6 +109,7 @@ const RegistrationForm = ({ hasLabel }) => {
           placeholder={!hasLabel ? 'Confirm Password' : ''}
           name="confirmPassword"
           type="password"
+          disabled={loading}
           isInvalid={!!errors.confirmPassword}
           {...register('confirmPassword', {
             required: 'You must confirm password',
@@ -124,6 +127,7 @@ const RegistrationForm = ({ hasLabel }) => {
           <Form.Check.Input
             type="checkbox"
             name="isAccepted"
+            disabled={loading}
             isInvalid={!!errors.isAccepted}
             {...register('isAccepted', {
               required: 'You need to agree the terms and Privacy.',

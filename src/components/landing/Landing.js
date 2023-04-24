@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Hero from './Hero';
 import NavbarStandard from './NavbarStandard';
 import Partners from './Partners';
@@ -9,6 +9,10 @@ import FooterStandard from './FooterStandard';
 import Services from './Services';
 
 const WithoutAuthLanding = () => {
+  useEffect(() => {
+    document.title = "Omnifood | Login";
+  }, []);
+
   return (
     <>
       <NavbarStandard />

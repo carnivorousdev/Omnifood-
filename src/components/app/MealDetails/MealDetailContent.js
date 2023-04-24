@@ -1,10 +1,25 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { AiFillYoutube } from 'react-icons/ai'
 import ReactYoutubePlayer from 'react-player/youtube';
 
 const MealDetailContent = ({ lookUpdata }) => {
+  const config = {
+    youtube: {
+      playerVars: {
+        modestbranding: 1,
+        disableAds: 1,
+        origin: window.location.origin
+      },
+    },
+  };
+
+  const opts = {
+    playerVars: {
+      origin: window.location.origin
+    }
+  };
+
   return (
     <Card>
       {lookUpdata && <Card.Body>
@@ -29,11 +44,13 @@ const MealDetailContent = ({ lookUpdata }) => {
         >
           {lookUpdata.strArea}
         </Link>
-          {lookUpdata.strYoutube && <ReactYoutubePlayer
-            url={lookUpdata.strYoutube}
-            controls={true}
-            className="react-player mt-3 mb-2 shadow"
-          />}
+        {lookUpdata.strYoutube && <ReactYoutubePlayer
+          url={lookUpdata.strYoutube}
+          opts={opts}
+          config={config}
+          controls={true}
+          className="react-player mt-3 mb-2 shadow"
+        />}
       </Card.Body>}
     </Card>
   );

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const Background = ({ image, overlay, position, video, className, style }) => {
@@ -38,19 +37,5 @@ const Background = ({ image, overlay, position, video, className, style }) => {
   );
 };
 
-Background.propTypes = {
-  image: PropTypes.string,
-  overlay: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  position: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.shape({
-      x: PropTypes.string,
-      y: PropTypes.string
-    })
-  ]),
-  video: PropTypes.array,
-  className: PropTypes.string,
-  style: PropTypes.object
-};
 
 export default Background;

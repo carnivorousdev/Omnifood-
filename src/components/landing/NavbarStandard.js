@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Navbar } from 'react-bootstrap';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 import handleNavbarTransparency from 'helpers/handleNavbarTransparency';
 import LandingRightSideNavItem from './LandingRightSideNavItem';
 import { topNavbarBreakpoint } from 'config';
@@ -29,11 +29,13 @@ const NavbarStandard = () => {
       })}
     >
       <Container>
-        <Navbar.Brand className="text-white dark__text-white" as={Link} to="/landing">
+        <Navbar.Brand className="text-white dark__text-white" as={Link} to="/">
           Omnifood
         </Navbar.Brand>
         <Navbar.Toggle onClick={() => setNavbarCollapsed(!navbarCollapsed)} />
-        <LandingRightSideNavItem />
+        <Navbar.Collapse className="scrollbar">
+            <LandingRightSideNavItem />
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

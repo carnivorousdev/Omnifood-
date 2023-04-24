@@ -2,6 +2,7 @@ import React from 'react';
 import Flex from 'components/common/Flex';
 import { BiCategoryAlt } from 'react-icons/bi';
 import { AiOutlineAreaChart } from 'react-icons/ai'
+import { GiHotMeal } from 'react-icons/gi'
 import Avatar from 'components/common/Avatar';
 import Flag from 'react-world-flags'
 import Image from 'assets/img/icons/image.png';
@@ -13,12 +14,17 @@ const NavbarVerticalMenuItem = ({ route }) => {
         <span className="nav-link-icon">
           {route.icon == 'category' ?
             <BiCategoryAlt className="text-info fs-1" />
-            : route.icon == 'area' ? <AiOutlineAreaChart className="text-success fs-1" /> : null}
+            : route.icon == 'area' ? <AiOutlineAreaChart className="text-success fs-1" /> : route.icon == 'ingredient' ? <GiHotMeal className="text-warning fs-1" /> : null}
         </span>
       )}
       {route.strCategoryThumb && (
         <span className="nav-link-icon">
           <Avatar src={route.strCategoryThumb} size="s" />
+        </span>
+      )}
+      {route.strIngredientThumb && (
+        <span className="nav-link-icon">
+          <Avatar src={route.strIngredientThumb} size="s" />
         </span>
       )}
       {route.areaCode && (

@@ -4,34 +4,29 @@ import ProfileDropdown from 'components/navbar/top/ProfileDropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AppContext from 'context/Context';
 import BookMarksNotification from './BookMarksNotification';
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from 'firebase/firestore';
 import { OmnifoodServer } from 'config';
 
 const TopNavRightSideNavItem = () => {
   const [bookMarksData, setBookMarksData] = useState([])
-  const [getBookMarksLoading, setBookMarksLoading] = useState(false)
   const {
     config: { isDark },
     setConfig
   } = useContext(AppContext);
 
-  const getData = async () => {
-    setBookMarksLoading(true)
+  const getDocument = async () => {
     const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
-    const docRef = doc(OmnifoodServer, SignedInEmail, 'Bookmarks-Data');
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      var result = docSnap.data()
-      setBookMarksData(Object.values(result))
-      setBookMarksLoading(false)
+    const BookmarksRef = doc(OmnifoodServer, SignedInEmail, 'Bookmarks-Data');
+    const BookmarksSnap = await getDoc(BookmarksRef);
+    if (BookmarksSnap.exists()) {
+      setBookMarksData(Object.values(BookmarksSnap.data()))
     } else {
-      setBookMarksLoading(false)
       setBookMarksData([])
     }
   }
 
   useEffect(() => {
-    getData()
+    getDocument()
   }, [])
 
   return (
@@ -63,7 +58,7 @@ const TopNavRightSideNavItem = () => {
           </OverlayTrigger>
         </Nav.Link>
       </Nav.Item>
-      {getBookMarksLoading ? '' : <BookMarksNotification bookMarksData={bookMarksData} />}
+      {bookMarksData.length > 0 ? <BookMarksNotification bookMarksData={bookMarksData} /> : ''}
       <ProfileDropdown />
     </Nav>
   );

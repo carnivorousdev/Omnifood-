@@ -4,7 +4,6 @@ import MainLayout from './MainLayout';
 import ErrorLayout from './ErrorLayout';
 import { toast, ToastContainer } from 'react-toastify';
 import Error404 from 'components/errors/Error404';
-import Error500 from 'components/errors/Error500';
 import Landing from 'components/dashboard/Landing';
 import MealDetail from 'components/app/MealDetails/MealDetail';
 import Areas from 'components/dashboard/Areas';
@@ -14,6 +13,7 @@ import AllBookMarksList from 'components/app/BookMarks/AllBookMarksList';
 import Settings from 'components/app/profile/Settings';
 import AppContext from 'context/Context';
 import is from 'is_js';
+import Error401 from 'components/errors/Error401';
 
 
 const AuthenticatedLayout = () => {
@@ -35,8 +35,8 @@ const AuthenticatedLayout = () => {
     <>
       <Routes>
         <Route element={<ErrorLayout />}>
-          <Route path="errors/404" element={<Error404 />} />
-          <Route path="errors/500" element={<Error500 />} />
+          <Route path="/404" element={<Error404 />} />
+          <Route path="/401" element={<Error401 />} />
         </Route>
 
         <Route element={<MainLayout />}>
@@ -48,7 +48,7 @@ const AuthenticatedLayout = () => {
           <Route path="settings" element={<Settings />} />
           <Route path="profile/:profileName" element={<Profile />} />
         </Route>
-        <Route path="*" element={<Navigate to="/errors/404" replace />} />
+        <Route path="*" element={<Navigate to="/401" replace />} />
       </Routes>
       <ToastContainer
         position={toast.POSITION.TOP_CENTER}

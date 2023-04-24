@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 import loadingGif from 'assets/img/illustrations/Spinner.gif';
@@ -8,19 +8,28 @@ import { firestoreAuth } from 'config'
 import { toast } from 'react-toastify';
 import { doc, getDoc } from 'firebase/firestore';
 import { OmnifoodServer } from 'config';
+import AppContext from 'context/Context';
+import { LinkContainer } from "react-router-bootstrap";
 
 const ProfileDropdown = () => {
+  const {
+    setConfig
+  } = useContext(AppContext);
+
   const [userData, setUserData] = useState({
     userProfilePhoto: null,
     userName: null,
     userEmail: null
   })
+
   const handleLogOut = () => {
     signOut(firestoreAuth).then(() => {
       toast.success(`Logged out successfully`, {
         theme: 'colored'
       });
       location.replace('/login')
+      setConfig('isDark', false)
+      localStorage.removeItem('SignedInEmail')
     }).catch((error) => {
       toast.error(`${error.message}`, {
         theme: 'colored'
@@ -30,9 +39,9 @@ const ProfileDropdown = () => {
 
   const getDocument = async () => {
     const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
-    const documentRef = doc(OmnifoodServer, SignedInEmail, 'User-Data')
-    const docSnap = await getDoc(documentRef);
-    setUserData(docSnap.data())
+    const UserRef = doc(OmnifoodServer, SignedInEmail, 'User-Data')
+    const UserSnap = await getDoc(UserRef);
+    setUserData(UserSnap.data())
   }
 
   useEffect(() => {
@@ -51,11 +60,16 @@ const ProfileDropdown = () => {
 
       <Dropdown.Menu className="dropdown-caret dropdown-menu-card  dropdown-menu-end">
         <div className="bg-white rounded-2 py-2 dark__bg-1000">
-          <Dropdown.Item as={Link} to={`profile/${userData.userName ? userData.userName : userData.userEmail}`}>
-            {userData.userName ? userData.userName : userData.userEmail}
-          </Dropdown.Item>
+          <LinkContainer to={`profile/${userData.userName ? userData.userName : userData.userEmail}`}>
+            <Dropdown.Item>
+              {userData.userName ? userData.userName : userData.userEmail}
+            </Dropdown.Item>
+          </LinkContainer>
           <Dropdown.Item as={Link} to="/settings">
             Settings
+          </Dropdown.Item>
+          <Dropdown.Item as={Link} to="/createRecipe">
+            Create recipe
           </Dropdown.Item>
           <Dropdown.Item onClick={() => handleLogOut()}>
             Logout

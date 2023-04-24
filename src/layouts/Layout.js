@@ -1,11 +1,10 @@
 import React, { useContext, useEffect } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import AuthSimpleLayout from './AuthSimpleLayout';
 import MainLayout from './MainLayout';
 import ErrorLayout from './ErrorLayout';
 import { toast, ToastContainer } from 'react-toastify';
 import Error404 from 'components/errors/Error404';
-import Error500 from 'components/errors/Error500';
 import SimpleLogin from 'components/authentication/simple/Login';
 import SimpleRegistration from 'components/authentication/simple/Registration';
 import SimpleForgetPassword from 'components/authentication/simple/ForgetPassword';
@@ -19,9 +18,13 @@ import Profile from 'components/app/profile/Profile';
 import AllBookMarksList from 'components/app/BookMarks/AllBookMarksList';
 import Settings from 'components/app/profile/Settings';
 import WithoutAuthLanding from 'components/landing/Landing';
+import Error401 from 'components/errors/Error401';
+import CreateRecipe from 'components/app/CreateRecipe/CreateRecipe';
+import Ingredients from 'components/dashboard/Ingredient';
 
 
-const Layout = () => {
+const Layout = ({ userData }) => {
+  const navigate = useNavigate()
   const HTMLClassList = document.getElementsByTagName('html')[0].classList;
   useContext(AppContext);
   useEffect(() => {
@@ -40,32 +43,37 @@ const Layout = () => {
     <>
       <Routes>
         <Route element={<ErrorLayout />}>
-          <Route path="errors/404" element={<Error404 />} />
-          <Route path="errors/500" element={<Error500 />} />
+          <Route path="/404" element={<Error404 />} />
+          <Route path="/401" element={<Error401 />} />
         </Route>
+
+        <Route element={<MainLayout />}>
+          <Route path="/dashboard" element={<Landing />} />
+          <Route path="/mealdetails/:detailedId" element={<MealDetail />} />
+          <Route path="/areas/:areas" element={<Areas />} />
+          <Route path="/category/:category" element={<Categories />} />
+          <Route path="/ingredient/:ingredient" element={<Ingredients />} />
+          <Route path="/all_bookmarks" element={<AllBookMarksList />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/profile/:profileName" element={<Profile />} />
+          <Route path="/createRecipe" element={<CreateRecipe />} />
+        </Route>
+
         <Route path="/" element={<WithoutAuthLanding />} />
         <Route element={<AuthSimpleLayout />}>
           <Route path="/login" element={<SimpleLogin />} />
           <Route
-            path="register"
+            path="/register"
             element={<SimpleRegistration />}
           />
           <Route
-            path="forgot-password"
+            path="/forgot-password"
             element={<SimpleForgetPassword />}
           />
         </Route>
 
-        <Route element={<MainLayout />}>
-          <Route path="dashboard" element={<Landing />} />
-          <Route path="mealdetails/:detailedId" element={<MealDetail />} />
-          <Route path="areas/:areas" element={<Areas />} />
-          <Route path="all_bookmarks" element={<AllBookMarksList />} />
-          <Route path="category/:category" element={<Categories />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="profile/:profileName" element={<Profile />} />
-        </Route>
-        <Route path="*" element={<Navigate to="/errors/404" replace />} />
+        {/* {userData ? navigate('/dashboard') : navigate('/login')} */}
+        <Route path="*" element={<Navigate to="/401" replace />} />
       </Routes>
       <ToastContainer
         position={toast.POSITION.TOP_CENTER}
