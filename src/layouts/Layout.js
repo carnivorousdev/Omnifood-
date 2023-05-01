@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import AuthSimpleLayout from './AuthSimpleLayout';
 import MainLayout from './MainLayout';
 import ErrorLayout from './ErrorLayout';
@@ -9,7 +9,6 @@ import SimpleLogin from 'components/authentication/simple/Login';
 import SimpleRegistration from 'components/authentication/simple/Registration';
 import SimpleForgetPassword from 'components/authentication/simple/ForgetPassword';
 import is from 'is_js';
-import AppContext from 'context/Context';
 import Landing from 'components/dashboard/Landing';
 import MealDetail from 'components/app/MealDetails/MealDetail';
 import Areas from 'components/dashboard/Areas';
@@ -23,10 +22,8 @@ import CreateRecipe from 'components/app/CreateRecipe/CreateRecipe';
 import Ingredients from 'components/dashboard/Ingredient';
 
 
-const Layout = ({ userData }) => {
-  const navigate = useNavigate()
+const Layout = () => {
   const HTMLClassList = document.getElementsByTagName('html')[0].classList;
-  useContext(AppContext);
   useEffect(() => {
     if (is.windows()) {
       HTMLClassList.add('windows');
@@ -72,7 +69,6 @@ const Layout = ({ userData }) => {
           />
         </Route>
 
-        {/* {userData ? navigate('/dashboard') : navigate('/login')} */}
         <Route path="*" element={<Navigate to="/401" replace />} />
       </Routes>
       <ToastContainer

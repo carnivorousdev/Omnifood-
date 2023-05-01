@@ -1,27 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import ProfileBanner from './ProfileBanner';
 import { Col, Row, Spinner } from 'react-bootstrap';
 import ProfileSettings from './ProfileSettings';
-import { doc, getDoc } from "firebase/firestore";
-import { OmnifoodServer } from 'config'
+import AppContext from 'context/Context';
 
 const Settings = () => {
-  const [userData, setUserData] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const {
+    userInfo,
+    loading
+  } = useContext(AppContext);
 
   useEffect(() => {
-     setDocument()
     document.title = "Omnifood | Settings";
   }, [])
-
-  const setDocument = async () => {
-    setLoading(true)
-    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
-    const documentRef = doc(OmnifoodServer, SignedInEmail, 'User-Data')
-    const docSnap = await getDoc(documentRef);
-    setUserData(docSnap.data())
-    setLoading(false)
-  }
 
   return (
     <>
@@ -31,16 +22,16 @@ const Settings = () => {
         </Col>
       </Row> :
         <>
-          {userData && <ProfileBanner>
+          {Object.keys(userInfo).length > 0 && <ProfileBanner>
             <ProfileBanner.Header
-              coverSrc={userData}
-              avatar={userData}
+              coverSrc={userInfo}
+              avatar={userInfo}
               className="mb-8"
             />
           </ProfileBanner>}
-          {userData && <Row className="g-3">
+          {Object.keys(userInfo).length > 0 && <Row className="g-3">
             <Col lg={12}>
-              <ProfileSettings userData={userData} />
+              <ProfileSettings userData={userInfo} />
             </Col>
           </Row>}
         </>}

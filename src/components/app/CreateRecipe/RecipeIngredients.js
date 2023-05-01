@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import IconButton from 'components/common/IconButton';
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Button,
   Card,
@@ -10,69 +10,17 @@ import {
 } from 'react-bootstrap';
 import SimpleBarReact from 'simplebar-react';
 
-const IngredientRow = ({
-  strIngredient,
-  strMeasure,
-  id,
-  handleChange,
-  handleRemove
-}) => {
-  return (
-    <tr>
-      <td>
-        <Form.Control
-          size="sm"
-          type="text"
-          placeholder="Ingredient"
-          value={strIngredient}
-          className='border border-0 border-200'
-          onChange={({ target }) => handleChange(id, 'strIngredient', target.value)}
-        />
-      </td>
-      <td>
-        <FormControl
-          size="sm"
-          type="text"
-          placeholder="Measurement"
-          value={strMeasure}
-          className='border border-0 border-200'
-          onChange={({ target }) => handleChange(id, 'strMeasure', target.value)}
-        />
-      </td>
-      <td className="text-center align-middle">
-        {id > 2 && <Button variant="link" size="sm" onClick={() => handleRemove(id)}>
-          <FontAwesomeIcon className="text-danger" icon="times-circle" />
-        </Button>}
-      </td>
-    </tr>
-  );
-};
 
-const RecipeIngredients = () => {
-  const [ingredientsData, setIngredientsData] = useState([
-    { strIngredient: '', strMeasure: '' },
-    { strIngredient: '', strMeasure: '' },
-    { strIngredient: '', strMeasure: '' },
-  ]);
+const RecipeIngredients = ({ register, control, errors, useFieldArray }) => {
 
-  const handleChange = (id, name, value) => {
-    const updatedIngredient = { ...ingredientsData[id], [name]: value };
-    setIngredientsData([
-      ...ingredientsData.slice(0, id),
-      updatedIngredient,
-      ...ingredientsData.slice(id + 1)
-    ]);
-  };
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'ingredientsData'
+  });
 
-  const handleRemove = id =>
-    setIngredientsData([...ingredientsData.slice(0, id), ...ingredientsData.slice(id + 1)]);
-
-  const handleAdd = () => {
-    setIngredientsData([...ingredientsData, { strIngredient: '', strMeasure: '' }]);
-  };
 
   return (
-    <Card>
+    <Card className="mb-3">
       <Card.Header as="h5">Recipe Ingredients</Card.Header>
       <Card.Body className="bg-light">
         <SimpleBarReact>
@@ -85,20 +33,44 @@ const RecipeIngredients = () => {
               </tr>
             </thead>
             <tbody className="event-ticket-body">
-              {ingredientsData.map((item, index) => (
-                <IngredientRow
-                  {...item}
-                  id={index}
-                  key={index}
-                  handleChange={handleChange}
-                  handleRemove={handleRemove}
-                />
+              {fields.map((row, index) => (
+                <tr key={row.id}>
+                  <td>
+                    <Form.Control
+                      size="sm"
+                      type="text"
+                      placeholder="Ingredient"
+                      className='border border-0 border-200'
+                      {...register(`ingredientsData.${index}.strIngredient`, {
+                        required: true
+                      })}
+                    />
+                    {errors?.ingredientsData?.[index]?.strIngredient?.type === 'required' && <p className='fs--2 text-danger'>*Required</p>}
+                  </td>
+                  <td>
+                    <FormControl
+                      size="sm"
+                      type="text"
+                      placeholder="Measurement"
+                      className='border border-0 border-200'
+                      {...register(`ingredientsData.${index}.strMeasure`, {
+                        required: true
+                      })}
+                    />
+                    {errors?.ingredientsData?.[index]?.strMeasure?.type === 'required' && <p className='fs--2 text-danger'>*Required</p>}
+                  </td>
+                  <td className="text-center align-middle">
+                    {index > 0 && <Button variant="link" size="sm" onClick={() => remove(index)}>
+                      <FontAwesomeIcon className="text-danger" icon="times-circle" />
+                    </Button>}
+                  </td>
+                </tr>
               ))}
             </tbody>
           </Table>
         </SimpleBarReact>
         <IconButton
-          onClick={handleAdd}
+          onClick={() => append({ strIngredient: '', strMeasure: '' })}
           variant="falcon-default"
           size="sm"
           icon="plus"

@@ -1,16 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Image } from 'react-bootstrap';
+import defaultBanner from 'assets/img/illustrations/meal-1.jpg';
 
-const Calendar = ({ month, day }) => (
+const Calendar = ({ strMealThumb }) => (
   <div className="calendar">
-    <span className="calendar-month">{month}</span>
-    <span className="calendar-day">{day}</span>
+    <Image src={strMealThumb ? strMealThumb : defaultBanner} alt="..." className="card-img-top rounded fluid" />
   </div>
 );
-
-Calendar.propTypes = {
-  month: PropTypes.string.isRequired,
-  day: PropTypes.string.isRequired
-};
 
 export default Calendar;

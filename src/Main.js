@@ -1,12 +1,21 @@
-import React, { useReducer } from 'react';
-import PropTypes from 'prop-types';
+import React, { useReducer, useState } from 'react';
 import AppContext from 'context/Context';
 import { settings } from './config';
 import { getColor, getItemFromStore } from 'helpers/utils';
 import { configReducer } from './reducers/configReducer';
 import useToggleStyle from './hooks/useToggleStyle';
 
-const Main = props => {
+const Main = ({ children }) => {
+  const [showBookMarks, setShowBookMarks] = useState([]);
+
+  const [showCreatedRecipes, setShowCreatedRecipes] = useState([]);
+  const [createdRecipesLoading, setCreatedRecipesLoading] = useState(false);
+
+  const [recipeInfoData, setRecipeInfoData] = useState({});
+
+  const [userInfo, setUserInfo] = useState({});
+  const [loading, setLoading] = useState(false);
+
   const configState = {
     isRTL: getItemFromStore('isRTL', settings.isRTL),
     isDark: getItemFromStore('isDark', settings.isDark),
@@ -57,14 +66,42 @@ const Main = props => {
       />
     );
   }
+  const handleBookMarksData = (bookMarksData) => setShowBookMarks(bookMarksData);
+
+  const handleCreatedRecipesData = (data) => setShowCreatedRecipes(data);
+  const handleCreatedRecipesLoading = (data) => setCreatedRecipesLoading(data);
+
+
+  const handleRecipeInfoData = (data) => setRecipeInfoData(data);
+
+  const handleLoading = (loading) => setLoading(loading);
+
+  const handleUserInfo = (userInfo) => setUserInfo(userInfo);
+
+  const contextValue = {
+    config,
+    setConfig,
+    configDispatch,
+    showBookMarks,
+    handleBookMarksData,
+    handleLoading,
+    loading,
+    handleUserInfo,
+    userInfo,
+    handleRecipeInfoData,
+    recipeInfoData,
+    showCreatedRecipes,
+    handleCreatedRecipesData,
+    createdRecipesLoading,
+    handleCreatedRecipesLoading
+  };
 
   return (
-    <AppContext.Provider value={{ config, setConfig, configDispatch }}>
-      {props.children}
+    <AppContext.Provider value={contextValue}>
+      {children}
     </AppContext.Provider>
   );
 };
 
-Main.propTypes = { children: PropTypes.node };
 
 export default Main;

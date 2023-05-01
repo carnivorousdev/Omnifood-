@@ -29,7 +29,7 @@ const RegistrationForm = ({ hasLabel }) => {
           toast.success(`Successfully registered.`, {
             theme: 'colored'
           });
-          location.replace('/login')
+          navigate('/login')
         })
           .catch((err) => {
             setLoading(false)

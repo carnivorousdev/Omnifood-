@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { firestoreAuth } from 'config'
 import { toast } from 'react-toastify';
 
-const SocialAuthButtons = () => {
+const SocialAuthButtons = ({ loginLoading }) => {
   const navigate = useNavigate()
   const googleProvider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider()
@@ -37,7 +37,7 @@ const SocialAuthButtons = () => {
         });
       });
   }
-  
+
   return (
     <Form.Group className="mb-0">
       <Row>
@@ -45,6 +45,7 @@ const SocialAuthButtons = () => {
           <Button
             variant=""
             size="sm"
+            disabled={loginLoading}
             className="btn-outline-google-plus mt-2 w-100"
             onClick={() => handleGoogleLogin()}
           >
@@ -60,6 +61,7 @@ const SocialAuthButtons = () => {
           <Button
             variant=""
             size="sm"
+            disabled={loginLoading}
             className="btn-outline-facebook mt-2 w-100"
             onClick={() => handleFacebookLogin()}
           >

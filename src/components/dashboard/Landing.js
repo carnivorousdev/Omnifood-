@@ -24,14 +24,16 @@ import { useMediaQuery, useTheme } from '@mui/material';
 import video4 from '../../assets/video/video-4.mp4'
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { OmnifoodServer } from 'config';
 import { useForm } from 'react-hook-form';
 import { getSize } from 'helpers/utils';
 import { useDropzone } from 'react-dropzone';
 import CardDropdown from 'components/common/CardDropdown';
 import cloudUpload from '../../assets/img/icons/cloud-upload.svg';
-import { deleteObject, getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
+import AppContext from 'context/Context';
+import { useContext } from 'react';
 
 const Landing = () => {
   const navigate = useNavigate()
@@ -40,41 +42,30 @@ const Landing = () => {
   const [files, setFiles] = useState([]);
   const [UpdateLoader, setUpdateLoader] = useState(false)
   const [avatarLoader, setAvatarLoader] = useState(false)
-  const [StorageData, setStorageData] = useState({
-    firstName: null,
-    lastName: null,
-    heading: null,
-    phone: null
-  })
+
   const storage = getStorage();
+  const {
+    userInfo,
+    loading
+  } = useContext(AppContext);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
+    required: true,
     onDrop: acceptedFiles => {
-      const stringFiles = [];
       if (acceptedFiles.length) {
         acceptedFiles.map(file => {
-          const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
-          const userProfileAvatar = ref(storage, SignedInEmail + '/' + 'Profile_Image/');
           setAvatarLoader(true)
           const reader = new FileReader();
           reader.readAsDataURL(file);
           reader.onload = () => {
-            uploadString(userProfileAvatar, reader.result, 'data_url').then(() => {
-              setAvatarLoader(false)
-              setValue('avatar', reader.result);
-              setValue('fileName', file.name);
-
-              stringFiles.push({
-                preview: reader.result,
-                size: file.size,
-                path: file.path,
-                type: file.type
-              });
-              setFiles([...stringFiles])
-            }).catch(() => {
-              setAvatarLoader(false)
-            })
+            setAvatarLoader(false)
+            setFiles([{
+              preview: reader.result,
+              size: file.size,
+              path: file.path,
+              type: file.type
+            }])
           };
           return true;
         });
@@ -82,19 +73,8 @@ const Landing = () => {
     },
   });
 
-  const handleRemove = (file) => {
-    setAvatarLoader(true)
-    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
-    const deleteRef = ref(storage, SignedInEmail + '/' + 'Profile_Image/');
-    deleteObject(deleteRef).then(() => {
-      setFiles(files.filter(file => file.path !== file.path));
-      setAvatarLoader(false)
-    }).catch((error) => {
-      toast.error(`${error.message}`, {
-        theme: 'colored'
-      });
-      setAvatarLoader(false)
-    });
+  const handleRemove = () => {
+    setFiles(files.filter(file => file.path !== file.path));
   };
 
 
@@ -122,41 +102,25 @@ const Landing = () => {
 
   useEffect(() => {
     document.title = "Omnifood | Dashboard";
-    setDocument()
-  }, [])
+    if (Object.keys(userInfo).length > 0) {
+      setDocument()
+    } else return
+  }, [userInfo])
+
 
 
   const setDocument = () => {
     setShowCaseLoading(true)
     axios.get(process.env.REACT_APP_BASE_URL + `search.php?f=${makeid(1)}`)
       .then(async res => {
-        const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
         if (res.data.meals) {
-          const documentRef = doc(OmnifoodServer, SignedInEmail, 'User-Data')
-          const docSnap = await getDoc(documentRef);
-          setStorageData(docSnap.data())
-          setValue('firstName', docSnap.data().firstName);
-          setValue('lastName', docSnap.data().lastName);
-          setValue('phone', docSnap.data().phoneNumber);
-          setValue('heading', docSnap.data().profileHeading);
           setShowCaseLoading(false)
           setShowCaseData(res.data.meals)
         } else {
-          const documentRef = doc(OmnifoodServer, SignedInEmail, 'User-Data')
-          const docSnap = await getDoc(documentRef);
-          setStorageData(docSnap.data())
-          setValue('firstName', docSnap.data().firstName);
-          setValue('lastName', docSnap.data().lastName);
-          setValue('phone', docSnap.data().phoneNumber);
-          setValue('heading', docSnap.data().profileHeading);
-          setShowCaseLoading(false)
-          setShowCaseData([])
+          setDocument()
         }
-      }).catch(err => {
+      }).catch(() => {
         setShowCaseLoading(false)
-        toast.error(`${err.message}`, {
-          theme: 'colored'
-        });
       })
   }
 
@@ -164,38 +128,42 @@ const Landing = () => {
   const onSubmit = data => {
     setUpdateLoader(true)
     let fullName = data.firstName.trim() + ' ' + data.lastName.trim()
-    getDownloadURL(ref(storage, StorageData.userEmail + '/' + 'Profile_Image/'))
-      .then(async (url) => {
-        const documentRef = doc(OmnifoodServer, StorageData.userEmail, 'User-Data')
-        let payload = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          userName: fullName,
-          userProfilePhoto: url,
-          phoneNumber: Number(data.phone),
-          profileHeading: data.heading
-        }
-        await updateDoc(documentRef, payload, { capital: true }, { merge: true });
+    const userProfileAvatar = ref(storage, userInfo.userEmail + '/' + 'Profile_Image/');
+    uploadString(userProfileAvatar, files[0].preview, 'data_url')
+      .then(() => {
+        getDownloadURL(userProfileAvatar)
+          .then(async (url) => {
+            const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'User-Data')
+            let payload = {
+              firstName: data.firstName,
+              lastName: data.lastName,
+              userName: fullName,
+              userProfilePhoto: url,
+              phoneNumber: Number(data.phone),
+              profileHeading: data.heading
+            }
+            await updateDoc(documentRef, payload, { capital: true }, { merge: true });
+            const UserSnap = await getDoc(documentRef);
+            handleUserInfo(UserSnap.data())
+            setUpdateLoader(false)
+          })
+          .catch(() => {
+            setUpdateLoader(false)
+          });
+      }).catch(() => {
         setUpdateLoader(false)
-        navigate(0)
-      })
-      .catch((err) => {
-        setUpdateLoader(false)
-        toast.error(`${err.message}`, {
-          theme: 'colored'
-        });
       });
   };
-  
+
   return (
     <>
-      {ShowCaseLoading ? <Row className="g-0 w-100 h-100" >
+      {ShowCaseLoading || loading ? <Row className="g-0 w-100 h-100" >
         <Col xs={12} className='d-flex align-items-center justify-content-center' style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
           <Spinner animation="border" variant="success" size='sm' />
         </Col>
       </Row> :
         <>
-          {StorageData.firstName && StorageData.lastName && StorageData.profileHeading ?
+          {userInfo.firstName && userInfo.lastName && userInfo.profileHeading ?
             '' : <Modal show={true} className="mt-4" backdrop="static"
               keyboard={false} aria-labelledby="contained-modal-title-vcenter"
               centered>
@@ -257,14 +225,14 @@ const Landing = () => {
                         placement='top'
                         overlay={
                           <Tooltip className='w-auto'>
-                            {JSON.parse(localStorage.getItem('SignedInEmail'))}
+                            {userInfo.userEmail}
                           </Tooltip>
                         }
                       >
                         <Form.Control
                           type="email"
                           placeholder="Email"
-                          value={JSON.parse(localStorage.getItem('SignedInEmail'))}
+                          value={userInfo.userEmail}
                           disabled
                           className='text-truncate'
                           name="email"
@@ -321,7 +289,7 @@ const Landing = () => {
                         <p className="fs-0 mb-0 text-700">Upload profile photo</p>
                       </Flex>
                     </div>}
-
+                    {errors.avatar && <p className='fs--2 text-danger'>*Required</p>}
                     {avatarLoader ? <Row className="g-0">
                       <Col xs={12} className="w-100 h-100 my-3">
                         <Flex className="align-items-center justify-content-center">
@@ -370,7 +338,6 @@ const Landing = () => {
                 </Form>
               </Modal.Body>
             </Modal>}
-
           {!isMatch ? <div className="position-relative light mb-3">
             <Background video={[video4]} className="rounded-soft w-100" overlay={true} />
             <div className="position-relative vh-25 d-flex flex-center">

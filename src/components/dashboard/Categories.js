@@ -20,7 +20,7 @@ const Categories = () => {
         setCategoryLoading(true)
         axios.get(process.env.REACT_APP_BASE_URL + `filter.php?c=${category}`)
             .then(res => {
-                if (res.data.meals.length > 0) {
+                if (res.data.meals) {
                     setCategoryLoading(false)
                     setCategoryData(res.data.meals)
                 } else {

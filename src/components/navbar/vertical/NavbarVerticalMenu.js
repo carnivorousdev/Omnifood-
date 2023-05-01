@@ -60,7 +60,8 @@ const NavbarVerticalMenu = ({ routes }) => {
             to={route.idCategory ? `/category/${route.name}` :
               route.strIngredientThumb ?
                 `/ingredient/${route.name}` :
-                `/areas/${route.name}`}
+                route.idCreatedRecipe ? '#!' :
+                  `/areas/${route.name}`}
             className={({ isActive }) =>
               isActive ? 'active nav-link' : 'nav-link'
             }

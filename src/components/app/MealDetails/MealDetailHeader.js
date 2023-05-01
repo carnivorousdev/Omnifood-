@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Card, Row, Col, Spinner, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Flex from 'components/common/Flex';
 import FalconLightBox from 'components/common/FalconLightBox';
@@ -8,22 +8,24 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
+import AppContext from 'context/Context';
 
 const MealDetailHeader = ({ lookUpdata }) => {
-  const [loading, setLoading] = useState(false)
+  const [bookMarkLoading, setBookMarkLoading] = useState(false)
   const [checkHeartColor, setHeartColor] = useState(false)
+  const { handleBookMarksData, userInfo, loading } = useContext(AppContext);
 
   useEffect(() => {
-    if (lookUpdata) {
+    if (lookUpdata && Object.keys(userInfo).length > 0) {
       getDocument()
     } else return
-  }, [lookUpdata])
+  }, [lookUpdata, userInfo])
 
   const getDocument = async () => {
-    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
-    const documentRef = doc(OmnifoodServer, SignedInEmail, 'Bookmarks-Data')
+    const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'Bookmarks-Data')
     const docSnap = await getDoc(documentRef);
     if (docSnap.exists()) {
+      handleBookMarksData(Object.values(docSnap.data()))
       var result = _.findKey(docSnap.data(), { 'idMeal': lookUpdata.idMeal });
       if (result) {
         setHeartColor(true)
@@ -31,13 +33,13 @@ const MealDetailHeader = ({ lookUpdata }) => {
         setHeartColor(false)
       }
     } else {
+      handleBookMarksData(0)
       setHeartColor(false)
     }
   }
 
   const addToBookMark = async (data) => {
-    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
-    const documentRef = doc(OmnifoodServer, SignedInEmail, 'Bookmarks-Data')
+    const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'Bookmarks-Data')
     data['dateModified'] = Timestamp.now()
     const docSnap = await getDoc(documentRef);
     if (docSnap.exists()) {
@@ -47,7 +49,7 @@ const MealDetailHeader = ({ lookUpdata }) => {
       toast.success(`Added to Bookmarks`, {
         theme: 'colored'
       });
-      setLoading(false)
+      setBookMarkLoading(false)
       setHeartColor(true)
     } else {
       await setDoc(documentRef, {
@@ -56,27 +58,27 @@ const MealDetailHeader = ({ lookUpdata }) => {
       toast.success(`Added to Bookmarks`, {
         theme: 'colored'
       });
-      setLoading(false)
+      setBookMarkLoading(false)
       setHeartColor(true)
     }
+    getDocument()
   }
 
   const removeFromBookMark = async (data) => {
-    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
-    const documentRef = doc(OmnifoodServer, SignedInEmail, 'Bookmarks-Data')
+    const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'Bookmarks-Data')
     await updateDoc(documentRef, {
       [data.idMeal]: deleteField()
     });
     toast.warn(`Removed from Bookmarks`, {
       theme: 'colored'
     });
-    setLoading(false)
+    setBookMarkLoading(false)
     setHeartColor(false)
+    getDocument()
   }
 
   const checkAddToBookMark = async (lookUpdata) => {
-    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
-    const docRef = doc(OmnifoodServer, SignedInEmail, 'Bookmarks-Data');
+    const docRef = doc(OmnifoodServer, userInfo.userEmail, 'Bookmarks-Data');
     const docSnap = await getDoc(docRef);
     var result = _.findKey(docSnap.data(), { 'idMeal': lookUpdata.idMeal });
     if (docSnap.exists()) {
@@ -91,6 +93,7 @@ const MealDetailHeader = ({ lookUpdata }) => {
     }
   }
 
+
   return (
     <Card className="p-0 mb-3">
       {lookUpdata && (
@@ -102,13 +105,13 @@ const MealDetailHeader = ({ lookUpdata }) => {
         <Row className="flex-center">
           <Col>
             <Flex>
-              <div className="fs--1 ms-2 flex-1">
+              <div className="fs--1">
                 <h5 className="fs-0 text-capitalize">{lookUpdata.strMeal}</h5>
               </div>
             </Flex>
           </Col>
-          <Col md="auto" className="mt-4 mt-md-0">
-            {loading ?
+          <Col md="auto" className="mt-3 mt-md-0">
+            {bookMarkLoading || loading ?
               <Spinner animation="border" variant="primary" size='sm' />
               :
               <OverlayTrigger
@@ -125,12 +128,11 @@ const MealDetailHeader = ({ lookUpdata }) => {
                     className={`fs-3 cursor-pointer ${checkHeartColor ? 'text-danger' : 'text-700'}`}
                     icon="heart"
                     onClick={() => {
-                      setLoading(true)
+                      setBookMarkLoading(true)
                       checkAddToBookMark(lookUpdata)
                     }}
                   />
                 </p>
-
               </OverlayTrigger>
             }
           </Col>

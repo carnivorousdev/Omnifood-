@@ -7,17 +7,15 @@ import classNames from 'classnames';
 
 const MainLayout = () => {
   const { hash, pathname } = useLocation();
-  const isKanban = pathname.includes('kanban');
+
   useEffect(() => {
-    setTimeout(() => {
-      if (hash) {
-        const id = hash.replace('#', '');
-        const element = document.getElementById(id);
-        if (element) {
-          element.scrollIntoView({ block: 'start', behavior: 'smooth' });
-        }
+    if (hash) {
+      const id = hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ block: 'start', behavior: 'smooth' });
       }
-    }, 0);
+    }
   }, []);
 
   useEffect(() => {
@@ -30,7 +28,7 @@ const MainLayout = () => {
   return (
     <div className='container-fluid'>
       <NavbarVertical />
-      <div className={classNames('content', { 'pb-0': isKanban })}>
+      <div className={classNames('content')}>
         <NavbarTop />
         {/*------ Main Routes ------*/}
         <Outlet />

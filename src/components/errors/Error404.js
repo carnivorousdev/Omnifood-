@@ -3,32 +3,16 @@ import { Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
-import { firestoreAuth } from 'config'
 import { Col, Row, Spinner } from 'react-bootstrap';
+import { useContext } from 'react';
+import AppContext from 'context/Context';
 
 const Error404 = () => {
-  const [userData, setUserData] = useState(null)
-  const [loading, setloading] = useState(false)
+  const {
+    loading,
+    userInfo
+  } = useContext(AppContext);
 
-  useEffect(() => {
-    getDocument()
-  }, [])
-
-  const getDocument = () => {
-    setloading(true)
-    onAuthStateChanged(firestoreAuth, async (user) => {
-      if (user) {
-        setUserData(user)
-        setloading(false)
-      } else {
-        setUserData(null)
-        setloading(false)
-      }
-    })
-  }
   return (
     <>
       {loading ? <Row className="g-0">
@@ -50,7 +34,7 @@ const Error404 = () => {
             </a>
             .
           </p>
-          <Link className="btn btn-primary btn-sm mt-3" to={userData ? '/dashboard' : '/login'}>
+          <Link className="btn btn-primary btn-sm mt-3" to={Object.keys(userInfo).length > 0 ? '/dashboard' : '/login'}>
             <FontAwesomeIcon icon={faHome} className="me-2" />
             Take me home
           </Link>

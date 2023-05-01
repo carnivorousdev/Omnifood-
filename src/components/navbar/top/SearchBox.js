@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Form, Dropdown, Badge, Row, Col, Spinner, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ import Flex from 'components/common/Flex';
 import FalconCloseButton from 'components/common/FalconCloseButton';
 import axios from 'axios';
 import DefaultMeal from '../../../assets/img/illustrations/gallery-6.jpg'
+import AppContext from 'context/Context';
 
 const MediaSearchContent = ({ item }) => {
   return (
@@ -52,6 +53,9 @@ const MediaSearchContent = ({ item }) => {
 };
 
 const SearchBox = () => {
+  const {
+    loading
+  } = useContext(AppContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchInputValue, setSearchInputValue] = useState('');
   const [resultItem, setResultItem] = useState([]);
@@ -77,24 +81,27 @@ const SearchBox = () => {
     if (searchInputValue.length > 0) {
       return
     } else {
-      setResultItem([])
-      setAutoCompleteDataLoading(true)
-      axios.get(process.env.REACT_APP_BASE_URL + `search.php?f=${makeid(1)}`)
-        .then(res => {
-          if (res.data.meals.length > 0) {
-            setAutoCompleteData(res.data.meals)
-            setAutoCompleteDataLoading(false)
-          } else {
-            setAutoCompleteDataLoading(false)
-            setDropdownOpen(!dropdownOpen);
-          }
-        }).catch(() => {
-          setAutoCompleteDataLoading(false)
-          setDropdownOpen(!dropdownOpen);
-        })
+      getFetchedAutoSuggestedData()
     }
   }, [dropdownOpen])
 
+  const getFetchedAutoSuggestedData = () => {
+    setResultItem([])
+    setAutoCompleteDataLoading(true)
+    axios.get(process.env.REACT_APP_BASE_URL + `search.php?f=${makeid(1)}`)
+      .then(res => {
+        if (res.data.meals.length > 0) {
+          setAutoCompleteData(res.data.meals)
+          setAutoCompleteDataLoading(false)
+        } else {
+          setAutoCompleteDataLoading(false)
+          getFetchedAutoSuggestedData()
+        }
+      }).catch(() => {
+        setAutoCompleteDataLoading(false)
+        setDropdownOpen(!dropdownOpen);
+      })
+  }
   useEffect(() => {
     if (searchInputValue.length > 0) {
       setAutoCompleteData([])
@@ -111,7 +118,10 @@ const SearchBox = () => {
         }).catch(() => {
           setAutoCompleteDataLoading(false)
         })
-    } else return
+    } else if (searchInputValue.length == 0) {
+      getFetchedAutoSuggestedData()
+    }
+    else return
   }, [searchInputValue])
 
   return (
@@ -126,10 +136,11 @@ const SearchBox = () => {
           <Form.Control
             type="search"
             placeholder="Search..."
+            disabled={loading}
             aria-label="Search"
             className="rounded-pill search-input"
             value={searchInputValue}
-            onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault() }}
+            onKeyDown={(e) => { e.key === 'Enter' && e.preventDefault() }}
             onChange={({ target }) => setSearchInputValue(target.value)}
             onClick={() => setDropdownOpen(false)}
           />
@@ -158,7 +169,7 @@ const SearchBox = () => {
             </Flex>
           </Col>
         </Row> : <div className="scrollbar py-3" style={{ maxHeight: '24rem' }}>
-          {resultItem.length > 0 ? <Dropdown.Header as="h6" className="px-card pt-0 pb-2 fw-medium">
+          {resultItem.length > 0 && searchInputValue.length > 0 ? <Dropdown.Header as="h6" className="px-card pt-0 pb-2 fw-medium">
             <span as="h6" className="text-warning fw-medium">{resultItem.length}</span> meals found
           </Dropdown.Header> : ''}
           {resultItem.length > 0 ? resultItem.map(item => (

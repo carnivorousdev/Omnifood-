@@ -1,5 +1,7 @@
 import React from 'react';
-import { Card, Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import { Card, Col, Image, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import defaultBanner from 'assets/img/illustrations/meal-1.jpg';
+import { Link } from 'react-router-dom';
 
 const MealDetailAside = ({ lookUpdata }) => {
   return (
@@ -11,22 +13,30 @@ const MealDetailAside = ({ lookUpdata }) => {
           {lookUpdata && <div className="mb-1">
             {Object.entries(lookUpdata).map((_, i) => (lookUpdata[`strIngredient${i + 1}`] ?
               lookUpdata[`strIngredient${i + 1}`] != '' ?
-                <Row>
+                <Row key={i}>
                   <OverlayTrigger
-                    key='top'
                     placement='top'
                     overlay={
-                      <Tooltip className='text-capitalize'>
-                        {lookUpdata[`strIngredient${i + 1}`]}
+                      <Tooltip>
+                        <div className="calendar">
+                          <Image src={lookUpdata[`strIngredient${i + 1}`] ? process.env.REACT_APP_PHOTO_URL + lookUpdata[`strIngredient${i + 1}`] + '.png' : defaultBanner} alt={lookUpdata[`strIngredient${i + 1}`]} className="card-img-top rounded fluid" />
+                        </div>
                       </Tooltip>
                     }
                   >
-                    <Col className='text-capitalize text-1000 fw-medium text-truncate' sm={5}>{lookUpdata[`strIngredient${i + 1}`]}</Col>
+                    <Col className='text-capitalize text-1000 fw-medium text-truncate' xs={5} md={5} lg={5}>
+                      <Link
+                        to={`/ingredient/${lookUpdata[`strIngredient${i + 1}`]}`}
+                        key={i + '-' + lookUpdata[`strIngredient${i + 1}`]}
+                      >
+                        {lookUpdata[`strIngredient${i + 1}`]}
+                      </Link>
+                    </Col>
                   </OverlayTrigger>
 
-                  <Col className='text-capitalize text-1000 fw-medium' sm={2}>:</Col>
+
+                  <Col className='text-capitalize text-1000 fw-medium' xs={1} md={1} lg={1}>:</Col>
                   <OverlayTrigger
-                    key='top'
                     placement='top'
                     overlay={
                       <Tooltip className='text-capitalize'>
@@ -34,7 +44,7 @@ const MealDetailAside = ({ lookUpdata }) => {
                       </Tooltip>
                     }
                   >
-                    <Col className='text-800 text-capitalize text-truncate' sm={5}>{lookUpdata[`strMeasure${i + 1}`] == '' ? 'As per your taste' : lookUpdata[`strMeasure${i + 1}`]}</Col>
+                    <Col className='text-800 text-capitalize text-truncate' xs={5} md={5} lg={5}>{lookUpdata[`strMeasure${i + 1}`] == '' ? 'As per your taste' : lookUpdata[`strMeasure${i + 1}`]}</Col>
                   </OverlayTrigger>
 
                 </Row>

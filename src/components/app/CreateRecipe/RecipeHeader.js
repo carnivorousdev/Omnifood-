@@ -1,26 +1,14 @@
+import PageHeader from 'components/common/PageHeader';
 import React from 'react';
-import { Card, Col, Button, Row } from 'react-bootstrap';
+import CreateRecipeBg from 'assets/img/illustrations/corner-1.png'
 
 const RecipeHeader = () => {
   return (
-    <Card>
-      <Card.Body>
-        <Row className="flex-between-center">
-          <Col md>
-            <h5 className="mb-2 mb-md-0"> Create Recipe</h5>
-          </Col>
-          <Col xs="auto">
-            <Button
-              size="sm"
-              variant="falcon-default"
-              type="submit"
-            >
-              Save
-            </Button>
-          </Col>
-        </Row>
-      </Card.Body>
-    </Card>
+    <PageHeader
+      title="Create a New Recipe"
+      image={CreateRecipeBg}
+    >
+    </PageHeader>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Card, Col, Dropdown, Form, Image, OverlayTrigger, Row, Spinner, Tooltip } from 'react-bootstrap';
 import FalconCardHeader from 'components/common/FalconCardHeader';
 import { useForm } from 'react-hook-form';
@@ -8,43 +8,38 @@ import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
 import CardDropdown from 'components/common/CardDropdown';
 import cloudUpload from '../../../assets/img/icons/cloud-upload.svg';
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { OmnifoodServer } from 'config';
-import { deleteObject, getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AppContext from 'context/Context';
 
 const ProfileSettings = ({ userData }) => {
   const [avatarLoader, setAvatarLoader] = useState(false)
   const [files, setFiles] = useState([]);
   const [UpdateLoader, setUpdateLoader] = useState(false)
   const storage = getStorage();
-
+  const navigate = useNavigate()
+  const {
+    handleUserInfo,
+  } = useContext(AppContext);
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     onDrop: acceptedFiles => {
-      const stringFiles = [];
       if (acceptedFiles.length) {
         acceptedFiles.map(file => {
-          const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
-          const userProfileAvatar = ref(storage, SignedInEmail + '/' + 'Profile_Image/');
           setAvatarLoader(true)
           const reader = new FileReader();
           reader.readAsDataURL(file);
           reader.onload = () => {
-            uploadString(userProfileAvatar, reader.result, 'data_url').then(() => {
-              setAvatarLoader(false)
-              setValue('avatar', reader.result);
-              setValue('fileName', file.name);
-              stringFiles.push({
-                preview: reader.result,
-                size: file.size,
-                path: file.path,
-                type: file.type
-              });
-              setFiles([...stringFiles])
-            }).catch(() => {
-              setAvatarLoader(false)
-            })
+            setAvatarLoader(false)
+            setFiles([{
+              preview: reader.result,
+              size: file.size,
+              path: file.path,
+              type: file.type
+            }])
           };
           return true;
         });
@@ -52,19 +47,8 @@ const ProfileSettings = ({ userData }) => {
     },
   });
 
-  const handleRemove = file => {
-    setAvatarLoader(true)
-    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
-    const deleteRef = ref(storage, SignedInEmail + '/' + 'Profile_Image/');
-    deleteObject(deleteRef).then(() => {
-      setFiles(files.filter(file => file.path !== file.path));
-      setAvatarLoader(false)
-    }).catch((error) => {
-      toast.error(`${error.message}`, {
-        theme: 'colored'
-      });
-      setAvatarLoader(false)
-    });
+  const handleRemove = () => {
+    setFiles(files.filter(file => file.path !== file.path));
   };
 
   const {
@@ -77,23 +61,30 @@ const ProfileSettings = ({ userData }) => {
   const onSubmit = data => {
     setUpdateLoader(true)
     let fullName = data.firstName + ' ' + data.lastName
-    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
-    getDownloadURL(ref(storage, SignedInEmail + '/' + 'Profile_Image/'))
-      .then(async (url) => {
-        const documentRef = doc(OmnifoodServer, SignedInEmail, 'User-Data')
-        let payload = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          userName: fullName,
-          userProfilePhoto: url,
-          phoneNumber: Number(data.phone),
-          profileHeading: data.heading
-        }
-        await updateDoc(documentRef, payload, { capital: true }, { merge: true });
-        setUpdateLoader(false)
-        location.replace(`/profile/${userData.userName}`)
-      })
-      .catch((err) => {
+    const userProfileAvatar = ref(storage, userData.userEmail + '/' + 'Profile_Image/');
+    uploadString(userProfileAvatar, files[0].preview, 'data_url')
+      .then(() => {
+        getDownloadURL(userProfileAvatar)
+          .then(async (url) => {
+            const documentRef = doc(OmnifoodServer, userData.userEmail, 'User-Data')
+            let payload = {
+              firstName: data.firstName,
+              lastName: data.lastName,
+              userName: fullName,
+              userProfilePhoto: url,
+              phoneNumber: Number(data.phone),
+              profileHeading: data.heading
+            }
+            await updateDoc(documentRef, payload, { capital: true }, { merge: true });
+            const UserRef = doc(OmnifoodServer, userData.userEmail, 'User-Data')
+            const UserSnap = await getDoc(UserRef);
+            handleUserInfo(UserSnap.data())
+            setUpdateLoader(false)
+            navigate(`/profile/${userData.userName}`)
+          }).catch(() => {
+            setUpdateLoader(false)
+          });
+      }).catch((err) => {
         setUpdateLoader(false)
         toast.error(`${err.message}`, {
           theme: 'colored'
@@ -264,11 +255,19 @@ const ProfileSettings = ({ userData }) => {
               ))}
             </div>}
           </Row>
-          <div className="text-end">
-            {UpdateLoader ? <Spinner animation="border" variant="success" size='sm' /> : <Button variant="outline-info" type="submit"
-              disabled={avatarLoader}>
-              Update
-            </Button>}
+          <div className="d-flex align-items-center justify-content-end">
+            {UpdateLoader ? <Spinner animation="border" variant="success" size='sm' /> :
+              <Flex>
+                <Button variant="falcon-default" className='me-3' onClick={() =>
+                  navigate(-1)}>
+                  Cancel
+                </Button>
+                <Button variant="outline-info" type="submit"
+                  disabled={avatarLoader}>
+                  Update
+                </Button>
+              </Flex>
+            }
           </div>
         </Form>
       </Card.Body>

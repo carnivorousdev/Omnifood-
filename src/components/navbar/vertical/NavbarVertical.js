@@ -9,7 +9,9 @@ import ToggleButton from './ToggleButton';
 import { AreaCodes } from 'routes/routes';
 import axios from 'axios';
 import _ from 'lodash';
-import bgNavbar from 'assets/img/illustrations/bg-navbar.png';
+import { doc, getDoc } from 'firebase/firestore';
+import { OmnifoodServer } from 'config';
+import { capitalize } from 'helpers/utils';
 
 const NavbarVertical = () => {
   const [loading, setLoading] = useState(false)
@@ -18,7 +20,11 @@ const NavbarVertical = () => {
     config: {
       isNavbarVerticalCollapsed,
       showBurgerMenu,
-    }
+    },
+    createdRecipesLoading,
+    showCreatedRecipes,
+    handleCreatedRecipesData,
+    userInfo
   } = useContext(AppContext);
 
   const HTMLClassList = document.getElementsByTagName('html')[0].classList;
@@ -35,6 +41,21 @@ const NavbarVertical = () => {
   }, [isNavbarVerticalCollapsed, HTMLClassList]);
 
 
+  useEffect(() => {
+    if (Object.keys(userInfo).length > 0) {
+      setRecipeCreated()
+    } else return
+  }, [showCreatedRecipes])
+
+  const setRecipeCreated = async () => {
+    const RecipeCreatedRef = doc(OmnifoodServer, userInfo.userEmail, 'RecipeCreated')
+    const RecipeCreatedSnap = await getDoc(RecipeCreatedRef);
+    if (RecipeCreatedSnap.exists()) {
+      handleCreatedRecipesData(Object.values(RecipeCreatedSnap.data()))
+    } else {
+      handleCreatedRecipesData([])
+    }
+  }
 
   //Control mouseEnter event
   let time = null;
@@ -52,11 +73,11 @@ const NavbarVertical = () => {
 
   useEffect(() => {
     getRoutesData()
-  }, [])
+  }, [showCreatedRecipes])
 
   const getRoutesData = () => {
     setLoading(true)
-    let CategoryData = {}, AreaData = {}, IngredientData = {}
+    let CategoryData = {}, AreaData = {}, IngredientData = {}, modifiedCreatedRecipesRoutes = {}
     axios.get(process.env.REACT_APP_BASE_URL + `categories.php`)
       .then(res => {
         let MealDataByCategory = res.data.categories
@@ -102,25 +123,43 @@ const NavbarVertical = () => {
                       active: true,
                       icon: 'ingredient',
                       name: 'Ingredients',
-                      children: getIngredientChildrenData(MealDataByIngredient.slice(0, 300))
+                      children: getIngredientChildrenData(MealDataByIngredient.slice(0, 500))
                     }
                   ]
                 }
-                setRoutesData([CategoryData, AreaData, IngredientData])
+                modifiedCreatedRecipesRoutes = {
+                  label: 'My Recipes',
+                  children: [
+                    {
+                      active: true,
+                      icon: 'foodBank',
+                      name: 'My Recipes',
+                      children: getCreatedRecipes(showCreatedRecipes)
+                    }
+                  ]
+                }
+                if (modifiedCreatedRecipesRoutes.children[0].children.length > 0) {
+                  setRoutesData([CategoryData, AreaData, IngredientData, modifiedCreatedRecipesRoutes])
+                } else {
+                  setRoutesData([CategoryData, AreaData, IngredientData])
+                }
                 setLoading(false)
               })
           })
       })
   }
-  // const getImage = async (ingredientImageURL) => {
-  //   const response = await axios.get(process.env.REACT_APP_PHOTO_URL + ingredientImageURL + '.png', {
-  //     responseType: "arraybuffer",
-  //   });
-  //   const base64Image = Buffer.from(response.data, 'binary').toString('base64');
-  //   const imageUrl = `data:image/jpeg;base64,${base64Image}`;
-  //   return imageUrl
-  // };
 
+  const getCreatedRecipes = (data) => {
+    const modifiedData = data.map((ele) => {
+      return {
+        name: ele.strMeal,
+        active: true,
+        strCreatedIngredientThumb: ele.strRecipesImages[0].preview,
+        idCreatedRecipe: ele.idIngredient
+      }
+    })
+    return modifiedData
+  }
   const getIngredientChildrenData = (ingredientData) => {
     const data = ingredientData.map((ele) => {
       return {
@@ -154,38 +193,52 @@ const NavbarVertical = () => {
     })
     return data
   }
+
+  const NavbarLabel = ({ label }) => (
+    <Nav.Item as="li">
+      <Row className="mt-3 mb-2 navbar-vertical-label-wrapper">
+        <Col xs="auto" className="navbar-vertical-label navbar-vertical-label">
+          {label}
+        </Col>
+        <Col className="ps-0">
+          <hr className="mb-0 navbar-vertical-divider"></hr>
+        </Col>
+      </Row>
+    </Nav.Item>
+  );
   return (
     <Navbar
       expand={navbarBreakPoint}
-      className='navbar-vertical navbar-vibrant'
+      className='navbar-vertical navbar-card'
       variant="light"
     >
       <Flex alignItems="center">
         <ToggleButton />
         <Logo at="navbar-vertical" width={150} />
       </Flex>
-      {loading ? <Row className="g-0 w-100 h-100" >
-        <Col xs={12} className='d-flex align-items-center justify-content-center' style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
-          <Spinner animation="border" variant="warning" size='sm' />
-        </Col>
-      </Row> : <Navbar.Collapse
+      <Navbar.Collapse
         in={showBurgerMenu}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={{
-          backgroundImage: `linear-gradient(-45deg, rgba(0, 160, 255, 0.86), #0048a2),url(${bgNavbar})`
+          backgroundImage: 'none'
         }}
       >
         <div className="navbar-vertical-content scrollbar">
-          <Nav className="flex-column" as="ul">
+          {loading || createdRecipesLoading ? <Row className="g-0 w-100 h-100">
+            <Col xs={12} className='d-flex align-items-center justify-content-center' style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
+              <Spinner animation="border" variant="warning" size='sm' />
+            </Col>
+          </Row> : <Nav className="flex-column" as="ul">
             {routesData.map((route, idx) => (
               <Fragment key={idx}>
+                {route.label == 'My Recipes' && <NavbarLabel label={capitalize(route.label)} />}
                 <NavbarVerticalMenu routes={route.children} />
               </Fragment>
             ))}
-          </Nav>
+          </Nav>}
         </div>
-      </Navbar.Collapse>}
+      </Navbar.Collapse>
     </Navbar>
   );
 };

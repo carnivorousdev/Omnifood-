@@ -20,7 +20,7 @@ const Areas = () => {
         setAreaLoading(true)
         axios.get(process.env.REACT_APP_BASE_URL + `filter.php?a=${areas}`)
             .then(res => {
-                if (res.data.meals.length > 0) {
+                if (res.data.meals) {
                     setAreaLoading(false)
                     setAreaData(res.data.meals)
                 } else {

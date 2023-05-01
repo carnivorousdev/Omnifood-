@@ -4,8 +4,7 @@ import { Card, Col, Form, Row } from 'react-bootstrap';
 import { Controller } from 'react-hook-form';
 import ReactYoutubePlayer from 'react-player/youtube';
 
-const RecipeDetails = ({ register, setValue, watch, errors, control }) => {
-
+const RecipeDetails = ({ register, watch, errors, control, editorKey }) => {
   const config = {
     youtube: {
       playerVars: {
@@ -90,6 +89,8 @@ const RecipeDetails = ({ register, setValue, watch, errors, control }) => {
                   render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <>
                       <TinymceEditor
+                        key={editorKey}
+                        initialValue="<p>Write instructions for the recipe</p>"
                         handleChange={onChange}
                         value={value}
                       />

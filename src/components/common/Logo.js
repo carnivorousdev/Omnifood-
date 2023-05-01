@@ -1,31 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import logo from 'assets/img/illustrations/omnifood-logo.png';
-import { onAuthStateChanged } from 'firebase/auth';
-import { firestoreAuth } from 'config'
+import logoWt from 'assets/img/illustrations/omnifood-logo-wt.png';
+import { useContext } from 'react';
+import AppContext from 'context/Context';
 
 const Logo = ({ at, width, className, textClass, ...rest }) => {
-  const [userData, setUserData] = useState(null)
-  const [loading, setloading] = useState(false)
+  const {
+    config: { isDark },
+    loading,
+    userInfo
+  } = useContext(AppContext);
 
-  useEffect(() => {
-    getDocument()
-  }, [])
-
-  const getDocument = () => {
-    setloading(true)
-    onAuthStateChanged(firestoreAuth, async (user) => {
-      if (user) {
-        setUserData(user)
-        setloading(false)
-      } else {
-        setUserData(null)
-        setloading(false)
-      }
-    })
-  }
 
   return (
     <>
@@ -52,7 +40,7 @@ const Logo = ({ at, width, className, textClass, ...rest }) => {
           <img className="me-2 font-sans-serif" src={logo} alt="Logo" width={width ? width : 300} />
         </div>
       </Link> : <>
-        {userData ? <Link
+        {Object.keys(userInfo).length > 0 ? <Link
           to='/dashboard'
           className={classNames(
             'text-decoration-none',
@@ -72,7 +60,7 @@ const Logo = ({ at, width, className, textClass, ...rest }) => {
               className
             )}
           >
-            <img className="me-2 font-sans-serif" src={logo} alt="Logo" width={width ? width : 300} />
+            <img className="me-2 font-sans-serif" src={!isDark ? logo : logoWt} alt="Logo" width={width ? width : 300} />
           </div>
         </Link> : <Link
           to='/login'
@@ -93,7 +81,7 @@ const Logo = ({ at, width, className, textClass, ...rest }) => {
               className
             )}
           >
-            <img className="me-2 font-sans-serif" src={logo} alt="Logo" width={width ? width : 300} />
+            <img className="me-2 font-sans-serif" src={logoWt} alt="Logo" width={width ? width : 300} />
           </div>
         </Link>}
       </>}
@@ -107,7 +95,5 @@ Logo.propTypes = {
   className: PropTypes.string,
   textClass: PropTypes.string
 };
-
-Logo.defaultProps = { at: 'auth', width: 58 };
 
 export default Logo;

@@ -20,7 +20,7 @@ const Ingredients = () => {
         setIngredientLoading(true)
         axios.get(process.env.REACT_APP_BASE_URL + `filter.php?i=${ingredient}`)
             .then(res => {
-                if (res.data.meals.length > 0) {
+                if (res.data.meals) {
                     setIngredientLoading(false)
                     setIngredientData(res.data.meals)
                 } else {

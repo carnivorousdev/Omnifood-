@@ -13,6 +13,8 @@ import Flex from 'components/common/Flex';
 import { useEffect } from 'react';
 import { OmnifoodServer } from 'config';
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { useContext } from 'react';
+import AppContext from 'context/Context';
 
 const LoginForm = ({ hasLabel }) => {
   const navigate = useNavigate();
@@ -21,10 +23,14 @@ const LoginForm = ({ hasLabel }) => {
     handleSubmit,
     formState: { errors }
   } = useForm();
-  const [loading, setLoading] = useState(false);
+  const {
+    handleUserInfo,
+  } = useContext(AppContext);
+
+  const [loginLoading, setLoginLoading] = useState(false)
 
   const onSubmit = data => {
-    setLoading(true)
+    setLoginLoading(true)
     signInWithEmailAndPassword(firestoreAuth, data.email, data.password)
       .then(() => {
         onAuthStateChanged(firestoreAuth, async (user) => {
@@ -32,14 +38,10 @@ const LoginForm = ({ hasLabel }) => {
             const documentRef = doc(OmnifoodServer, data.email, 'User-Data')
             const docSnap = await getDoc(documentRef);
             if (docSnap.exists()) {
+              handleUserInfo(docSnap.data())
               await updateDoc(documentRef, {
                 accessToken: user.accessToken,
               }, { capital: true }, { merge: true });
-              setLoading(false)
-              toast.success(`Logged in as ${data.email}`, {
-                theme: 'colored'
-              });
-              location.replace('/dashboard')
             } else {
               await setDoc(documentRef, {
                 userName: user.displayName,
@@ -50,27 +52,34 @@ const LoginForm = ({ hasLabel }) => {
                 emailVerified: user.emailVerified,
                 isAnonymous: user.isAnonymous,
               }, { capital: true }, { merge: true });
-              setLoading(false)
-              toast.success(`Logged in as ${data.email}`, {
-                theme: 'colored'
-              });
-              location.replace('/dashboard')
+              handleUserInfo({
+                userName: user.displayName,
+                userEmail: user.email,
+                userProfilePhoto: user.photoURL,
+                accessToken: user.accessToken,
+                providerData: user.providerData,
+                emailVerified: user.emailVerified,
+                isAnonymous: user.isAnonymous,
+              })
             }
-            localStorage.setItem('SignedInEmail', JSON.stringify(data.email))
+            toast.success(`Logged in as ${data.email}`, {
+              theme: 'colored'
+            });
+            setLoginLoading(false)
+            location.replace('/dashboard')
           } else {
-            setLoading(false)
-            toast.error(`Email not verified`, {
+            setLoginLoading(false)
+            toast.warn(`Email not verified`, {
               theme: 'colored'
             });
           }
         })
       })
       .catch(() => {
-        setLoading(false)
-        toast.error('User not found', {
+        setLoginLoading(false)
+        toast.warn('User not found', {
           theme: 'colored'
         });
-        location.replace('/register')
       });
   };
 
@@ -88,7 +97,7 @@ const LoginForm = ({ hasLabel }) => {
           placeholder={!hasLabel ? 'Email address' : ''}
           name="email"
           type="email"
-          disabled={loading}
+          disabled={loginLoading}
           isInvalid={!!errors.email}
           {...register('email', {
             required: 'Email Id is required',
@@ -111,7 +120,7 @@ const LoginForm = ({ hasLabel }) => {
           placeholder={!hasLabel ? 'Password' : ''}
           name="password"
           type="password"
-          disabled={loading}
+          disabled={loginLoading}
           isInvalid={!!errors.password}
           {...register('password', {
             required: 'You must specify a password',
@@ -134,7 +143,7 @@ const LoginForm = ({ hasLabel }) => {
       <Row className="justify-content-between align-items-center">
         <Col xs="auto">
         </Col>
-        {loading ? '' : <Col xs="auto">
+        {loginLoading ? '' : <Col xs="auto">
           <Link
             className="fs--1 mb-0"
             to={`/forgot-password`}
@@ -145,7 +154,7 @@ const LoginForm = ({ hasLabel }) => {
       </Row>
 
       <Form.Group>
-        {loading ? (
+        {loginLoading ? (
           <Row className="g-0">
             <Col xs={12} className="w-100 h-100 my-3">
               <Flex className="align-items-center justify-content-center">
@@ -164,7 +173,7 @@ const LoginForm = ({ hasLabel }) => {
 
       <Divider className="mt-4">or log in with</Divider>
 
-      <SocialAuthButtons />
+      <SocialAuthButtons loginLoading={loginLoading} />
     </Form>
   );
 };

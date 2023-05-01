@@ -1,14 +1,13 @@
-import React from 'react';
-import { Card, Col, Row, Spinner, Dropdown} from 'react-bootstrap';
+import React, { useContext } from 'react';
+import { Card, Col, Row, Spinner, Dropdown } from 'react-bootstrap';
 import Event from './BookMark';
 import Flex from 'components/common/Flex';
 import { useState } from 'react';
-import { useEffect } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
-import { OmnifoodServer } from 'config';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import IconButton from 'components/common/IconButton';
+import AppContext from 'context/Context';
+import { useEffect } from 'react';
 
 const InboxFilterDropdownItem = ({ active, children, ...rest }) => (
   <Dropdown.Item
@@ -24,28 +23,13 @@ const InboxFilterDropdownItem = ({ active, children, ...rest }) => (
 );
 
 const AllBookMarksList = () => {
-  const [bookMarksData, setBookMarksData] = useState([])
   const [filteredData, setFilteredData] = useState([])
-  const [loading, setLoading] = useState(false)
   const [currentFilter, setCurrentFilter] = useState()
-  
-  useEffect(() => {
-    getBookMarksData()
-    document.title = "Omnifood | All Bookmarks";
-  }, [])
+  const { showBookMarks, loading } = useContext(AppContext);
 
-  const getBookMarksData = async () => {
-    setLoading(true)
-    const SignedInEmail = JSON.parse(localStorage.getItem('SignedInEmail'))
-    const documentRef = doc(OmnifoodServer, SignedInEmail, 'Bookmarks-Data')
-    const docSnap = await getDoc(documentRef);
-    var result = docSnap.data();
-    setBookMarksData(Object.values(result))
-    setLoading(false)
-  }
 
   const handleSelect = (filter) => {
-    const filteredArray = _.filter(bookMarksData, { 'strArea': filter.strArea });
+    const filteredArray = _.filter(showBookMarks, { 'strArea': filter.strArea });
     if (filteredArray.length > 0) {
       setFilteredData(filteredArray)
     } else {
@@ -54,6 +38,11 @@ const AllBookMarksList = () => {
       });
     }
   }
+
+  useEffect(() => {
+    document.title = "Omnifood | All Bookmarks";
+  }, [])
+
 
   return (
     <>
@@ -91,7 +80,7 @@ const AllBookMarksList = () => {
                     <FontAwesomeIcon icon="sliders-h" className='text-warning' />
                   </Dropdown.Toggle>
                   <Dropdown.Menu className="py-2" align='start'>
-                    {bookMarksData.map(filter => (
+                    {showBookMarks.map(filter => (
                       <InboxFilterDropdownItem
                         active={filter.idMeal === currentFilter}
                         key={filter.idMeal}
@@ -113,11 +102,11 @@ const AllBookMarksList = () => {
             <Row>
               {filteredData.length > 0 ? filteredData.map((event, index) => (
                 <Col key={event.idMeal} md={6} className="h-100">
-                  <Event details={event} isLast={index === bookMarksData.length - 1} />
+                  <Event details={event} isLast={index === showBookMarks.length - 1} />
                 </Col>
-              )) : bookMarksData.map((event, index) => (
+              )) : showBookMarks.map((event, index) => (
                 <Col key={event.idMeal} md={6} className="h-100">
-                  <Event details={event} isLast={index === bookMarksData.length - 1} />
+                  <Event details={event} isLast={index === showBookMarks.length - 1} />
                 </Col>
               ))}
             </Row>

@@ -11,7 +11,7 @@ import { useLocation } from 'react-router';
 const NavbarTop = () => {
   const {
     config: { showBurgerMenu, navbarPosition },
-    setConfig
+    setConfig,
   } = useContext(AppContext);
 
   const { pathname } = useLocation();
@@ -72,7 +72,6 @@ const NavbarTop = () => {
           <SearchBox />
         </Nav.Item>
       </Nav>
-
       <TopNavRightSideNavItem />
     </Navbar>
   );

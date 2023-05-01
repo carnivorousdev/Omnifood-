@@ -18,7 +18,7 @@ ReactDOM.render(
   <Suspense fallback={loadingMarkup}>
     <BrowserRouter>
       <Main>
-        <App/>
+        <App />
       </Main>
     </BrowserRouter>
   </Suspense>,
