@@ -11,7 +11,7 @@ const RecipeUpload = ({ register, setValue }) => {
 
   const onDrop = (acceptedFiles) => {
     let newImages = [];
-    if (files.length + acceptedFiles.length <= 5) {
+    if (files.length + acceptedFiles.length <= 4) {
       for (let i = 0; i < acceptedFiles.length; i++) {
         const file = acceptedFiles[i];
         const reader = new FileReader();
@@ -31,7 +31,7 @@ const RecipeUpload = ({ register, setValue }) => {
         }
       }
     } else {
-      toast.error(`Maximum 5 images can be uploaded`, {
+      toast.error(`Maximum 4 images can be uploaded`, {
         theme: 'colored'
       });
     }
@@ -41,7 +41,7 @@ const RecipeUpload = ({ register, setValue }) => {
     accept: 'image/*',
     multiple: true,
     onDrop,
-    disabled: files.length >= 5,
+    disabled: files.length >= 4,
     required: true
   });
 
@@ -58,11 +58,11 @@ const RecipeUpload = ({ register, setValue }) => {
           <input
             {...register("strRecipesImages")}
             {...getInputProps()}
-            className={`${files.length >= 5 ? 'cursor-none' : 'cursor-pointer'}`}
+            className={`${files.length >= 4 ? 'cursor-none' : 'cursor-pointer'}`}
           />
           <Flex justifyContent="center">
             <img src={cloudUpload} alt="" width={25} className="me-2" />
-            <p className="fs-0 mb-0 text-700">*Drop your images here (Maximum 5)</p>
+            <p className="fs-0 mb-0 text-700">*Drop your images here (Maximum 4)</p>
           </Flex>
         </div>
         {files.length > 0 && <div>

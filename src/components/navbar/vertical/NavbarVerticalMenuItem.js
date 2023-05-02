@@ -40,7 +40,7 @@ const NavbarVerticalMenuItem = ({ route }) => {
           </span>} className='avatar-s avatar' />
         </span>
       )}
-      <span className="nav-link-text ps-1 ">{route.name}</span>
+      <span className="nav-link-text ps-1 text-truncate">{route.name}</span>
     </Flex>
   );
 };

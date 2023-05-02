@@ -24,6 +24,7 @@ const NavbarVertical = () => {
     createdRecipesLoading,
     showCreatedRecipes,
     handleCreatedRecipesData,
+    handleCreatedRecipesLoading,
     userInfo
   } = useContext(AppContext);
 
@@ -45,15 +46,18 @@ const NavbarVertical = () => {
     if (Object.keys(userInfo).length > 0) {
       setRecipeCreated()
     } else return
-  }, [showCreatedRecipes])
+  }, [userInfo])
 
   const setRecipeCreated = async () => {
+    handleCreatedRecipesLoading(true)
     const RecipeCreatedRef = doc(OmnifoodServer, userInfo.userEmail, 'RecipeCreated')
     const RecipeCreatedSnap = await getDoc(RecipeCreatedRef);
     if (RecipeCreatedSnap.exists()) {
       handleCreatedRecipesData(Object.values(RecipeCreatedSnap.data()))
+      handleCreatedRecipesLoading(false)
     } else {
       handleCreatedRecipesData([])
+      handleCreatedRecipesLoading(false)
     }
   }
 

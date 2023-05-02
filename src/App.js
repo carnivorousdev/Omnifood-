@@ -15,7 +15,7 @@ import { Col, Row, Spinner } from 'react-bootstrap';
 
 const App = () => {
   const { pathname } = useLocation();
-  const excludedPaths = ['/login', '/register', '/forget-password'];
+  const excludedPaths = ['/login', '/register', '/forgot-password', '/', '/404', '/401'];
   const {
     handleLoading,
     handleUserInfo,
@@ -64,13 +64,20 @@ const App = () => {
 
   return (
     <>
-      <ScrollToTop
-        smooth
-        component={<FaArrowUp />}
-        style={customStyles}
-      />
-      <Layout />
+      {loading && excludedPaths.includes(pathname) ? <Row className="g-0 w-100 h-100" >
+        <Col xs={12} className='d-flex align-items-center justify-content-center' style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
+          <Spinner animation="border" variant="primary" />
+        </Col>
+      </Row> : <>
+        <ScrollToTop
+          smooth
+          component={<FaArrowUp />}
+          style={customStyles}
+        />
+        <Layout />
+      </>}
     </>
+
   );
 };
 

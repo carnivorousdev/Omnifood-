@@ -167,20 +167,20 @@ const RecipeOtherInfo = ({ control, register, errors, watch }) => {
           <Form.Check
             type="radio"
             name="mealType"
-            id="veg"
-            value="veg"
+            id="Veg"
+            value="Veg"
             label="Veg"
-            className={`text-${getRadioColor("veg")}`}
+            className={`text-${getRadioColor("Veg")}`}
             {...register("mealType", { required: true })}
             isInvalid={errors.mealType}
 
           />
           <Form.Check
             type="radio"
-            value="nonVeg"
+            value="Non-Veg"
             label="Non-Veg"
-            id="nonVeg"
-            className={`text-${getRadioColor("nonVeg")}`}
+            id="Non-Veg"
+            className={`text-${getRadioColor("Non-Veg")}`}
             isInvalid={errors.mealType}
             {...register("mealType", { required: true })}
           />

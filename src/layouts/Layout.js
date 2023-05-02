@@ -20,6 +20,7 @@ import WithoutAuthLanding from 'components/landing/Landing';
 import Error401 from 'components/errors/Error401';
 import CreateRecipe from 'components/app/CreateRecipe/CreateRecipe';
 import Ingredients from 'components/dashboard/Ingredient';
+import RecipeDetails from 'components/app/RecipeDetails/RecipeDetails';
 
 
 const Layout = () => {
@@ -50,6 +51,7 @@ const Layout = () => {
           <Route path="/areas/:areas" element={<Areas />} />
           <Route path="/category/:category" element={<Categories />} />
           <Route path="/ingredient/:ingredient" element={<Ingredients />} />
+          <Route path="/myRecipe/:recipeName/:recipeId" element={<RecipeDetails />} />
           <Route path="/all_bookmarks" element={<AllBookMarksList />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/profile/:profileName" element={<Profile />} />

@@ -8,7 +8,7 @@ import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
 import CardDropdown from 'components/common/CardDropdown';
 import cloudUpload from '../../../assets/img/icons/cloud-upload.svg';
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { OmnifoodServer } from 'config';
 import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
 import { useEffect } from 'react';
@@ -23,6 +23,8 @@ const ProfileSettings = ({ userData }) => {
   const navigate = useNavigate()
   const {
     handleUserInfo,
+    handleCreatedRecipesLoading,
+    handleCreatedRecipesData,
   } = useContext(AppContext);
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
@@ -58,38 +60,89 @@ const ProfileSettings = ({ userData }) => {
     formState: { errors }
   } = useForm();
 
-  const onSubmit = data => {
+  const updateUserInfo = async (payload) => {
+    handleCreatedRecipesLoading(true)
+    const updateUserInfo = doc(OmnifoodServer, userData.userEmail, 'RecipeCreated')
+    const userInfoSnap = await getDoc(updateUserInfo);
+    if (userInfoSnap.exists()) {
+      let updateUserInfo_RecipeCreator = Object.values(userInfoSnap.data()).forEach(async (ele) => {
+        let recipeCreatedObj = {
+          ...ele,
+          authorName: payload.userName,
+          authorEmail: userData.userEmail,
+          authorProfile: payload.userProfilePhoto
+        }
+        await updateDoc(updateUserInfo, { [ele.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
+        handleCreatedRecipesData(updateUserInfo_RecipeCreator)
+        handleCreatedRecipesLoading(false)
+      })
+    } else {
+      Object.values(userInfoSnap.data()).forEach(async (ele) => {
+        let recipeCreatedObj = {
+          ...ele,
+          authorName: payload.userName,
+          authorEmail: userData.userEmail,
+          authorProfile: payload.userProfilePhoto
+        }
+        await setDoc(dataRef, { [ele.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
+        handleCreatedRecipesData([])
+        handleCreatedRecipesLoading(false)
+      })
+
+    }
+  }
+
+  const onSubmit = async (data) => {
     setUpdateLoader(true)
     let fullName = data.firstName + ' ' + data.lastName
-    const userProfileAvatar = ref(storage, userData.userEmail + '/' + 'Profile_Image/');
-    uploadString(userProfileAvatar, files[0].preview, 'data_url')
-      .then(() => {
-        getDownloadURL(userProfileAvatar)
-          .then(async (url) => {
-            const documentRef = doc(OmnifoodServer, userData.userEmail, 'User-Data')
-            let payload = {
-              firstName: data.firstName,
-              lastName: data.lastName,
-              userName: fullName,
-              userProfilePhoto: url,
-              phoneNumber: Number(data.phone),
-              profileHeading: data.heading
-            }
-            await updateDoc(documentRef, payload, { capital: true }, { merge: true });
-            const UserRef = doc(OmnifoodServer, userData.userEmail, 'User-Data')
-            const UserSnap = await getDoc(UserRef);
-            handleUserInfo(UserSnap.data())
-            setUpdateLoader(false)
-            navigate(`/profile/${userData.userName}`)
-          }).catch(() => {
-            setUpdateLoader(false)
+    if (files.length > 0) {
+      const userProfileAvatar = ref(storage, userData.userEmail + '/' + 'Profile_Image/');
+      uploadString(userProfileAvatar, files[0].preview, 'data_url')
+        .then(() => {
+          getDownloadURL(userProfileAvatar)
+            .then(async (url) => {
+              const documentRef = doc(OmnifoodServer, userData.userEmail, 'User-Data')
+              let payload = {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                userName: fullName,
+                userProfilePhoto: url,
+                phoneNumber: Number(data.phone),
+                profileHeading: data.heading
+              }
+              updateUserInfo(payload)
+              await updateDoc(documentRef, payload, { capital: true }, { merge: true });
+              const UserRef = doc(OmnifoodServer, userData.userEmail, 'User-Data')
+              const UserSnap = await getDoc(UserRef);
+              handleUserInfo(UserSnap.data())
+              setUpdateLoader(false)
+              navigate(`/profile/${userData.userName}`)
+            }).catch(() => {
+              setUpdateLoader(false)
+            });
+        }).catch((err) => {
+          setUpdateLoader(false)
+          toast.error(`${err.message}`, {
+            theme: 'colored'
           });
-      }).catch((err) => {
-        setUpdateLoader(false)
-        toast.error(`${err.message}`, {
-          theme: 'colored'
         });
-      });
+    } else {
+      const documentRef = doc(OmnifoodServer, userData.userEmail, 'User-Data')
+      let payload = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        userName: fullName,
+        phoneNumber: Number(data.phone),
+        profileHeading: data.heading
+      }
+      updateUserInfo(payload)
+      await updateDoc(documentRef, payload, { capital: true }, { merge: true });
+      const UserRef = doc(OmnifoodServer, userData.userEmail, 'User-Data')
+      const UserSnap = await getDoc(UserRef);
+      handleUserInfo(UserSnap.data())
+      setUpdateLoader(false)
+      navigate(`/profile/${userData.userName}`)
+    }
   };
 
   useEffect(() => {
@@ -244,13 +297,13 @@ const ProfileSettings = ({ userData }) => {
                     </div>
                   </Flex>
 
-                  <CardDropdown>
+                  {UpdateLoader ? '' : <CardDropdown>
                     <div className="py-2">
                       <Dropdown.Item className="text-danger" onClick={() => handleRemove(file)}>
                         Remove
                       </Dropdown.Item>
                     </div>
-                  </CardDropdown>
+                  </CardDropdown>}
                 </Flex>
               ))}
             </div>}

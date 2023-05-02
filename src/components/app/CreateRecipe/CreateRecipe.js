@@ -10,9 +10,8 @@ import { RecipeProvider } from 'context/ReciepeProvider';
 import { ModalOtherInfoBody } from './ModalOtherInfoBody';
 import RecipeFooter from './RecipeFooter';
 import AppContext from 'context/Context';
-import { Timestamp, doc, getDoc, setDoc } from 'firebase/firestore';
+import { Timestamp, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { OmnifoodServer } from 'config';
-import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -78,13 +77,13 @@ const CreateRecipe = () => {
         authorProfile: userInfo.userProfilePhoto
       }
       const dataRef = doc(OmnifoodServer, userInfo.userEmail, 'RecipeCreated')
-      await setDoc(dataRef, { [uuidv4()]: recipeCreatedObj }, { capital: true }, { merge: true });
       const RecipeCreatedSnap = await getDoc(dataRef);
       if (RecipeCreatedSnap.exists()) {
-        handleCreatedRecipesData(Object.values(RecipeCreatedSnap.data()))
+        await updateDoc(dataRef, { [recipeCreatedObj.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
       } else {
-        handleCreatedRecipesData([])
+        await setDoc(dataRef, { [recipeCreatedObj.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
       }
+      setRecipeCreated(recipeCreatedObj.authorEmail)
       setSubmitLoading(false)
       handleCreatedRecipesLoading(false)
       toast.success(`Recipe created successfully`, {
@@ -93,9 +92,20 @@ const CreateRecipe = () => {
     }).catch(() => {
       setSubmitLoading(false)
       handleCreatedRecipesLoading(false)
+      setRecipeCreated(userInfo.userEmail)
     });
     reset()
   };
+
+  const setRecipeCreated = async (email) => {
+    const RecipeCreatedRef = doc(OmnifoodServer, email, 'RecipeCreated')
+    const RecipeCreatedSnap = await getDoc(RecipeCreatedRef);
+    if (RecipeCreatedSnap.exists()) {
+      handleCreatedRecipesData(Object.values(RecipeCreatedSnap.data()))
+    } else {
+      handleCreatedRecipesData([])
+    }
+  }
 
   useEffect(() => {
     document.title = "Omnifood | Create Recipe";

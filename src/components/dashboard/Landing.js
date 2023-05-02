@@ -18,7 +18,6 @@ import CountUp from 'react-countup';
 import Flex from 'components/common/Flex';
 import FalconLightBox from 'components/common/FalconLightBox';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import Background from 'components/common/Background';
 import { useMediaQuery, useTheme } from '@mui/material';
 import video4 from '../../assets/video/video-4.mp4'
@@ -125,34 +124,49 @@ const Landing = () => {
   }
 
 
-  const onSubmit = data => {
+  const onSubmit = async data => {
     setUpdateLoader(true)
     let fullName = data.firstName.trim() + ' ' + data.lastName.trim()
-    const userProfileAvatar = ref(storage, userInfo.userEmail + '/' + 'Profile_Image/');
-    uploadString(userProfileAvatar, files[0].preview, 'data_url')
-      .then(() => {
-        getDownloadURL(userProfileAvatar)
-          .then(async (url) => {
-            const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'User-Data')
-            let payload = {
-              firstName: data.firstName,
-              lastName: data.lastName,
-              userName: fullName,
-              userProfilePhoto: url,
-              phoneNumber: Number(data.phone),
-              profileHeading: data.heading
-            }
-            await updateDoc(documentRef, payload, { capital: true }, { merge: true });
-            const UserSnap = await getDoc(documentRef);
-            handleUserInfo(UserSnap.data())
-            setUpdateLoader(false)
-          })
-          .catch(() => {
-            setUpdateLoader(false)
-          });
-      }).catch(() => {
-        setUpdateLoader(false)
-      });
+    if (files.length > 0) {
+      const userProfileAvatar = ref(storage, userInfo.userEmail + '/' + 'Profile_Image/');
+      uploadString(userProfileAvatar, files[0].preview, 'data_url')
+        .then(() => {
+          getDownloadURL(userProfileAvatar)
+            .then(async (url) => {
+              const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'User-Data')
+              let payload = {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                userName: fullName,
+                userProfilePhoto: url,
+                phoneNumber: Number(data.phone),
+                profileHeading: data.heading
+              }
+              await updateDoc(documentRef, payload, { capital: true }, { merge: true });
+              const UserSnap = await getDoc(documentRef);
+              handleUserInfo(UserSnap.data())
+              setUpdateLoader(false)
+            })
+            .catch(() => {
+              setUpdateLoader(false)
+            });
+        }).catch(() => {
+          setUpdateLoader(false)
+        });
+    } else {
+      const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'User-Data')
+      let payload = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        userName: fullName,
+        phoneNumber: Number(data.phone),
+        profileHeading: data.heading
+      }
+      await updateDoc(documentRef, payload, { capital: true }, { merge: true });
+      const UserSnap = await getDoc(documentRef);
+      handleUserInfo(UserSnap.data())
+      setUpdateLoader(false)
+    }
   };
 
   return (

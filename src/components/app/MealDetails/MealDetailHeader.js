@@ -6,9 +6,9 @@ import { Timestamp, deleteField, doc, getDoc, setDoc, updateDoc } from "firebase
 import { OmnifoodServer } from 'config';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import AppContext from 'context/Context';
+import { BsBookmarkStarFill } from 'react-icons/bs'
 
 const MealDetailHeader = ({ lookUpdata }) => {
   const [bookMarkLoading, setBookMarkLoading] = useState(false)
@@ -112,7 +112,7 @@ const MealDetailHeader = ({ lookUpdata }) => {
           </Col>
           <Col md="auto" className="mt-3 mt-md-0">
             {bookMarkLoading || loading ?
-              <Spinner animation="border" variant="primary" size='sm' />
+              <Spinner animation="border" variant="danger" size='sm' />
               :
               <OverlayTrigger
                 key='top'
@@ -124,14 +124,12 @@ const MealDetailHeader = ({ lookUpdata }) => {
                 }
               >
                 <p className='m-0 p-0'>
-                  <FontAwesomeIcon
+                  <BsBookmarkStarFill
                     className={`fs-3 cursor-pointer ${checkHeartColor ? 'text-danger' : 'text-700'}`}
-                    icon="heart"
                     onClick={() => {
                       setBookMarkLoading(true)
                       checkAddToBookMark(lookUpdata)
-                    }}
-                  />
+                    }} />
                 </p>
               </OverlayTrigger>
             }

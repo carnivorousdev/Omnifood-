@@ -17,9 +17,10 @@ const MealDetailAside = ({ lookUpdata }) => {
                   <OverlayTrigger
                     placement='top'
                     overlay={
-                      <Tooltip>
+                      <Tooltip className='text-capitalize'>
                         <div className="calendar">
-                          <Image src={lookUpdata[`strIngredient${i + 1}`] ? process.env.REACT_APP_PHOTO_URL + lookUpdata[`strIngredient${i + 1}`] + '.png' : defaultBanner} alt={lookUpdata[`strIngredient${i + 1}`]} className="card-img-top rounded fluid" />
+                          <Image src={lookUpdata[`strIngredient${i + 1}`] ? process.env.REACT_APP_PHOTO_URL + lookUpdata[`strIngredient${i + 1}`] + '.png' : defaultBanner} alt={lookUpdata[`strIngredient${i + 1}`]} className="card-img-top rounded fluid mb-1" />
+                          {lookUpdata[`strIngredient${i + 1}`]}
                         </div>
                       </Tooltip>
                     }
