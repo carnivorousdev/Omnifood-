@@ -1,12 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { Button, Card, Col, Dropdown, Form, Image, OverlayTrigger, Row, Spinner, Tooltip } from 'react-bootstrap';
+import { Button, Card, Col, Form, Image, OverlayTrigger, Row, Spinner, Tooltip } from 'react-bootstrap';
 import FalconCardHeader from 'components/common/FalconCardHeader';
 import { useForm } from 'react-hook-form';
 import Flex from 'components/common/Flex';
-import { getSize } from 'helpers/utils';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
-import CardDropdown from 'components/common/CardDropdown';
 import cloudUpload from '../../../assets/img/icons/cloud-upload.svg';
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { OmnifoodServer } from 'config';
@@ -14,10 +12,11 @@ import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage"
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppContext from 'context/Context';
+import DefaultPic from 'assets/img/team/7.jpg';
+import Avatar from 'components/common/Avatar';
 
 const ProfileSettings = ({ userData }) => {
   const [avatarLoader, setAvatarLoader] = useState(false)
-  const [files, setFiles] = useState([]);
   const [UpdateLoader, setUpdateLoader] = useState(false)
   const storage = getStorage();
   const navigate = useNavigate()
@@ -29,79 +28,70 @@ const ProfileSettings = ({ userData }) => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     onDrop: acceptedFiles => {
-      if (acceptedFiles.length) {
-        acceptedFiles.map(file => {
-          setAvatarLoader(true)
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = () => {
-            setAvatarLoader(false)
-            setFiles([{
-              preview: reader.result,
-              size: file.size,
-              path: file.path,
-              type: file.type
-            }])
-          };
-          return true;
-        });
-      }
+      acceptedFiles.map(file => {
+        setAvatarLoader(true)
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          setAvatarLoader(false)
+          setValue('profileImage', reader.result)
+        };
+        return true;
+      });
     },
   });
 
-  const handleRemove = () => {
-    setFiles(files.filter(file => file.path !== file.path));
-  };
 
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors }
   } = useForm();
 
   const updateUserInfo = async (payload) => {
     handleCreatedRecipesLoading(true)
-    const updateUserInfo = doc(OmnifoodServer, userData.userEmail, 'RecipeCreated')
+    const updateUserInfo = doc(OmnifoodServer, userData.uid, 'RecipeCreated')
     const userInfoSnap = await getDoc(updateUserInfo);
     if (userInfoSnap.exists()) {
       let updateUserInfo_RecipeCreator = Object.values(userInfoSnap.data()).forEach(async (ele) => {
-        let recipeCreatedObj = {
-          ...ele,
-          authorName: payload.userName,
-          authorEmail: userData.userEmail,
-          authorProfile: payload.userProfilePhoto
+        if (payload.userProfilePhoto) {
+          let recipeCreatedObj = {
+            ...ele,
+            authorName: payload.userName,
+            authorEmail: userData.userEmail,
+            authorProfile: payload.userProfilePhoto
+          }
+          await updateDoc(updateUserInfo, { [ele.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
+          handleCreatedRecipesData(updateUserInfo_RecipeCreator)
+          handleCreatedRecipesLoading(false)
+        } else {
+          let recipeCreatedObj = {
+            ...ele,
+            authorName: payload.userName,
+            authorEmail: userData.userEmail,
+          }
+          await updateDoc(updateUserInfo, { [ele.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
+          handleCreatedRecipesData(updateUserInfo_RecipeCreator)
+          handleCreatedRecipesLoading(false)
         }
-        await updateDoc(updateUserInfo, { [ele.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
-        handleCreatedRecipesData(updateUserInfo_RecipeCreator)
-        handleCreatedRecipesLoading(false)
       })
     } else {
-      Object.values(userInfoSnap.data()).forEach(async (ele) => {
-        let recipeCreatedObj = {
-          ...ele,
-          authorName: payload.userName,
-          authorEmail: userData.userEmail,
-          authorProfile: payload.userProfilePhoto
-        }
-        await setDoc(dataRef, { [ele.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
-        handleCreatedRecipesData([])
-        handleCreatedRecipesLoading(false)
-      })
-
+      handleCreatedRecipesLoading(false)
     }
   }
 
   const onSubmit = async (data) => {
     setUpdateLoader(true)
     let fullName = data.firstName + ' ' + data.lastName
-    if (files.length > 0) {
+    if (watch('profileImage') != userData.userProfilePhoto) {
       const userProfileAvatar = ref(storage, userData.userEmail + '/' + 'Profile_Image/');
-      uploadString(userProfileAvatar, files[0].preview, 'data_url')
+      uploadString(userProfileAvatar, watch('profileImage'), 'data_url')
         .then(() => {
           getDownloadURL(userProfileAvatar)
             .then(async (url) => {
-              const documentRef = doc(OmnifoodServer, userData.userEmail, 'User-Data')
+              const documentRef = doc(OmnifoodServer, userData.uid, 'User-Data')
               let payload = {
                 firstName: data.firstName,
                 lastName: data.lastName,
@@ -112,7 +102,7 @@ const ProfileSettings = ({ userData }) => {
               }
               updateUserInfo(payload)
               await updateDoc(documentRef, payload, { capital: true }, { merge: true });
-              const UserRef = doc(OmnifoodServer, userData.userEmail, 'User-Data')
+              const UserRef = doc(OmnifoodServer, userData.uid, 'User-Data')
               const UserSnap = await getDoc(UserRef);
               handleUserInfo(UserSnap.data())
               setUpdateLoader(false)
@@ -127,7 +117,7 @@ const ProfileSettings = ({ userData }) => {
           });
         });
     } else {
-      const documentRef = doc(OmnifoodServer, userData.userEmail, 'User-Data')
+      const documentRef = doc(OmnifoodServer, userData.uid, 'User-Data')
       let payload = {
         firstName: data.firstName,
         lastName: data.lastName,
@@ -137,7 +127,7 @@ const ProfileSettings = ({ userData }) => {
       }
       updateUserInfo(payload)
       await updateDoc(documentRef, payload, { capital: true }, { merge: true });
-      const UserRef = doc(OmnifoodServer, userData.userEmail, 'User-Data')
+      const UserRef = doc(OmnifoodServer, userData.uid, 'User-Data')
       const UserSnap = await getDoc(UserRef);
       handleUserInfo(UserSnap.data())
       setUpdateLoader(false)
@@ -151,6 +141,7 @@ const ProfileSettings = ({ userData }) => {
       setValue('lastName', userData.lastName);
       setValue('phone', userData.phoneNumber);
       setValue('heading', userData.profileHeading);
+      setValue('profileImage', userData.userProfilePhoto)
     }
   }, [])
 
@@ -261,53 +252,29 @@ const ProfileSettings = ({ userData }) => {
             </Form.Control.Feedback>
           </Form.Group>
 
-          <Row className="mb-3 g-3">
-            {UpdateLoader ? '' : <div {...getRootProps({ className: 'dropzone-area py-3' })}>
-              <input {...getInputProps()} />
+          <Row className="mb-3 align-items-center gap-2">
+            <Col sm='auto'>
+              {avatarLoader ? <Row className="g-0 w-100 h-100" >
+                <Col xs={12} className='d-flex align-items-center justify-content-center'>
+                  <Spinner animation="border" variant="primary" size='sm' />
+                </Col>
+              </Row> : <Avatar
+                size="4xl"
+                src={
+                  watch('profileImage') ? watch('profileImage') : DefaultPic
+                }
+              />}
+            </Col>
+            <Col md={6} {...getRootProps({ className: 'dropzone-area py-3' })}>
+              <input {...getInputProps()}
+                disabled={UpdateLoader} />
               <Flex justifyContent="center">
                 <img src={cloudUpload} alt="" width={25} className="me-2" />
                 <p className="fs-0 mb-0 text-700">Upload profile photo</p>
               </Flex>
-            </div>}
-
-            {avatarLoader ? <Row className="g-0">
-              <Col xs={12} className="w-100 h-100 my-3">
-                <Flex className="align-items-center justify-content-center">
-                  <Spinner animation="border" variant="success" size='sm' />
-                </Flex>
-              </Col>
-            </Row> : <div className="mt-3">
-              {files.map(file => (
-                <Flex
-                  alignItems="center"
-                  className="py-2 border-bottom btn-reveal-trigger"
-                  key={file.path}
-                >
-                  <Image rounded width={40} height={40} src={file.preview} alt={file.path} />
-                  <Flex justifyContent="between" alignItems="center" className="ms-3 flex-1">
-                    <div>
-                      <h6>{file.path}</h6>
-                      <Flex className="position-relative" alignItems="center">
-                        <p className="mb-0 fs--1 text-400 line-height-1">
-                          <strong>
-                            {getSize(file.size)}
-                          </strong>
-                        </p>
-                      </Flex>
-                    </div>
-                  </Flex>
-
-                  {UpdateLoader ? '' : <CardDropdown>
-                    <div className="py-2">
-                      <Dropdown.Item className="text-danger" onClick={() => handleRemove(file)}>
-                        Remove
-                      </Dropdown.Item>
-                    </div>
-                  </CardDropdown>}
-                </Flex>
-              ))}
-            </div>}
+            </Col>
           </Row>
+
           <div className="d-flex align-items-center justify-content-end">
             {UpdateLoader ? <Spinner animation="border" variant="success" size='sm' /> :
               <Flex>

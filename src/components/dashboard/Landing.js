@@ -23,7 +23,7 @@ import { useMediaQuery, useTheme } from '@mui/material';
 import video4 from '../../assets/video/video-4.mp4'
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { OmnifoodServer } from 'config';
 import { useForm } from 'react-hook-form';
 import { getSize } from 'helpers/utils';
@@ -45,7 +45,8 @@ const Landing = () => {
   const storage = getStorage();
   const {
     userInfo,
-    loading
+    loading,
+    handleUserInfo
   } = useContext(AppContext);
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -106,8 +107,6 @@ const Landing = () => {
     } else return
   }, [userInfo])
 
-
-
   const setDocument = () => {
     setShowCaseLoading(true)
     axios.get(process.env.REACT_APP_BASE_URL + `search.php?f=${makeid(1)}`)
@@ -128,12 +127,12 @@ const Landing = () => {
     setUpdateLoader(true)
     let fullName = data.firstName.trim() + ' ' + data.lastName.trim()
     if (files.length > 0) {
-      const userProfileAvatar = ref(storage, userInfo.userEmail + '/' + 'Profile_Image/');
+      const userProfileAvatar = ref(storage, userInfo.uid + '/' + 'Profile_Image/');
       uploadString(userProfileAvatar, files[0].preview, 'data_url')
         .then(() => {
           getDownloadURL(userProfileAvatar)
             .then(async (url) => {
-              const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'User-Data')
+              const documentRef = doc(OmnifoodServer, userInfo.uid, 'User-Data')
               let payload = {
                 firstName: data.firstName,
                 lastName: data.lastName,
@@ -154,7 +153,7 @@ const Landing = () => {
           setUpdateLoader(false)
         });
     } else {
-      const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'User-Data')
+      const documentRef = doc(OmnifoodServer, userInfo.uid, 'User-Data')
       let payload = {
         firstName: data.firstName,
         lastName: data.lastName,

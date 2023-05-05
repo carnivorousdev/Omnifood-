@@ -44,13 +44,18 @@ const App = () => {
     onAuthStateChanged(firestoreAuth, async (user) => {
       if (user) {
         if (user.emailVerified) {
-          const documentRef = doc(OmnifoodServer, user.email, 'User-Data')
+          const documentRef = doc(OmnifoodServer, user.uid, 'User-Data')
           const docSnap = await getDoc(documentRef);
-          handleUserInfo(docSnap.data())
-          handleLoading(false)
-          if (excludedPaths.includes(pathname)) {
-            navigate('/dashboard')
-          } else navigate(pathname)
+          if (docSnap.exists()) {
+            handleUserInfo(docSnap.data())
+            handleLoading(false)
+            if (excludedPaths.includes(pathname)) {
+              navigate('/dashboard')
+            } else navigate(pathname)
+          } else {
+            handleLoading(false)
+            navigate('/login')
+          }
         } else {
           handleLoading(false)
           navigate('/login')

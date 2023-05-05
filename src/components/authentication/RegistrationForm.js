@@ -26,10 +26,10 @@ const RegistrationForm = ({ hasLabel }) => {
       .then(() => {
         sendEmailVerification(firestoreAuth.currentUser).then(() => {
           setLoading(false)
-          toast.success(`Successfully registered.`, {
+          navigate('/login')
+          toast.success(`Successfully registered.Please verify your email`, {
             theme: 'colored'
           });
-          navigate('/login')
         })
           .catch((err) => {
             setLoading(false)

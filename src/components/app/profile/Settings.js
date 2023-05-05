@@ -3,6 +3,8 @@ import ProfileBanner from './ProfileBanner';
 import { Col, Row, Spinner } from 'react-bootstrap';
 import ProfileSettings from './ProfileSettings';
 import AppContext from 'context/Context';
+import ChangePassword from './ChangePassword';
+import DangerZone from './DangerZone';
 
 const Settings = () => {
   const {
@@ -29,11 +31,18 @@ const Settings = () => {
               className="mb-8"
             />
           </ProfileBanner>}
-          {Object.keys(userInfo).length > 0 && <Row className="g-3">
-            <Col lg={12}>
-              <ProfileSettings userData={userInfo} />
-            </Col>
-          </Row>}
+          {Object.keys(userInfo).length > 0 &&
+            <Row className="g-3">
+              <Col lg={8}>
+                <ProfileSettings userData={userInfo} />
+              </Col>
+              <Col lg={4}>
+                <div className="sticky-sidebar">
+                  <ChangePassword />
+                  <DangerZone />
+                </div>
+              </Col>
+            </Row>}
         </>}
     </>
   );

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
 import Slider from 'react-slick';
-import { useMediaQuery, useTheme } from '@mui/material';
 const sliderSettings = {
   infinite: true,
   speed: 500,
@@ -24,9 +23,6 @@ const RecipeDetailsMedia = ({ CreatedRecipe: {
     setNav2(slider2);
   }, [slider1, slider2]);
 
-  const theme = useTheme()
-  const isMatch = useMediaQuery(theme.breakpoints.down('md'))
-
   return (
     <div className="position-relative h-sm-100 overflow-hidden">
       {strRecipesImages.length === 1 && (
@@ -34,7 +30,7 @@ const RecipeDetailsMedia = ({ CreatedRecipe: {
           className="fit-cover w-100 rounded"
           src={strRecipesImages[0].preview}
           alt={strRecipesImages[0].path}
-          height={!isMatch ? 350 : 250}
+          height={350}
         />
       )}
       {strRecipesImages.length > 1 && (
@@ -52,7 +48,7 @@ const RecipeDetailsMedia = ({ CreatedRecipe: {
                   src={img.preview}
                   alt={img.path}
                   key={img.path}
-                  height={!isMatch ? 350 : 250}
+                  height={350}
                 />
               ))}
             </Slider>
@@ -72,7 +68,7 @@ const RecipeDetailsMedia = ({ CreatedRecipe: {
                     className="cursor-pointer fit-cover w-100 rounded"
                     src={img.preview}
                     alt={img.path}
-                    height={!isMatch ? 60 : 40}
+                    height={60}
                   />
                 </div>
               ))}

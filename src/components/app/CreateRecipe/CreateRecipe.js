@@ -30,7 +30,8 @@ const CreateRecipe = () => {
       ingredientsData: [{ strIngredient: '', strMeasure: '' }],
       strArea: null,
       strCategory: null,
-      strTags: null
+      strTags: null,
+      strRecipesImages: []
     },
   });
 
@@ -39,7 +40,7 @@ const CreateRecipe = () => {
     handleCreatedRecipesLoading(true)
     setEditorKey(Date.now());
     Promise.all(data.strRecipesImages.map((file) => {
-      const userProfileAvatarRef = ref(storage, `${userInfo.userEmail}/Created_Recipe_Images/${data.strMeal}/${file.path}`);
+      const userProfileAvatarRef = ref(storage, `${userInfo.uid}/Created_Recipe_Images/${data.strMeal}/${file.path}`);
       return new Promise((resolve, reject) => {
         uploadString(userProfileAvatarRef, file.preview, 'data_url')
           .then(() => {
@@ -54,14 +55,10 @@ const CreateRecipe = () => {
                   });
               })
               .catch(() => {
-                setSubmitLoading(false)
-                handleCreatedRecipesLoading(false)
                 reject();
               });
           })
           .catch(() => {
-            setSubmitLoading(false)
-            handleCreatedRecipesLoading(false)
             reject();
           });
       });
@@ -76,7 +73,7 @@ const CreateRecipe = () => {
         authorUID: userInfo.uid,
         authorProfile: userInfo.userProfilePhoto
       }
-      const dataRef = doc(OmnifoodServer, userInfo.userEmail, 'RecipeCreated')
+      const dataRef = doc(OmnifoodServer, userInfo.uid, 'RecipeCreated')
       const RecipeCreatedSnap = await getDoc(dataRef);
       if (RecipeCreatedSnap.exists()) {
         await updateDoc(dataRef, { [recipeCreatedObj.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
@@ -84,15 +81,12 @@ const CreateRecipe = () => {
         await setDoc(dataRef, { [recipeCreatedObj.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
       }
       setRecipeCreated(recipeCreatedObj.authorEmail)
+    }).catch((err) => {
       setSubmitLoading(false)
       handleCreatedRecipesLoading(false)
-      toast.success(`Recipe created successfully`, {
+      toast.error(`${err.message}`, {
         theme: 'colored'
       });
-    }).catch(() => {
-      setSubmitLoading(false)
-      handleCreatedRecipesLoading(false)
-      setRecipeCreated(userInfo.userEmail)
     });
     reset()
   };
@@ -102,8 +96,14 @@ const CreateRecipe = () => {
     const RecipeCreatedSnap = await getDoc(RecipeCreatedRef);
     if (RecipeCreatedSnap.exists()) {
       handleCreatedRecipesData(Object.values(RecipeCreatedSnap.data()))
+      setSubmitLoading(false)
+      handleCreatedRecipesLoading(false)
+      toast.success(`Recipe created successfully`, {
+        theme: 'colored'
+      });
     } else {
-      handleCreatedRecipesData([])
+      setSubmitLoading(false)
+      handleCreatedRecipesLoading(false)
     }
   }
 
@@ -115,7 +115,7 @@ const CreateRecipe = () => {
   }, [userInfo])
 
   const setRecipeInfo = async () => {
-    const RecipeInfoRef = doc(OmnifoodServer, userInfo.userEmail, 'RecipeInfoData')
+    const RecipeInfoRef = doc(OmnifoodServer, userInfo.uid, 'RecipeInfoData')
     const RecipeInfoSnap = await getDoc(RecipeInfoRef);
     if (RecipeInfoSnap.exists()) {
       handleRecipeInfoData(RecipeInfoSnap.data())
@@ -150,7 +150,7 @@ const CreateRecipe = () => {
               errors={errors}
               useFieldArray={useFieldArray}
             />
-            <RecipeUpload register={register} setValue={setValue} errors={errors} />
+            <RecipeUpload register={register} setValue={setValue} watch={watch} errors={errors}/>
           </Col>
           <Col lg={4}>
             <div className="sticky-sidebar">

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
-import loadingGif from 'assets/img/illustrations/Spinner.gif';
+import loadingGif from 'assets/img/team/7.jpg';
 import Avatar from 'components/common/Avatar';
 import { signOut } from "firebase/auth"
 import { firestoreAuth } from 'config'

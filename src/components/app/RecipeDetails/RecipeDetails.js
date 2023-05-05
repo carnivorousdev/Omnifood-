@@ -28,7 +28,7 @@ const RecipeDetails = () => {
 
   const setRecipeCreated = async () => {
     setRecipeLoading(true)
-    const RecipeCreatedRef = doc(OmnifoodServer, userInfo.userEmail, 'RecipeCreated')
+    const RecipeCreatedRef = doc(OmnifoodServer, userInfo.uid, 'RecipeCreated')
     const RecipeCreatedSnap = await getDoc(RecipeCreatedRef);
     if (RecipeCreatedSnap.exists()) {
       const filterObj = filter(Object.values(RecipeCreatedSnap.data()), (data) => data.idIngredient === recipeId);

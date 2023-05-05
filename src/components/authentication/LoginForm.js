@@ -17,7 +17,6 @@ import { useContext } from 'react';
 import AppContext from 'context/Context';
 
 const LoginForm = ({ hasLabel }) => {
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -35,7 +34,7 @@ const LoginForm = ({ hasLabel }) => {
       .then(() => {
         onAuthStateChanged(firestoreAuth, async (user) => {
           if (user.emailVerified) {
-            const documentRef = doc(OmnifoodServer, data.email, 'User-Data')
+            const documentRef = doc(OmnifoodServer, user.uid, 'User-Data')
             const docSnap = await getDoc(documentRef);
             if (docSnap.exists()) {
               handleUserInfo(docSnap.data())
@@ -51,6 +50,9 @@ const LoginForm = ({ hasLabel }) => {
                 providerData: user.providerData,
                 emailVerified: user.emailVerified,
                 isAnonymous: user.isAnonymous,
+                uid: user.uid,
+                providerData: user.providerData,
+                reloadUserInfo: user.reloadUserInfo
               }, { capital: true }, { merge: true });
               handleUserInfo({
                 userName: user.displayName,
@@ -60,6 +62,9 @@ const LoginForm = ({ hasLabel }) => {
                 providerData: user.providerData,
                 emailVerified: user.emailVerified,
                 isAnonymous: user.isAnonymous,
+                uid: user.uid,
+                providerData: user.providerData,
+                reloadUserInfo: user.reloadUserInfo
               })
             }
             toast.success(`Logged in as ${data.email}`, {
@@ -75,13 +80,14 @@ const LoginForm = ({ hasLabel }) => {
           }
         })
       })
-      .catch(() => {
+      .catch((err) => {
         setLoginLoading(false)
-        toast.warn('User not found', {
+        toast.warn(`${err.message}`, {
           theme: 'colored'
         });
       });
   };
+
 
   useEffect(() => {
     document.title = "Omnifood | Login";

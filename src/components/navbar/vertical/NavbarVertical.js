@@ -12,6 +12,7 @@ import _ from 'lodash';
 import { doc, getDoc } from 'firebase/firestore';
 import { OmnifoodServer } from 'config';
 import { capitalize } from 'helpers/utils';
+import defaultImg from 'assets/img/illustrations/meal-2.jpg'
 
 const NavbarVertical = () => {
   const [loading, setLoading] = useState(false)
@@ -50,7 +51,7 @@ const NavbarVertical = () => {
 
   const setRecipeCreated = async () => {
     handleCreatedRecipesLoading(true)
-    const RecipeCreatedRef = doc(OmnifoodServer, userInfo.userEmail, 'RecipeCreated')
+    const RecipeCreatedRef = doc(OmnifoodServer, userInfo.uid, 'RecipeCreated')
     const RecipeCreatedSnap = await getDoc(RecipeCreatedRef);
     if (RecipeCreatedSnap.exists()) {
       handleCreatedRecipesData(Object.values(RecipeCreatedSnap.data()))
@@ -76,7 +77,9 @@ const NavbarVertical = () => {
   };
 
   useEffect(() => {
-    getRoutesData()
+    if (showCreatedRecipes) {
+      getRoutesData()
+    } else return
   }, [showCreatedRecipes])
 
   const getRoutesData = () => {
@@ -158,7 +161,7 @@ const NavbarVertical = () => {
       return {
         name: ele.strMeal,
         active: true,
-        strCreatedIngredientThumb: ele.strRecipesImages[0].preview,
+        strCreatedIngredientThumb: ele.strRecipesImages.length > 0 ? ele.strRecipesImages[0].preview : defaultImg,
         idCreatedRecipe: ele.idIngredient
       }
     })

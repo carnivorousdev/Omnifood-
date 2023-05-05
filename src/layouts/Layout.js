@@ -21,6 +21,7 @@ import Error401 from 'components/errors/Error401';
 import CreateRecipe from 'components/app/CreateRecipe/CreateRecipe';
 import Ingredients from 'components/dashboard/Ingredient';
 import RecipeDetails from 'components/app/RecipeDetails/RecipeDetails';
+import EditRecipe from 'components/app/EditRecipe/EditRecipe';
 
 
 const Layout = () => {
@@ -56,6 +57,7 @@ const Layout = () => {
           <Route path="/settings" element={<Settings />} />
           <Route path="/profile/:profileName" element={<Profile />} />
           <Route path="/createRecipe" element={<CreateRecipe />} />
+          <Route path="/editRecipe/:recipeName/:recipeId" element={<EditRecipe />} />
         </Route>
 
         <Route path="/" element={<WithoutAuthLanding />} />

@@ -64,7 +64,6 @@ const RecipeUpload = ({ register, setValue, watch, errors }) => {
           </Flex>
         </div>
         {errors.strRecipesImages && <p className='fs--2 text-danger'>{errors.strRecipesImages.message}</p>}
-
         {watch('strRecipesImages').length > 0 && <div>
           {watch('strRecipesImages').map(file => (
             <Flex

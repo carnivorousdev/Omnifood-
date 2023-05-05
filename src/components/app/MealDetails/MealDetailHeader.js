@@ -22,7 +22,7 @@ const MealDetailHeader = ({ lookUpdata }) => {
   }, [lookUpdata, userInfo])
 
   const getDocument = async () => {
-    const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'Bookmarks-Data')
+    const documentRef = doc(OmnifoodServer, userInfo.uid, 'Bookmarks-Data')
     const docSnap = await getDoc(documentRef);
     if (docSnap.exists()) {
       handleBookMarksData(Object.values(docSnap.data()))
@@ -39,7 +39,7 @@ const MealDetailHeader = ({ lookUpdata }) => {
   }
 
   const addToBookMark = async (data) => {
-    const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'Bookmarks-Data')
+    const documentRef = doc(OmnifoodServer, userInfo.uid, 'Bookmarks-Data')
     data['dateModified'] = Timestamp.now()
     const docSnap = await getDoc(documentRef);
     if (docSnap.exists()) {
@@ -65,7 +65,7 @@ const MealDetailHeader = ({ lookUpdata }) => {
   }
 
   const removeFromBookMark = async (data) => {
-    const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'Bookmarks-Data')
+    const documentRef = doc(OmnifoodServer, userInfo.uid, 'Bookmarks-Data')
     await updateDoc(documentRef, {
       [data.idMeal]: deleteField()
     });
@@ -78,7 +78,7 @@ const MealDetailHeader = ({ lookUpdata }) => {
   }
 
   const checkAddToBookMark = async (lookUpdata) => {
-    const docRef = doc(OmnifoodServer, userInfo.userEmail, 'Bookmarks-Data');
+    const docRef = doc(OmnifoodServer, userInfo.uid, 'Bookmarks-Data');
     const docSnap = await getDoc(docRef);
     var result = _.findKey(docSnap.data(), { 'idMeal': lookUpdata.idMeal });
     if (docSnap.exists()) {

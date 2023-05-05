@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useContext, useState, useEffect } from 'react';
 import { Button, Col, OverlayTrigger, Row, Tooltip, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BsBookmarkStarFill } from 'react-icons/bs'
 import moment from 'moment';
 import Avatar from 'components/common/Avatar';
@@ -24,7 +24,7 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
     strArea,
     idIngredient
   } }) => {
-
+  const navigate = useNavigate()
   const [bookMarkLoading, setBookMarkLoading] = useState(false)
   const [checkHeartColor, setHeartColor] = useState(false)
   const { handleBookMarksData, userInfo, loading } = useContext(AppContext);
@@ -36,7 +36,7 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
   }, [idIngredient, userInfo])
 
   const getDocument = async () => {
-    const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'Bookmarks-Data')
+    const documentRef = doc(OmnifoodServer, userInfo.uid, 'Bookmarks-Data')
     const docSnap = await getDoc(documentRef);
     if (docSnap.exists()) {
       handleBookMarksData(Object.values(docSnap.data()))
@@ -53,7 +53,7 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
   }
 
   const addToBookMark = async (data) => {
-    const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'Bookmarks-Data')
+    const documentRef = doc(OmnifoodServer, userInfo.uid, 'Bookmarks-Data')
     data['dateModified'] = Timestamp.now()
     const docSnap = await getDoc(documentRef);
     if (docSnap.exists()) {
@@ -79,7 +79,7 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
   }
 
   const removeFromBookMark = async (data) => {
-    const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'Bookmarks-Data')
+    const documentRef = doc(OmnifoodServer, userInfo.uid, 'Bookmarks-Data')
     await updateDoc(documentRef, {
       [data.idMeal]: deleteField()
     });
@@ -92,7 +92,7 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
   }
 
   const checkAddToBookMark = async (lookUpdata) => {
-    const docRef = doc(OmnifoodServer, userInfo.userEmail, 'Bookmarks-Data');
+    const docRef = doc(OmnifoodServer, userInfo.uid, 'Bookmarks-Data');
     const docSnap = await getDoc(docRef);
     var result = _.findKey(docSnap.data(), { 'idMeal': idIngredient });
     if (docSnap.exists()) {
@@ -136,7 +136,7 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
       const values = ToBemodifiedObj['ingredientsData'].map(obj => obj[key]);
       const uniqueValues = [...new Set(values)];
       let subObject = {};
-      for (let i = 0; i < Math.min(uniqueValues.length, 20); i++) {
+      for (let i = 0; i < uniqueValues.length; i++) {
         subObject[`${key}${i + 1}`] = uniqueValues[i] || '';
       }
       return { ...acc, ...subObject };
@@ -275,7 +275,9 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
           <Button
             variant="falcon-warning"
             size="sm"
-            onClick={() => { }}
+            onClick={() => {
+              navigate(`/editRecipe/${strMeal}/${idIngredient}`)
+             }}
           >
             <Flex alignItems='center'>
               <MdEdit
