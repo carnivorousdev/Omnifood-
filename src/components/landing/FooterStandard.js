@@ -1,10 +1,8 @@
 import React from 'react';
-import createMarkup from 'helpers/createMarkup';
 import Section from 'components/common/Section';
 import IconGroup from 'components/common/icon/IconGroup';
 import { Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { menuList1, menuList2, menuList3 } from '../data/footer';
 import { bgWhiteIcons } from '../data/socialIcons';
 import { version } from 'config';

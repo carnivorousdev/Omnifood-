@@ -8,10 +8,6 @@ import user3 from 'assets/img/team/3.jpg'
 import user4 from 'assets/img/team/4.jpg'
 import user5 from 'assets/img/team/5.jpg'
 import user6 from 'assets/img/team/6.jpg'
-import user7 from 'assets/img/team/7.jpg'
-import user8 from 'assets/img/team/8.jpg'
-import user9 from 'assets/img/team/9.jpg'
-import user10 from 'assets/img/team/10.jpg'
 import generic1 from 'assets/img/illustrations/corner-1.png'
 import CountUp from 'react-countup';
 import Flex from 'components/common/Flex';
@@ -358,10 +354,6 @@ const Landing = () => {
                   <Avatar src={user4} size='2xl' />
                   <Avatar src={user5} size='2xl' />
                   <Avatar src={user6} size='2xl' />
-                  <Avatar src={user7} size='2xl' />
-                  <Avatar src={user8} size='2xl' />
-                  <Avatar src={user9} size='2xl' />
-                  <Avatar src={user10} size='2xl' />
                 </AvatarGroup>
                 <h4 className="fs-2 fw-semi-bold text-warning ms-3 me-1">
                   <CountUp end={250000} duration={2.75} separator="," suffix="+" />
@@ -383,10 +375,6 @@ const Landing = () => {
                 <Avatar src={user4} size='2xl' />
                 <Avatar src={user5} size='2xl' />
                 <Avatar src={user6} size='2xl' />
-                <Avatar src={user7} size='2xl' />
-                <Avatar src={user8} size='2xl' />
-                <Avatar src={user9} size='2xl' />
-                <Avatar src={user10} size='2xl' />
               </AvatarGroup>
             </Flex>
             <Flex className='align-items-center' wrap='wrap'>

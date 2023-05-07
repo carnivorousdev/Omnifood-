@@ -17,7 +17,7 @@ const BookMarksNotification = () => {
         </Tooltip>
       }
     >
-      <Nav.Item as="li" className="d-none d-sm-block">
+      <Nav.Item as="li">
         <Nav.Link
           as={Link}
           to="/all_bookmarks"

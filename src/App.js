@@ -24,7 +24,7 @@ const App = () => {
 
   const navigate = useNavigate()
   const customStyles = {
-    backgroundColor: "#2F80ED",
+    backgroundColor: "#2c7be5",
     borderRadius: "50%",
     width: "40px",
     height: "40px",
@@ -88,7 +88,7 @@ const App = () => {
       </Row> : <>
         <ScrollToTop
           smooth
-          component={<FaArrowUp />}
+          component={<FaArrowUp className='text-white'/>}
           style={customStyles}
         />
         <Layout />

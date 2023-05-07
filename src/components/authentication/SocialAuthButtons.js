@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 import { Form, Button, Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth"
+import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, sendEmailVerification } from "firebase/auth"
 import { useNavigate } from 'react-router-dom';
 import { firestoreAuth } from 'config'
 import { toast } from 'react-toastify';
 import { OmnifoodServer } from 'config';
 import AppContext from 'context/Context';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+
 
 const SocialAuthButtons = ({ loginLoading }) => {
   const {
@@ -16,7 +17,18 @@ const SocialAuthButtons = ({ loginLoading }) => {
 
   const googleProvider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider()
-
+  facebookProvider.addScope('email');
+  googleProvider.addScope('email');
+  googleProvider.addScope('profile');
+  googleProvider.addScope('openid');
+  googleProvider.setCustomParameters({
+    'login_hint': 'user@example.com'
+  });
+  facebookProvider.setCustomParameters({
+    auth_type: 'rerequest',
+    display: 'popup',
+    prompt: 'select_account'
+  });
   const handleGoogleLogin = () => {
     signInWithPopup(firestoreAuth, googleProvider)
       .then(async (result) => {
@@ -112,9 +124,15 @@ const SocialAuthButtons = ({ loginLoading }) => {
           });
           location.replace('/dashboard')
         } else {
-          toast.warn(`Email not verified`, {
-            theme: 'colored'
-          });
+          sendEmailVerification(firestoreAuth.currentUser).then(() => {
+            toast.info(`Please verify your email. Verification link has been sent to your email`, {
+              theme: 'colored'
+            });
+          }).catch((err) => {
+            toast.error(`${err.message}`, {
+              theme: 'colored'
+            });
+          })
         }
       }).catch((error) => {
         toast.error(`${error.message}`, {

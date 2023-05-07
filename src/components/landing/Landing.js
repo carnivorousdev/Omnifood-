@@ -10,7 +10,7 @@ import Services from './Services';
 
 const WithoutAuthLanding = () => {
   useEffect(() => {
-    document.title = "Omnifood | Login";
+    document.title = "Omnifood";
   }, []);
 
   return (

@@ -1,6 +1,4 @@
 export default [
-  { title: 'Create account', to: '#!' },
-  { title: 'Sign in', to: '#!' },
-  { title: 'iOS app', to: '#!' },
-  { title: 'Android app', to: '#!' },
+  { title: 'Create account', to: '/register' },
+  { title: 'Sign in', to: '/login' },
 ];

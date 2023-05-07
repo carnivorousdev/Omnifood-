@@ -86,11 +86,12 @@
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "build": "react-scripts --openssl-legacy-provider build",
+    "test": "react-scripts --openssl-legacy-provider test",
+    "eject": "react-scripts --openssl-legacy-provider eject",
     "build:css": "webpack --config webpack.config.js",
-    "watch:css": "webpack --config webpack.config.js --watch"
+    "watch:css": "webpack --config webpack.config.js --watch",
+    "postbuild": "cp public/index.html build/index.html"
   },
   "browserslist": {
     "production": [
