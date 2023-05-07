@@ -4,7 +4,7 @@ import Flex from 'components/common/Flex';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Background from 'components/common/Background';
-import video3 from '../../assets/video/video-3.mp4'
+import video3 from 'assets/video/video-3.mp4'
 import { useParams } from 'react-router-dom';
 import Products from 'components/product/Products';
 

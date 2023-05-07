@@ -2,30 +2,30 @@ import PageHeader from 'components/common/PageHeader';
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Button, Spinner, Modal, Form, OverlayTrigger, Tooltip, Image, Dropdown } from 'react-bootstrap';
 import Avatar, { AvatarGroup } from 'components/common/Avatar';
-import user1 from '../../assets/img/team/1.jpg'
-import user2 from '../../assets/img/team/2.jpg'
-import user3 from '../../assets/img/team/3.jpg'
-import user4 from '../../assets/img/team/4.jpg'
-import user5 from '../../assets/img/team/5.jpg'
-import user6 from '../../assets/img/team/6.jpg'
-import user7 from '../../assets/img/team/7.jpg'
-import user8 from '../../assets/img/team/8.jpg'
-import user9 from '../../assets/img/team/9.jpg'
-import user10 from '../../assets/img/team/10.jpg'
-import generic1 from '../../assets/img/illustrations/corner-1.png'
+import user1 from 'assets/img/team/1.jpg'
+import user2 from 'assets/img/team/2.jpg'
+import user3 from 'assets/img/team/3.jpg'
+import user4 from 'assets/img/team/4.jpg'
+import user5 from 'assets/img/team/5.jpg'
+import user6 from 'assets/img/team/6.jpg'
+import user7 from 'assets/img/team/7.jpg'
+import user8 from 'assets/img/team/8.jpg'
+import user9 from 'assets/img/team/9.jpg'
+import user10 from 'assets/img/team/10.jpg'
+import generic1 from 'assets/img/illustrations/corner-1.png'
 import CountUp from 'react-countup';
 import Flex from 'components/common/Flex';
 import axios from 'axios';
 import Background from 'components/common/Background';
 import { useMediaQuery, useTheme } from '@mui/material';
-import video4 from '../../assets/video/video-4.mp4'
+import video4 from 'assets/video/video-4.mp4'
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { OmnifoodServer } from 'config';
 import { useForm } from 'react-hook-form';
 import { getSize } from 'helpers/utils';
 import { useDropzone } from 'react-dropzone';
 import CardDropdown from 'components/common/CardDropdown';
-import cloudUpload from '../../assets/img/icons/cloud-upload.svg';
+import cloudUpload from 'assets/img/illustrations/cloud-upload.svg';
 import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
 import AppContext from 'context/Context';
 import { useContext } from 'react';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import Flex from 'components/common/Flex';
-import cloudUpload from 'assets/img/icons/cloud-upload.svg';
+import cloudUpload from 'assets/img/illustrations/cloud-upload.svg';
 import CardDropdown from 'components/common/CardDropdown';
 import { getSize } from 'helpers/utils';
 import { Card, Dropdown } from 'react-bootstrap';

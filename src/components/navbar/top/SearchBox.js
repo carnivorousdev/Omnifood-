@@ -6,7 +6,7 @@ import Avatar from 'components/common/Avatar';
 import Flex from 'components/common/Flex';
 import FalconCloseButton from 'components/common/FalconCloseButton';
 import axios from 'axios';
-import DefaultMeal from '../../../assets/img/illustrations/gallery-6.jpg'
+import DefaultMeal from 'assets/img/illustrations/gallery-6.jpg'
 import AppContext from 'context/Context';
 
 const MediaSearchContent = ({ item }) => {

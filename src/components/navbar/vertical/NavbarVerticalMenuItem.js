@@ -6,7 +6,7 @@ import { GiHotMeal } from 'react-icons/gi'
 import { MdFoodBank } from 'react-icons/md'
 import Avatar from 'components/common/Avatar';
 import Flag from 'react-world-flags'
-import Image from 'assets/img/icons/image.png';
+import Image from 'assets/img/illustrations/image.svg';
 
 const NavbarVerticalMenuItem = ({ route }) => {
   return (

@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 import classNames from 'classnames';
 import { isIterableArray } from 'helpers/utils';
 import Flex from './Flex';
-import cloudUpload from 'assets/img/icons/cloud-upload.svg';
+import cloudUpload from 'assets/img/illustrations/cloud-upload.svg';
 
 const getSize = size => {
   if (size < 1024) {
