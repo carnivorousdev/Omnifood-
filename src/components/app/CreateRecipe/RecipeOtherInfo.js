@@ -25,7 +25,10 @@ const RecipeOtherInfo = ({ control, register, errors, watch }) => {
               label: ele.strCategory
             }
           })
-          setLocalCategoryData([...fetchedData, ...recipeInfoData.RecipeInfoData.CategoryData])
+          let mergedData = [...fetchedData, ...recipeInfoData.RecipeInfoData.CategoryData]
+          setLocalCategoryData(_.uniqBy(mergedData, (e) => {
+            return e.label;
+          }))
         } else {
           setLocalCategoryData([])
         }
@@ -45,8 +48,10 @@ const RecipeOtherInfo = ({ control, register, errors, watch }) => {
               label: ele.strArea
             }
           }).filter((ele) => ele.label != 'Unknown')
-
-          setLocalAreaData([...fetchedData, ...recipeInfoData.RecipeInfoData.AreaData])
+          let mergedData = [...fetchedData, ...recipeInfoData.RecipeInfoData.AreaData]
+          setLocalAreaData(_.uniqBy(mergedData, (e) => {
+            return e.label;
+          }))
         } else {
           setLocalAreaData([])
         }

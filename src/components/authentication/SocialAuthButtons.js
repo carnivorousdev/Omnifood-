@@ -1,22 +1,68 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Form, Button, Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth"
 import { useNavigate } from 'react-router-dom';
 import { firestoreAuth } from 'config'
 import { toast } from 'react-toastify';
+import { OmnifoodServer } from 'config';
+import AppContext from 'context/Context';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 
 const SocialAuthButtons = ({ loginLoading }) => {
-  const navigate = useNavigate()
+  const {
+    handleUserInfo,
+  } = useContext(AppContext);
+
   const googleProvider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider()
+
   const handleGoogleLogin = () => {
     signInWithPopup(firestoreAuth, googleProvider)
-      .then((result) => {
-        toast.success(`Logged in as ${result.user.email}`, {
-          theme: 'colored'
-        });
-        navigate('dashboard')
+      .then(async (result) => {
+        if (result.user.emailVerified) {
+          const documentRef = doc(OmnifoodServer, result.user.uid, 'User-Data')
+          const docSnap = await getDoc(documentRef);
+          if (docSnap.exists()) {
+            handleUserInfo(docSnap.data())
+            await updateDoc(documentRef, {
+              accessToken: result.user.accessToken,
+            }, { capital: true }, { merge: true });
+          } else {
+            await setDoc(documentRef, {
+              userName: result.user.displayName,
+              userEmail: result.user.email,
+              userProfilePhoto: result.user.photoURL,
+              accessToken: result.user.accessToken,
+              providerData: result.user.providerData,
+              emailVerified: result.user.emailVerified,
+              isAnonymous: result.user.isAnonymous,
+              uid: result.user.uid,
+              providerData: result.user.providerData,
+              reloadUserInfo: result.user.reloadUserInfo,
+            }, { capital: true }, { merge: true });
+            handleUserInfo({
+              userName: result.user.displayName,
+              userEmail: result.user.email,
+              userProfilePhoto: result.user.photoURL,
+              accessToken: result.user.accessToken,
+              providerData: result.user.providerData,
+              emailVerified: result.user.emailVerified,
+              isAnonymous: result.user.isAnonymous,
+              uid: result.user.uid,
+              providerData: result.user.providerData,
+              reloadUserInfo: result.user.reloadUserInfo,
+            })
+          }
+          toast.success(`Logged in as ${result.user.email}`, {
+            theme: 'colored'
+          });
+          location.replace('/dashboard')
+        } else {
+          toast.warn(`Email not verified`, {
+            theme: 'colored'
+          });
+        }
       }).catch((error) => {
         toast.error(`${error.message}`, {
           theme: 'colored'
@@ -26,11 +72,50 @@ const SocialAuthButtons = ({ loginLoading }) => {
 
   const handleFacebookLogin = () => {
     signInWithPopup(firestoreAuth, facebookProvider)
-      .then((result) => {
-        toast.success(`Logged in as ${result.user.email}`, {
-          theme: 'colored'
-        });
-        navigate('dashboard')
+      .then(async (result) => {
+        if (result.user.emailVerified) {
+          const documentRef = doc(OmnifoodServer, result.user.uid, 'User-Data')
+          const docSnap = await getDoc(documentRef);
+          if (docSnap.exists()) {
+            handleUserInfo(docSnap.data())
+            await updateDoc(documentRef, {
+              accessToken: result.user.accessToken,
+            }, { capital: true }, { merge: true });
+          } else {
+            await setDoc(documentRef, {
+              userName: result.user.displayName,
+              userEmail: result.user.email,
+              userProfilePhoto: result.user.photoURL,
+              accessToken: result.user.accessToken,
+              providerData: result.user.providerData,
+              emailVerified: result.user.emailVerified,
+              isAnonymous: result.user.isAnonymous,
+              uid: result.user.uid,
+              providerData: result.user.providerData,
+              reloadUserInfo: result.user.reloadUserInfo,
+            }, { capital: true }, { merge: true });
+            handleUserInfo({
+              userName: result.user.displayName,
+              userEmail: result.user.email,
+              userProfilePhoto: result.user.photoURL,
+              accessToken: result.user.accessToken,
+              providerData: result.user.providerData,
+              emailVerified: result.user.emailVerified,
+              isAnonymous: result.user.isAnonymous,
+              uid: result.user.uid,
+              providerData: result.user.providerData,
+              reloadUserInfo: result.user.reloadUserInfo,
+            })
+          }
+          toast.success(`Logged in as ${result.user.email}`, {
+            theme: 'colored'
+          });
+          location.replace('/dashboard')
+        } else {
+          toast.warn(`Email not verified`, {
+            theme: 'colored'
+          });
+        }
       }).catch((error) => {
         toast.error(`${error.message}`, {
           theme: 'colored'

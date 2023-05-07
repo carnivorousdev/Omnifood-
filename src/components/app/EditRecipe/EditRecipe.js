@@ -12,12 +12,11 @@ import RecipeFooter from './RecipeFooter';
 import AppContext from 'context/Context';
 import { Timestamp, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { OmnifoodServer } from 'config';
-import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
 import { useNavigate, useParams } from 'react-router-dom';
-import { filter } from 'lodash';
+import _, { filter } from 'lodash';
 
 const EditRecipe = () => {
   const navigate = useNavigate()
@@ -26,7 +25,7 @@ const EditRecipe = () => {
   const [recipeLoading, setRecipeLoading] = useState(false)
   const storage = getStorage();
   const [editorKey, setEditorKey] = useState(Date.now());
-  const { userInfo, handleRecipeInfoData, handleCreatedRecipesData, handleCreatedRecipesLoading } = useContext(AppContext);
+  const { userInfo, handleRecipeInfoData, handleCreatedRecipesData, handleCreatedRecipesLoading, handleBookMarksData } = useContext(AppContext);
   const [submitLoading, setSubmitLoading] = useState(false)
   const { register, handleSubmit, setValue, formState: { errors }, control, watch } = useForm({
     mode: 'onBlur'
@@ -79,8 +78,8 @@ const EditRecipe = () => {
         authorProfile: userInfo.userProfilePhoto
       }
       const dataRef = doc(OmnifoodServer, userInfo.uid, 'RecipeCreated')
-      await updateDoc(dataRef, { [recipeCreatedObj.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
-      setRecipeEdited(recipeCreatedObj.authorEmail)
+      await updateDoc(dataRef, { [recipeCreatedObj.idIngredient]: recipeCreatedObj }, { capital: true }, { merge: true });
+      setRecipeEdited(recipeCreatedObj, recipeCreatedObj.authorUID)
     }).catch((err) => {
       toast.error(`${err.message}`, {
         theme: 'colored'
@@ -90,23 +89,106 @@ const EditRecipe = () => {
     });
   };
 
-  const setRecipeEdited = async (email) => {
-    const RecipeCreatedRef = doc(OmnifoodServer, email, 'RecipeCreated')
+  const setRecipeEdited = async (recipeCreatedObj, uid) => {
+    const RecipeCreatedRef = doc(OmnifoodServer, uid, 'RecipeCreated')
     const RecipeCreatedSnap = await getDoc(RecipeCreatedRef);
     if (RecipeCreatedSnap.exists()) {
       handleCreatedRecipesData(Object.values(RecipeCreatedSnap.data()))
-      handleCreatedRecipesLoading(false)
-      setSubmitLoading(false)
-      navigate(`/myRecipe/${filteredData.strMeal}/${recipeId}`)
-    } else {
-      handleCreatedRecipesLoading(false)
-      setSubmitLoading(false)
-      navigate(`/myRecipe/${filteredData.strMeal}/${recipeId}`)
     }
+    checkAddToBookMark(recipeCreatedObj)
+  }
+
+  const updateBookMark = async (data) => {
+    const documentRef = doc(OmnifoodServer, data.authorUID, 'Bookmarks-Data')
+    await updateDoc(documentRef, {
+      [recipeId]: data
+    }, { capital: true }, { merge: true });
+    getDocument(data.authorUID)
+  }
+
+  const getDocument = async (uid) => {
+    const documentRef = doc(OmnifoodServer, uid, 'Bookmarks-Data')
+    const docSnap = await getDoc(documentRef);
+    if (docSnap.exists()) {
+      handleBookMarksData(Object.values(docSnap.data()))
+    } else {
+      handleBookMarksData([])
+    }
+    handleCreatedRecipesLoading(false)
+    setSubmitLoading(false)
+    navigate(`/myRecipe/${filteredData.strMeal}/${recipeId}`)
     toast.success(`Recipe edited successfully`, {
       theme: 'colored'
     });
   }
+
+  const checkAddToBookMark = async (lookUpdata) => {
+    const docRef = doc(OmnifoodServer, lookUpdata.authorUID, 'Bookmarks-Data');
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      var result = _.findKey(docSnap.data(), { 'idMeal': recipeId });
+      if (result) {
+        updateBookMark(createModifiedObj(lookUpdata))
+      } else return
+    } else return
+  }
+
+
+  const createModifiedObj = (ToBemodifiedObj) => {
+    const strTagString = ToBemodifiedObj['strTags'].reduce((acc, obj) => {
+      delete obj.value;
+      const objValues = Object.values(obj);
+      const objValuesString = objValues.join(',');
+      return acc === '' ? objValuesString : `${acc},${objValuesString}`;
+    }, '');
+    const strAreaString = ToBemodifiedObj['strArea'].reduce((acc, obj) => {
+      delete obj.value;
+      const objValues = Object.values(obj);
+      const objValuesString = objValues.join(',');
+      return acc === '' ? objValuesString : `${acc},${objValuesString}`;
+    }, '');
+    const strCategoryString = ToBemodifiedObj['strCategory'].reduce((acc, obj) => {
+      delete obj.value;
+      const objValues = Object.values(obj);
+      const objValuesString = objValues.join(',');
+      return acc === '' ? objValuesString : `${acc},${objValuesString}`;
+    }, '');
+    // Conversion of Array of Object ToBemodifiedObj['ingredientsData'] into indiviual keys and values in a object format
+    const allKeys = ToBemodifiedObj['ingredientsData'].reduce((acc, obj) => {
+      return [...acc, ...Object.keys(obj)];
+    }, []);
+    const uniqueKeys = [...new Set(allKeys)];
+
+    const ingredientsObject = uniqueKeys.reduce((acc, key) => {
+      const values = ToBemodifiedObj['ingredientsData'].map(obj => obj[key]);
+      const uniqueValues = [...new Set(values)];
+      let subObject = {};
+      for (let i = 0; i < uniqueValues.length; i++) {
+        subObject[`${key}${i + 1}`] = uniqueValues[i] || '';
+      }
+      return { ...acc, ...subObject };
+    }, {});
+
+    let modifiedObj = {
+      ...ingredientsObject,
+      idMeal: recipeId,
+      strMeal: ToBemodifiedObj.strMeal,
+      strDrinkAlternate: null,
+      strCategory: strCategoryString,
+      strArea: strAreaString,
+      strTags: strTagString,
+      strInstructions: ToBemodifiedObj.strInstructions,
+      strMealThumb: ToBemodifiedObj.strRecipesImages,
+      dateModified: ToBemodifiedObj.createdOn,
+      strCreativeCommonsConfirmed: null,
+      strImageSource: null,
+      strSource: null,
+      strYoutube: ToBemodifiedObj.strSource,
+      authorUID: ToBemodifiedObj.authorUID,
+    }
+    return modifiedObj
+  }
+
 
   useEffect(() => {
     if (Object.keys(userInfo).length > 0) {
@@ -192,7 +274,7 @@ const EditRecipe = () => {
                   errors={errors}
                   useFieldArray={useFieldArray}
                 />
-                <RecipeUpload register={register} setValue={setValue} watch={watch} errors={errors}/>
+                <RecipeUpload register={register} setValue={setValue} watch={watch} errors={errors} />
               </Col>
               <Col lg={4}>
                 <div className="sticky-sidebar">

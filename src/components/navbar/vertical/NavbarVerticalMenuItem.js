@@ -15,7 +15,7 @@ const NavbarVerticalMenuItem = ({ route }) => {
         <span className="nav-link-icon">
           {route.icon == 'category' ?
             <BiCategoryAlt className="text-800 fs-1" />
-            : route.icon == 'area' ? <AiOutlineAreaChart className="text-800 fs-1" /> : route.icon == 'ingredient' ? <GiHotMeal className="text-800 fs-1" /> : route.icon == 'foodBank' ? <MdFoodBank className="text-800 fs-1" /> : null}
+            : route.icon == 'area' ? <AiOutlineAreaChart className="text-800 fs-1" /> : route.icon == 'ingredient' ? <GiHotMeal className="text-800 fs-1" /> : route.icon == 'foodBank' ? <MdFoodBank className="text-danger fs-1" /> : null}
         </span>
       )}
       {route.strCategoryThumb && (

@@ -22800,7 +22800,7 @@ html[dir='rtl'] .img-dropdown {
   height: 1rem;
   width: 1rem;
   font-size: 0.67rem;
-  color: #fff;
+  color: var(--falcon-black);
   font-weight: 700;
 }
 .notification-indicator-primary:before {
@@ -22816,7 +22816,7 @@ html[dir='rtl'] .img-dropdown {
   background-color: var(--falcon-info);
 }
 .notification-indicator-warning:before {
-  background-color: var(--falcon-warning);
+  background-color: var(--falcon-list-group-item-info-background);
 }
 .notification-indicator-danger:before {
   background-color: var(--falcon-danger);

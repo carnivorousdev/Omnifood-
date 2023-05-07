@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Button, Spinner } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Row, Col, Spinner } from 'react-bootstrap';
 import Flex from 'components/common/Flex';
-import FalconLightBox from 'components/common/FalconLightBox';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Background from 'components/common/Background';
 import video3 from '../../assets/video/video-3.mp4'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import Products from 'components/product/Products';
 
 const Areas = () => {
-    const navigate = useNavigate()
     const [AreaData, setAreaData] = useState([])
     const [AreaLoading, setAreaLoading] = useState(false)
     const { areas } = useParams();
@@ -53,27 +51,7 @@ const Areas = () => {
                         </Flex>
                     </div>
                 </div>
-                {AreaData.length > 0 &&
-                    <Card className="h-100 p-2">
-                        <Flex alignItems='strech' justifyContent='between' wrap='wrap'>
-                            {AreaData.map((item) => (
-                                <Card key={item.idMeal} style={{ width: '20rem' }} className='flex-fill m-2'>
-                                    <FalconLightBox image={item.strMealThumb}>
-                                        <Card.Img src={item.strMealThumb} />
-                                    </FalconLightBox>
-                                    <Card.Body>
-                                        <Card.Title as='h5'>
-                                            {item.strMeal}
-                                        </Card.Title>
-                                        <Button variant="outline-warning" size="sm" onClick={() => { navigate(`/mealdetails/${item.idMeal}`) }}>
-                                            Detailed view
-                                            <FontAwesomeIcon icon="chevron-right" className="ms-1 fs--2" />
-                                        </Button>
-                                    </Card.Body>
-                                </Card>
-                            ))}
-                        </Flex>
-                    </Card>}
+                {AreaData.length > 0 && <Products ShowCaseData={AreaData} />}
             </>}
         </>
     );

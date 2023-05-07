@@ -135,7 +135,7 @@ const NavbarVertical = () => {
                   ]
                 }
                 modifiedCreatedRecipesRoutes = {
-                  label: 'My Recipes',
+                  label: 'Kitchen creations',
                   children: [
                     {
                       active: true,
@@ -204,7 +204,7 @@ const NavbarVertical = () => {
   const NavbarLabel = ({ label }) => (
     <Nav.Item as="li">
       <Row className="mt-3 mb-2 navbar-vertical-label-wrapper">
-        <Col xs="auto" className="navbar-vertical-label navbar-vertical-label">
+        <Col xs="auto" className="navbar-vertical-label navbar-vertical-label text-danger">
           {label}
         </Col>
         <Col className="ps-0">
@@ -239,7 +239,7 @@ const NavbarVertical = () => {
           </Row> : <Nav className="flex-column" as="ul">
             {routesData.map((route, idx) => (
               <Fragment key={idx}>
-                {route.label == 'My Recipes' && <NavbarLabel label={capitalize(route.label)} />}
+                {route.label == 'Kitchen creations' && <NavbarLabel label={capitalize(route.label)} />}
                 <NavbarVerticalMenu routes={route.children} />
               </Fragment>
             ))}

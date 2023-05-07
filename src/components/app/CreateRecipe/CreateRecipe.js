@@ -76,11 +76,11 @@ const CreateRecipe = () => {
       const dataRef = doc(OmnifoodServer, userInfo.uid, 'RecipeCreated')
       const RecipeCreatedSnap = await getDoc(dataRef);
       if (RecipeCreatedSnap.exists()) {
-        await updateDoc(dataRef, { [recipeCreatedObj.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
+        await updateDoc(dataRef, { [recipeCreatedObj.idIngredient]: recipeCreatedObj }, { capital: true }, { merge: true });
       } else {
-        await setDoc(dataRef, { [recipeCreatedObj.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
+        await setDoc(dataRef, { [recipeCreatedObj.idIngredient]: recipeCreatedObj }, { capital: true }, { merge: true });
       }
-      setRecipeCreated(recipeCreatedObj.authorEmail)
+      setRecipeCreated(recipeCreatedObj.authorUID)
     }).catch((err) => {
       setSubmitLoading(false)
       handleCreatedRecipesLoading(false)
@@ -91,8 +91,8 @@ const CreateRecipe = () => {
     reset()
   };
 
-  const setRecipeCreated = async (email) => {
-    const RecipeCreatedRef = doc(OmnifoodServer, email, 'RecipeCreated')
+  const setRecipeCreated = async (uid) => {
+    const RecipeCreatedRef = doc(OmnifoodServer, uid, 'RecipeCreated')
     const RecipeCreatedSnap = await getDoc(RecipeCreatedRef);
     if (RecipeCreatedSnap.exists()) {
       handleCreatedRecipesData(Object.values(RecipeCreatedSnap.data()))

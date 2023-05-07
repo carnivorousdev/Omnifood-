@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Card, Col, Row, Spinner, Dropdown } from 'react-bootstrap';
-import Event from './BookMark';
+import Bookmark from './BookMark';
 import Flex from 'components/common/Flex';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -9,7 +9,7 @@ import IconButton from 'components/common/IconButton';
 import AppContext from 'context/Context';
 import { useEffect } from 'react';
 
-const InboxFilterDropdownItem = ({ active, children, ...rest }) => (
+const BookmarksFilterDropdownItem = ({ active, children, ...rest }) => (
   <Dropdown.Item
     href="#!"
     as={Flex}
@@ -81,7 +81,7 @@ const AllBookMarksList = () => {
                   </Dropdown.Toggle>
                   <Dropdown.Menu className="py-2" align='start'>
                     {showBookMarks.map(filter => (
-                      <InboxFilterDropdownItem
+                      <BookmarksFilterDropdownItem
                         active={filter.idMeal === currentFilter}
                         key={filter.idMeal}
                         onClick={() => {
@@ -90,7 +90,7 @@ const AllBookMarksList = () => {
                         }}
                       >
                         {filter}
-                      </InboxFilterDropdownItem>
+                      </BookmarksFilterDropdownItem>
                     ))}
                   </Dropdown.Menu>
                 </Dropdown>
@@ -102,11 +102,11 @@ const AllBookMarksList = () => {
             <Row>
               {filteredData.length > 0 ? filteredData.map((event, index) => (
                 <Col key={event.idMeal} md={6} className="h-100">
-                  <Event details={event} isLast={index === showBookMarks.length - 1} />
+                  <Bookmark details={event} isLast={index === showBookMarks.length - 1} />
                 </Col>
               )) : showBookMarks.map((event, index) => (
                 <Col key={event.idMeal} md={6} className="h-100">
-                  <Event details={event} isLast={index === showBookMarks.length - 1} />
+                  <Bookmark details={event} isLast={index === showBookMarks.length - 1} />
                 </Col>
               ))}
             </Row>

@@ -38,16 +38,6 @@ const FooterStandard = () => {
   return (
     <>
       <Section bg="dark" className="pt-8 pb-4 light">
-        <div
-          className="position-absolute btn-back-to-top cursor-pointer bg-dark"
-          onClick={scrollToTop}
-        >
-          <FontAwesomeIcon
-            icon="chevron-up"
-            transform="rotate-45"
-            className="text-600"
-          />
-        </div>
         <Row>
           <Col lg={4}>
             <FooterTitle>Our Mission</FooterTitle>

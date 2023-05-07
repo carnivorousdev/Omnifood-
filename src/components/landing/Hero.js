@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Typed from 'react-typed';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Image } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import bg1 from 'assets/img/illustrations/bg-navbar.png';
@@ -8,6 +8,7 @@ import dashboard from 'assets/img/illustrations/eating.jpg'
 import Section from 'components/common/Section';
 
 const Hero = () => {
+  const navigate = useNavigate()
   return (
     <Section
       className="py-0 overflow-hidden light"
@@ -41,7 +42,7 @@ const Hero = () => {
             variant="outline-light"
             size="lg"
             className="border-2 rounded-pill mt-4 fs-0 py-2"
-            onClick={() => location.replace('/login')}
+            onClick={() => navigate('/login')}
           >
             Start eating well
             <FontAwesomeIcon icon="play" transform="shrink-6 down-1 right-5" />

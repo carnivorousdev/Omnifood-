@@ -54,15 +54,27 @@ const App = () => {
             } else navigate(pathname)
           } else {
             handleLoading(false)
-            navigate('/login')
+            if (pathname === '/') {
+              navigate('/')
+            } else {
+              navigate('/login')
+            }
           }
         } else {
           handleLoading(false)
-          navigate('/login')
+          if (pathname === '/') {
+            navigate('/')
+          } else {
+            navigate('/login')
+          }
         }
       } else {
         handleLoading(false)
-        navigate('/login')
+        if (pathname === '/') {
+          navigate('/')
+        } else {
+          navigate('/login')
+        }
       }
     })
   }, [])

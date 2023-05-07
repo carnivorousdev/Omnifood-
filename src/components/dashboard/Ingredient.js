@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Button, Spinner } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Row, Col, Spinner } from 'react-bootstrap';
 import Flex from 'components/common/Flex';
-import FalconLightBox from 'components/common/FalconLightBox';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Background from 'components/common/Background';
 import video2 from '../../assets/video/video-2.mp4'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import Products from 'components/product/Products';
 
 const Ingredients = () => {
-    const navigate = useNavigate()
     const [IngredientData, setIngredientData] = useState([])
     const [IngredientLoading, setIngredientLoading] = useState(false)
     const { ingredient } = useParams();
@@ -53,27 +51,7 @@ const Ingredients = () => {
                         </Flex>
                     </div>
                 </div>
-                {IngredientData.length > 0 &&
-                    <Card className="h-100 p-2">
-                        <Flex alignItems='strech' justifyContent='between' wrap='wrap'>
-                            {IngredientData.map((item) => (
-                                <Card key={item.idMeal} style={{ width: '20rem' }} className='flex-fill m-2'>
-                                    <FalconLightBox image={item.strMealThumb}>
-                                        <Card.Img src={item.strMealThumb} />
-                                    </FalconLightBox>
-                                    <Card.Body>
-                                        <Card.Title as='h5'>
-                                            {item.strMeal}
-                                        </Card.Title>
-                                        <Button variant="outline-warning" size="sm" onClick={() => { navigate(`/mealdetails/${item.idMeal}`) }}>
-                                            Detailed view
-                                            <FontAwesomeIcon icon="chevron-right" className="ms-1 fs--2" />
-                                        </Button>
-                                    </Card.Body>
-                                </Card>
-                            ))}
-                        </Flex>
-                    </Card>}
+                {IngredientData.length > 0 && <Products ShowCaseData={IngredientData} />}
             </>}
         </>
     );

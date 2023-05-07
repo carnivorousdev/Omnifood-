@@ -27,7 +27,7 @@ const BookMarksNotification = () => {
             {showBookMarks.length}
           </span>
           <BsBookmarkStarFill
-            className="fs-0 text-800"
+            className="fs-0 text-danger"
           />
         </Nav.Link>
       </Nav.Item>

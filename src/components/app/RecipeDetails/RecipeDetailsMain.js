@@ -47,7 +47,7 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
         setHeartColor(false)
       }
     } else {
-      handleBookMarksData(0)
+      handleBookMarksData([])
       setHeartColor(false)
     }
   }

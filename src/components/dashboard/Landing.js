@@ -1,7 +1,6 @@
 import PageHeader from 'components/common/PageHeader';
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Button, Spinner, Badge, Modal, Form, OverlayTrigger, Tooltip, Image, Dropdown } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Row, Col, Button, Spinner, Modal, Form, OverlayTrigger, Tooltip, Image, Dropdown } from 'react-bootstrap';
 import Avatar, { AvatarGroup } from 'components/common/Avatar';
 import user1 from '../../assets/img/team/1.jpg'
 import user2 from '../../assets/img/team/2.jpg'
@@ -16,13 +15,10 @@ import user10 from '../../assets/img/team/10.jpg'
 import generic1 from '../../assets/img/illustrations/corner-1.png'
 import CountUp from 'react-countup';
 import Flex from 'components/common/Flex';
-import FalconLightBox from 'components/common/FalconLightBox';
 import axios from 'axios';
 import Background from 'components/common/Background';
 import { useMediaQuery, useTheme } from '@mui/material';
 import video4 from '../../assets/video/video-4.mp4'
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { OmnifoodServer } from 'config';
 import { useForm } from 'react-hook-form';
@@ -33,9 +29,9 @@ import cloudUpload from '../../assets/img/icons/cloud-upload.svg';
 import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
 import AppContext from 'context/Context';
 import { useContext } from 'react';
+import Products from 'components/product/Products';
 
 const Landing = () => {
-  const navigate = useNavigate()
   const [ShowCaseData, setShowCaseData] = useState([])
   const [ShowCaseLoading, setShowCaseLoading] = useState(false)
   const [files, setFiles] = useState([]);
@@ -401,45 +397,7 @@ const Landing = () => {
             </Flex>
           </PageHeader>}
 
-
-          {ShowCaseData.length > 0 &&
-            <Card className="h-100 p-2">
-              <Flex alignItems='strech' justifyContent='between' wrap='wrap'>
-                {ShowCaseData.map((item) => (
-                  <Card key={item.idMeal} style={{ width: '20rem' }} className='flex-fill m-2'>
-                    <FalconLightBox image={item.strMealThumb}>
-                      <Card.Img src={item.strMealThumb} />
-                    </FalconLightBox>
-                    <Card.Body>
-                      <Card.Title as='h5'>
-                        {item.strMeal}
-                      </Card.Title>
-                      <Card.Text>
-                        <div>
-                          <Link
-                            to={`/category/${item.strCategory}`}>
-                            <Badge pill bg="info" className="me-2">
-                              {item.strCategory}
-                            </Badge>
-                          </Link>
-                          {item.strArea.toString().toLowerCase() != 'unknown' && <Link
-                            to={`/areas/${item.strArea}`}>
-                            <Badge pill bg="success" className="me-2">
-                              {item.strArea}
-                            </Badge>
-                          </Link>}
-
-                        </div>
-                      </Card.Text>
-                      <Button variant="outline-warning" size="sm" onClick={() => { navigate(`/mealdetails/${item.idMeal}`) }}>
-                        Detailed view
-                        <FontAwesomeIcon icon="chevron-right" className="ms-1 fs--2" />
-                      </Button>
-                    </Card.Body>
-                  </Card>
-                ))}
-              </Flex>
-            </Card>}
+          {ShowCaseData.length > 0 && <Products ShowCaseData={ShowCaseData} />}
         </>}
     </>
   );
