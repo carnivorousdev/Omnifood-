@@ -9,10 +9,13 @@ import AppContext from 'context/Context';
 const BookMarkCheck = (lookUpdata) => {
     const [bookMarkLoading, setBookMarkLoading] = useState(false)
     const [checkHeartColor, setHeartColor] = useState(false)
+    const [bookMarksLength, setBookMarksLength] = useState([])
     const { handleBookMarksData, userInfo } = useContext(AppContext);
 
     useEffect(() => {
         if (lookUpdata && Object.keys(userInfo).length > 0) {
+            getDocument()
+        } else if (Object.keys(userInfo).length > 0) {
             getDocument()
         } else return
     }, [lookUpdata, userInfo])
@@ -21,15 +24,18 @@ const BookMarkCheck = (lookUpdata) => {
         const documentRef = doc(OmnifoodServer, userInfo.uid, 'Bookmarks-Data')
         const docSnap = await getDoc(documentRef);
         if (docSnap.exists()) {
+            setBookMarksLength(Object.values(docSnap.data()))
             handleBookMarksData(Object.values(docSnap.data()))
-            var result = _.findKey(docSnap.data(), { 'idMeal': lookUpdata.idMeal });
-            if (result) {
-                setHeartColor(true)
-            } else {
-                setHeartColor(false)
-            }
+            if (lookUpdata) {
+                var result = _.findKey(docSnap.data(), { 'idMeal': lookUpdata.idMeal });
+                if (result) {
+                    setHeartColor(true)
+                } else {
+                    setHeartColor(false)
+                }
+            } else return
         } else {
-            handleBookMarksData(0)
+            handleBookMarksData([])
             setHeartColor(false)
         }
     }
@@ -91,7 +97,9 @@ const BookMarkCheck = (lookUpdata) => {
     return {
         bookMarkLoading,
         checkHeartColor,
-        checkAddToBookMark
+        checkAddToBookMark,
+        setBookMarkLoading,
+        bookMarksLength,
     }
 };
 

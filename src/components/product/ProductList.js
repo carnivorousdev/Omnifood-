@@ -36,7 +36,8 @@ const ProductList = ({ product }) => {
   const {
     bookMarkLoading,
     checkHeartColor,
-    checkAddToBookMark
+    checkAddToBookMark,
+    setBookMarkLoading
   } = BookMarkCheck(idData);
 
   return (
@@ -103,14 +104,16 @@ const ProductList = ({ product }) => {
                 <div className="mt-2">
                   {bookMarkLoading ?
                     <Button size="sm" variant={checkHeartColor ? 'falcon-danger' : "falcon-default"}
-                    className='mb-2 w-100 d-flex align-items-center justify-content-center fs--1'>
-                      <Spinner animation="border" variant="danger" size='sm' />
+                    className='mb-2 w-100 d-flex align-items-center justify-content-center fs--1 py-1'>
+                      <Spinner animation="border" variant={checkHeartColor ? 'falcon-danger' : "falcon-default"} size='sm' />
                     </Button>
                     : <Button
                       variant={checkHeartColor ? 'falcon-danger' : "falcon-default"}
                       className='mb-2 w-100 d-flex align-items-center justify-content-center fs--1'
                       size="sm"
-                      onClick={() => { checkAddToBookMark(idData) }}>
+                      onClick={() => { 
+                        setBookMarkLoading(true)
+                        checkAddToBookMark(idData) }}>
                       Favourite
                       <BsBookmarkStarFill className="ms-2 fs-0" />
                     </Button>}

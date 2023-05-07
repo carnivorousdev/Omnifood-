@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Button, Col, OverlayTrigger, Row, Tooltip, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { BsBookmarkStarFill } from 'react-icons/bs'
@@ -8,10 +8,8 @@ import Avatar from 'components/common/Avatar';
 import { MdEdit } from 'react-icons/md'
 import AppContext from 'context/Context';
 import _ from 'lodash';
-import { Timestamp, deleteField, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { OmnifoodServer } from 'config';
-import { toast } from 'react-toastify';
 import Flex from 'components/common/Flex';
+import BookMarkCheck from 'components/product/BookmarkCheck';
 
 const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
   { strCategory,
@@ -25,87 +23,7 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
     idIngredient
   } }) => {
   const navigate = useNavigate()
-  const [bookMarkLoading, setBookMarkLoading] = useState(false)
-  const [checkHeartColor, setHeartColor] = useState(false)
-  const { handleBookMarksData, userInfo, loading } = useContext(AppContext);
-
-  useEffect(() => {
-    if (idIngredient && Object.keys(userInfo).length > 0) {
-      getDocument()
-    } else return
-  }, [idIngredient, userInfo])
-
-  const getDocument = async () => {
-    const documentRef = doc(OmnifoodServer, userInfo.uid, 'Bookmarks-Data')
-    const docSnap = await getDoc(documentRef);
-    if (docSnap.exists()) {
-      handleBookMarksData(Object.values(docSnap.data()))
-      var result = _.findKey(docSnap.data(), { 'idMeal': idIngredient });
-      if (result) {
-        setHeartColor(true)
-      } else {
-        setHeartColor(false)
-      }
-    } else {
-      handleBookMarksData([])
-      setHeartColor(false)
-    }
-  }
-
-  const addToBookMark = async (data) => {
-    const documentRef = doc(OmnifoodServer, userInfo.uid, 'Bookmarks-Data')
-    data['dateModified'] = Timestamp.now()
-    const docSnap = await getDoc(documentRef);
-    if (docSnap.exists()) {
-      await updateDoc(documentRef, {
-        [data.idMeal]: data
-      }, { capital: true }, { merge: true });
-      toast.success(`Added to Bookmarks`, {
-        theme: 'colored'
-      });
-      setBookMarkLoading(false)
-      setHeartColor(true)
-    } else {
-      await setDoc(documentRef, {
-        [data.idMeal]: data
-      }, { capital: true }, { merge: true });
-      toast.success(`Added to Bookmarks`, {
-        theme: 'colored'
-      });
-      setBookMarkLoading(false)
-      setHeartColor(true)
-    }
-    getDocument()
-  }
-
-  const removeFromBookMark = async (data) => {
-    const documentRef = doc(OmnifoodServer, userInfo.uid, 'Bookmarks-Data')
-    await updateDoc(documentRef, {
-      [data.idMeal]: deleteField()
-    });
-    toast.warn(`Removed from Bookmarks`, {
-      theme: 'colored'
-    });
-    setBookMarkLoading(false)
-    setHeartColor(false)
-    getDocument()
-  }
-
-  const checkAddToBookMark = async (lookUpdata) => {
-    const docRef = doc(OmnifoodServer, userInfo.uid, 'Bookmarks-Data');
-    const docSnap = await getDoc(docRef);
-    var result = _.findKey(docSnap.data(), { 'idMeal': idIngredient });
-    if (docSnap.exists()) {
-      var result = _.findKey(docSnap.data(), { 'idMeal': idIngredient });
-      if (result) {
-        removeFromBookMark(lookUpdata)
-      } else {
-        addToBookMark(lookUpdata)
-      }
-    } else {
-      addToBookMark(lookUpdata)
-    }
-  }
+  const { loading } = useContext(AppContext);
 
   const createModifiedObj = () => {
     const strTagString = ToBemodifiedObj['strTags'].reduce((acc, obj) => {
@@ -160,7 +78,13 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
     }
     return modifiedObj
   }
-
+  
+  const {
+    bookMarkLoading,
+    checkHeartColor,
+    checkAddToBookMark,
+    setBookMarkLoading
+  } = BookMarkCheck(createModifiedObj());
 
   return (
     <>
@@ -277,7 +201,7 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
             size="sm"
             onClick={() => {
               navigate(`/editRecipe/${strMeal}/${idIngredient}`)
-             }}
+            }}
           >
             <Flex alignItems='center'>
               <MdEdit
