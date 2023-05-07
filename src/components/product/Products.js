@@ -23,7 +23,6 @@ const Products = ({ ShowCaseData }) => {
     goToPage,
   } = usePagination(ShowCaseData);
 
-  { console.log('paginatedProducts', paginatedProducts) }
   return (
     <Card className="mb-3">
       <Card.Body className='p-0 overflow-hidden' >
