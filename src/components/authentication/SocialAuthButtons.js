@@ -14,16 +14,14 @@ const SocialAuthButtons = ({ loginLoading }) => {
   const {
     handleUserInfo,
   } = useContext(AppContext);
-
+  const navigate = useNavigate()
   const googleProvider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider()
   facebookProvider.addScope('email');
   googleProvider.addScope('email');
   googleProvider.addScope('profile');
   googleProvider.addScope('openid');
-  googleProvider.setCustomParameters({
-    'login_hint': 'user@example.com'
-  });
+ 
   facebookProvider.setCustomParameters({
     auth_type: 'rerequest',
     display: 'popup',
@@ -69,7 +67,7 @@ const SocialAuthButtons = ({ loginLoading }) => {
           toast.success(`Logged in as ${result.user.email}`, {
             theme: 'colored'
           });
-          location.replace('/dashboard')
+          navigate('/dashboard')
         } else {
           toast.warn(`Email not verified`, {
             theme: 'colored'
@@ -122,7 +120,7 @@ const SocialAuthButtons = ({ loginLoading }) => {
           toast.success(`Logged in as ${result.user.email}`, {
             theme: 'colored'
           });
-          location.replace('/dashboard')
+          navigate('/dashboard')
         } else {
           sendEmailVerification(firestoreAuth.currentUser).then(() => {
             toast.info(`Please verify your email. Verification link has been sent to your email`, {

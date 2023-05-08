@@ -37,7 +37,7 @@ const EditRecipe = () => {
     setEditorKey(Date.now());
 
     Promise.all(data.strRecipesImages.map((file) => {
-      const userProfileAvatarRef = ref(storage, `${userInfo.userEmail}/Created_Recipe_Images/${data.strMeal}/${file.path}`);
+      const userProfileAvatarRef = ref(storage, `${userInfo.uid}/Created_Recipe_Images/${data.strMeal}/${file.path}`);
       if (file.preview.startsWith("data:")) {
         return new Promise((resolve, reject) => {
           uploadString(userProfileAvatarRef, file.preview, 'data_url')

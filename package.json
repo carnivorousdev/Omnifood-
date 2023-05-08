@@ -90,8 +90,7 @@
     "test": "react-scripts --openssl-legacy-provider test",
     "eject": "react-scripts --openssl-legacy-provider eject",
     "build:css": "webpack --config webpack.config.js",
-    "watch:css": "webpack --config webpack.config.js --watch",
-    "postbuild": "cp public/index.html build/index.html"
+    "watch:css": "webpack --config webpack.config.js --watch"
   },
   "browserslist": {
     "production": [

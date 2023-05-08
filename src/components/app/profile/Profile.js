@@ -13,6 +13,7 @@ const Profile = () => {
     document.title = "Omnifood | Profile";
   }, [])
 
+
   return (
     <>
       {loading ?

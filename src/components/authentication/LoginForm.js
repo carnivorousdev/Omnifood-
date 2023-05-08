@@ -25,6 +25,7 @@ const LoginForm = ({ hasLabel }) => {
   const {
     handleUserInfo,
   } = useContext(AppContext);
+  const navigate = useNavigate()
 
   const [loginLoading, setLoginLoading] = useState(false)
 
@@ -71,7 +72,7 @@ const LoginForm = ({ hasLabel }) => {
               theme: 'colored'
             });
             setLoginLoading(false)
-            location.replace('/dashboard')
+            navigate('/dashboard')
           } else {
             setLoginLoading(false)
             toast.warn(`Email not verified`, {
@@ -134,11 +135,6 @@ const LoginForm = ({ hasLabel }) => {
               value: 2,
               message: 'Password must have at least 2 characters'
             },
-            pattern: {
-              value:
-                /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/,
-              message: 'Password should be strong(Use special characters)'
-            }
           })}
         />
         <Form.Control.Feedback type="invalid">

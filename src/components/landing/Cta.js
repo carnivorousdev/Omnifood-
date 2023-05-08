@@ -17,7 +17,7 @@ const Cta = () => {
             variant="outline-light"
             size="lg"
             className="border-2 rounded-pill mt-4 fs-0 py-2"
-            onClick={() => navigate('/login')}
+            onClick={() => location.replace('/login')}
           >
             Start eating well
           </Button>

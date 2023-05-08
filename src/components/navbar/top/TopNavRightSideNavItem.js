@@ -23,13 +23,13 @@ const TopNavRightSideNavItem = () => {
 
   const getDocument = async () => {
     handleLoading(true)
-    const documentRef = doc(OmnifoodServer, userInfo.userEmail, 'Bookmarks-Data')
+    const documentRef = doc(OmnifoodServer, userInfo.uid, 'Bookmarks-Data')
     const docSnap = await getDoc(documentRef);
     if (docSnap.exists()) {
       handleBookMarksData(Object.values(docSnap.data()))
       handleLoading(false)
     } else {
-      handleBookMarksData(0)
+      handleBookMarksData([])
       handleLoading(false)
     }
   }

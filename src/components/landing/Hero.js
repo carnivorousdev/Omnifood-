@@ -1,14 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Typed from 'react-typed';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Image } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import bg1 from 'assets/img/illustrations/bg-navbar.png';
-import dashboard from 'assets/img/illustrations/eating.jpg'
+import bg1 from 'assets/img/illustrations/bg-1.jpg';
+import dashboard from 'assets/img/illustrations/hero.png'
 import Section from 'components/common/Section';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 const Hero = () => {
   const navigate = useNavigate()
+  const theme = useTheme()
+  const isMatch = useMediaQuery(theme.breakpoints.down('md'))
   return (
     <Section
       className="py-0 overflow-hidden light"
@@ -42,22 +45,22 @@ const Hero = () => {
             variant="outline-light"
             size="lg"
             className="border-2 rounded-pill mt-4 fs-0 py-2"
-            onClick={() => navigate('/login')}
+            onClick={() => location.replace('/login')}
           >
             Start eating well
             <FontAwesomeIcon icon="play" transform="shrink-6 down-1 right-5" />
           </Button>
         </Col>
-        <Col
+        {isMatch ? '' : <Col
           xl={{ span: 7, offset: 1 }}
-          className="align-self-end mt-4 mt-xl-0 cta-img-box"
+          className="align-self-center mt-4 mt-xl-0 cta-img-box"
         >
           <Image
             className="img-fluid img-landing-banner"
             src={dashboard}
             alt="dashboard"
           />
-        </Col>
+        </Col>}
       </Row>
     </Section>
   );
