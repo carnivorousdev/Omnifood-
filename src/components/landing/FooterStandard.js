@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Section from 'components/common/Section';
 import IconGroup from 'components/common/icon/IconGroup';
 import { Row, Col } from 'react-bootstrap';
@@ -6,10 +6,17 @@ import { Link } from 'react-router-dom';
 import { menuList1, menuList2, menuList3 } from '../data/footer';
 import { bgWhiteIcons } from '../data/socialIcons';
 import { version } from 'config';
+import AppContext from 'context/Context';
 
-const FooterTitle = ({ children }) => (
-  <h5 className="text-uppercase text-white opacity-85 mb-3">{children}</h5>
-);
+const FooterTitle = ({ children }) => {
+  const {
+    config: { isDark },
+  } = useContext(AppContext);
+
+  return (
+    <h5 className={`text-uppercase mb-3 ${isDark ? 'text-800' : 'text-300'}`}>{children}</h5>
+  )
+}
 
 
 const FooterList = ({ list }) => (
@@ -26,13 +33,6 @@ const FooterList = ({ list }) => (
 
 
 const FooterStandard = () => {
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
-    });
-  };
   return (
     <>
       <Section bg="dark" className="pt-8 pb-4 light">
