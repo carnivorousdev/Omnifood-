@@ -1,18 +1,11 @@
-import classNames from 'classnames';
-import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Container, Nav, Navbar } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Container, Navbar } from 'react-bootstrap';
 import handleNavbarTransparency from 'helpers/handleNavbarTransparency';
 import LandingRightSideNavItem from './LandingRightSideNavItem';
 import { topNavbarBreakpoint } from 'config';
-import AppContext from 'context/Context';
+import logo from 'assets/img/illustrations/omnifood-logo.png';
 
 const NavbarStandard = () => {
-  const {
-    config: { isDark }
-  } = useContext(AppContext);
-  const [navbarCollapsed, setNavbarCollapsed] = useState(true);
-
   useEffect(() => {
     window.addEventListener('scroll', handleNavbarTransparency);
     return () => window.removeEventListener('scroll', handleNavbarTransparency);
@@ -20,17 +13,14 @@ const NavbarStandard = () => {
 
   return (
     <Navbar
-      variant={isDark ? 'light' : 'dark'}
+      variant='dark'
       fixed="top"
       expand={topNavbarBreakpoint}
-      className={classNames('navbar-standard navbar-theme', {
-        'bg-100': !navbarCollapsed && isDark,
-        'bg-dark': !navbarCollapsed && !isDark
-      })}
+      className='navbar-standard navbar-theme'
     >
-      <Container>
+      <Container className='d-flex align-items-center'>
         <Navbar.Brand className="text-white dark__text-white" >
-          Omnifood
+          <img className="me-2 font-sans-serif" src={logo} alt="Logo" width={150} id='landing-top-img' />
         </Navbar.Brand>
         <LandingRightSideNavItem />
       </Container>

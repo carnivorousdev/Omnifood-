@@ -6,7 +6,7 @@ import SectionHeader from './SectionHeader';
 import { isIterableArray } from 'helpers/utils';
 
 const Processes = () => (
-  <Section className='bg-soft-primary'>
+  <Section className='bg-soft-white'>
     <SectionHeader
       title="HOW IT WORKS"
       subtitle="Your daily dose of health in 3 simple steps"

@@ -11,7 +11,7 @@ const Partner = props => (
 
 const Partners = () => {
   return (
-    <Section bg="light" className="py-3 shadow-sm">
+    <Section  className="py-3 shadow bg-soft-primary">
       <Row className="justify-content-center text-center">
         <Col lg={8} xl={7} xxl={6} className="col-xxl-6">
           <h1 className='fs-0 fw-bold'>AS FEATURED IN</h1>
