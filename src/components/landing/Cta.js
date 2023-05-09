@@ -16,7 +16,7 @@ const Cta = () => {
       }}>
       <Row className="justify-content-center text-center">
         <Col lg={8}>
-          <p className="fs-3 fs-sm-4 text-white">
+          <p className="fs-3 fs-sm-4 text-white fw-normal">
             From fresh salads to hearty entrees, our expert chefs use only the freshest ingredients to create mouth-watering dishes that are sure to satisfy your cravings.
           </p>
           <Button
