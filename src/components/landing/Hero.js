@@ -3,8 +3,8 @@ import Typed from 'react-typed';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Image } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import bg1 from 'assets/img/illustrations/bg-1.jpg';
-import dashboard from 'assets/img/illustrations/hero.png'
+import bg1 from 'assets/img/illustrations/bg-navbar.png';
+import dashboard from 'assets/img/illustrations/eating.jpg'
 import Section from 'components/common/Section';
 import { useMediaQuery, useTheme } from '@mui/material';
 
@@ -53,7 +53,7 @@ const Hero = () => {
         </Col>
         {isMatch ? '' : <Col
           xl={{ span: 7, offset: 1 }}
-          className="align-self-center mt-4 mt-xl-0 cta-img-box"
+          className="align-self-end mt-4 mt-xl-0 cta-img-box"
         >
           <Image
             className="img-fluid img-landing-banner"

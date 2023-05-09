@@ -17,28 +17,24 @@ const LandingRightSideNavItem = () => {
     <Nav navbar className="ms-auto">
       <Nav.Item as={'li'}>
         <Nav.Link
-          className="theme-switch-toggle"
+          className="theme-control-toggle"
           onClick={() => setConfig('isDark', !isDark)}
         >
           <OverlayTrigger
             key="bottom"
             placement='bottom'
             overlay={
-              <Tooltip id="ThemeColor" className="d-none d-lg-block">
+              <Tooltip id="ThemeColor">
                 {isDark ? 'Switch to light theme' : 'Switch to dark theme'}
               </Tooltip>
             }
           >
-            <span>
-              <div className="theme-switch-toggle-label">
-                <FontAwesomeIcon
-                  icon={isDark ? 'sun' : 'moon'}
-                />
-              </div>
-              <p className="d-lg-none mb-0">
-                {isDark ? 'Switch to light theme ' : 'Switch to dark theme'}
-              </p>
-            </span>
+            <div className="theme-control-toggle-label">
+              <FontAwesomeIcon
+                className="fs-0"
+                icon={isDark ? 'sun' : 'moon'}
+              />
+            </div>
           </OverlayTrigger>
         </Nav.Link>
       </Nav.Item>

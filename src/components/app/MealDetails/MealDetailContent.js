@@ -21,7 +21,7 @@ const MealDetailContent = ({ lookUpdata }) => {
   };
 
   return (
-    <Card>
+    <Card className='mt-3'>
       {lookUpdata && <Card.Body>
         <h5 className="fs-0">Instructions</h5>
         <hr />
@@ -49,7 +49,7 @@ const MealDetailContent = ({ lookUpdata }) => {
           opts={opts}
           config={config}
           controls={true}
-          className="react-player mt-3 mb-2 shadow"
+          className="react-player mt-3"
         />}
       </Card.Body>}
     </Card>

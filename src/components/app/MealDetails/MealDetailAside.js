@@ -1,7 +1,9 @@
 import React from 'react';
-import { Card, Col, Image, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import { Card, Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import defaultBanner from 'assets/img/illustrations/meal-1.jpg';
 import { Link } from 'react-router-dom';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const MealDetailAside = ({ lookUpdata }) => {
   return (
@@ -19,7 +21,7 @@ const MealDetailAside = ({ lookUpdata }) => {
                     overlay={
                       <Tooltip className='text-capitalize'>
                         <div className="calendar">
-                          <Image src={lookUpdata[`strIngredient${i + 1}`] ? process.env.REACT_APP_PHOTO_URL + lookUpdata[`strIngredient${i + 1}`] + '.png' : defaultBanner} alt={lookUpdata[`strIngredient${i + 1}`]} className="card-img-top rounded fluid mb-1" />
+                          <LazyLoadImage src={lookUpdata[`strIngredient${i + 1}`] ? process.env.REACT_APP_PHOTO_URL + lookUpdata[`strIngredient${i + 1}`] + '.png' : defaultBanner} alt={lookUpdata[`strIngredient${i + 1}`]} className="card-img-top rounded fluid mb-1" />
                           {lookUpdata[`strIngredient${i + 1}`]}
                         </div>
                       </Tooltip>

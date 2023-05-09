@@ -7,20 +7,22 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import testimonials from '../data/testimonialList';
 import Avatar from 'components/common/Avatar';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 const TestimonialItem = ({
   description,
   author,
   companyImage,
-  size
 }) => {
+  const theme = useTheme()
+  const isMatch = useMediaQuery(theme.breakpoints.down('md'))
   return (
     <div className="px-5 px-sm-6">
       <p className="fs-sm-1 fs-md-2 fst-italic text-dark">{description}</p>
       <p className="fs-0 text-600">
         - {author}
       </p>
-      <Avatar className="w-auto mx-auto" src={companyImage} alt="" size='4xl' />
+      <Avatar className="w-auto mx-auto" src={companyImage} alt="" size={isMatch ? '3xl' : '4xl'} />
     </div>
   );
 };

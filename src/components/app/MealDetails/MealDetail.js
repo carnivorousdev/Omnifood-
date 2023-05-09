@@ -42,15 +42,17 @@ const MealDetail = () => {
         <Col xs={12} className='d-flex align-items-center justify-content-center' style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
           <Spinner animation="border" variant="success" size='sm' />
         </Col>
-      </Row> : <> <MealDetailHeader lookUpdata={lookUpdata.length > 0 ? lookUpdata[0] : null} />
+      </Row> : <>
         <Row className="g-3">
-          <Col lg={8}>
-            <MealDetailContent lookUpdata={lookUpdata.length > 0 ? lookUpdata[0] : null} />
+          <Col lg={7}>
+            <MealDetailHeader lookUpdata={lookUpdata.length > 0 ? lookUpdata[0] : null} />
           </Col>
-          <Col lg={4}>
+          <Col lg={5}>
             <MealDetailAside lookUpdata={lookUpdata.length > 0 ? lookUpdata[0] : null} />
           </Col>
-        </Row></>}
+        </Row>
+        <MealDetailContent lookUpdata={lookUpdata.length > 0 ? lookUpdata[0] : null} />
+      </>}
     </Fragment>
   );
 };

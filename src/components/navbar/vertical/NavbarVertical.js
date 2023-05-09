@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { Col, Nav, Navbar, Row, Spinner } from 'react-bootstrap';
+import { Col, Nav, Navbar, Row } from 'react-bootstrap';
 import { navbarBreakPoint } from 'config';
 import AppContext from 'context/Context';
 import Flex from 'components/common/Flex';
@@ -217,8 +217,9 @@ const NavbarVertical = () => {
     <Navbar
       expand={navbarBreakPoint}
       className='navbar-vertical navbar-card'
-      variant="light"
+      variant="dark"
     >
+
       <Flex alignItems="center">
         <ToggleButton />
         <Logo at="navbar-vertical" width={150} />
@@ -227,23 +228,17 @@ const NavbarVertical = () => {
         in={showBurgerMenu}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        style={{
-          backgroundImage: 'none'
-        }}
+        className={`${loading || createdRecipesLoading ? 'bg-400' : ''}`}
       >
         <div className="navbar-vertical-content scrollbar">
-          {loading || createdRecipesLoading ? <Row className="g-0 w-100 h-100">
-            <Col xs={12} className='d-flex align-items-center justify-content-center' style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
-              <Spinner animation="border" variant="warning" size='sm' />
-            </Col>
-          </Row> : <Nav className="flex-column" as="ul">
+          <Nav className="flex-column" as="ul">
             {routesData.map((route, idx) => (
               <Fragment key={idx}>
                 {route.label == 'Kitchen creations' && <NavbarLabel label={capitalize(route.label)} />}
                 <NavbarVerticalMenu routes={route.children} />
               </Fragment>
             ))}
-          </Nav>}
+          </Nav>
         </div>
       </Navbar.Collapse>
     </Navbar>

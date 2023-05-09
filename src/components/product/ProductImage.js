@@ -1,15 +1,15 @@
 import FalconLightBox from 'components/common/FalconLightBox';
 import React from 'react';
-import { Image } from 'react-bootstrap';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const ProductSingleImage = ({ id, image, name }) => {
   return (
     <FalconLightBox image={image} key={id}>
-      <Image
-        rounded
+      <LazyLoadImage
         src={image}
-        className='w-100 fit-cover'
-        height={200}
+        effect='blur'
+        className='w-100 fit-cover rounded fluid'
         alt={name}
       />
     </FalconLightBox>

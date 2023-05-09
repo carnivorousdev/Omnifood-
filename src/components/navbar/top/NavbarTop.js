@@ -39,7 +39,7 @@ const NavbarTop = () => {
 
   return (
     <Navbar
-      className={classNames('navbar-glass  fs--1 navbar-top sticky-kit', {
+      className={classNames('navbar-glass  fs--1 navbar-top sticky-kit mb-1', {
         'navbar-glass-shadow': showDropShadow && !isChat
       })}
       expand={true}

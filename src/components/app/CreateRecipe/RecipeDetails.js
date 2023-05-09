@@ -76,7 +76,7 @@ const RecipeDetails = ({ register, watch, errors, control, editorKey }) => {
             controls={true}
             opts={opts}
             config={config}
-            className="react-player mt-3 mb-2 shadow"
+            className="react-player mt-3"
           /> : ''}
           <Col md="12">
             <Form.Group controlId="strInstructions">

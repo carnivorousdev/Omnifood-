@@ -29,13 +29,10 @@ const NavbarStandard = () => {
       })}
     >
       <Container>
-        <Navbar.Brand className="text-white dark__text-white" as={Link} to="/">
+        <Navbar.Brand className="text-white dark__text-white" >
           Omnifood
         </Navbar.Brand>
-        <Navbar.Toggle onClick={() => setNavbarCollapsed(!navbarCollapsed)} />
-        <Navbar.Collapse className="scrollbar">
-            <LandingRightSideNavItem />
-        </Navbar.Collapse>
+        <LandingRightSideNavItem />
       </Container>
     </Navbar>
   );

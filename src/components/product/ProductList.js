@@ -80,7 +80,7 @@ const ProductList = ({ product }) => {
                     </Badge>
                   </Link>}
                 </div>
-                {Object.entries(idData).map((_, i) => (idData[`strIngredient${i + 1}`] && i < 4 ?
+                {Object.entries(idData).map((_, i) => (idData[`strIngredient${i + 1}`] && i < 10 ?
                   idData[`strIngredient${i + 1}`] != '' ?
                     <Row key={i} className='fs--2 w-75'>
                       <Col className='text-capitalize text-1000 fw-medium text-truncate' xs={5} md={5} lg={5}>
@@ -104,16 +104,17 @@ const ProductList = ({ product }) => {
                 <div className="mt-2">
                   {bookMarkLoading ?
                     <Button size="sm" variant={checkHeartColor ? 'falcon-danger' : "falcon-default"}
-                    className='mb-2 w-100 d-flex align-items-center justify-content-center fs--1 py-1'>
+                      className='mb-2 w-100 d-flex align-items-center justify-content-center fs--1 py-1'>
                       <Spinner animation="border" variant={checkHeartColor ? 'falcon-danger' : "falcon-default"} size='sm' />
                     </Button>
                     : <Button
                       variant={checkHeartColor ? 'falcon-danger' : "falcon-default"}
                       className='mb-2 w-100 d-flex align-items-center justify-content-center fs--1'
                       size="sm"
-                      onClick={() => { 
+                      onClick={() => {
                         setBookMarkLoading(true)
-                        checkAddToBookMark(idData) }}>
+                        checkAddToBookMark(idData)
+                      }}>
                       Favourite
                       <BsBookmarkStarFill className="ms-2 fs-0" />
                     </Button>}

@@ -25955,3 +25955,14 @@ div[data-collapse] + .kanban-item {
 .treeview.treeview-stripe {
   padding-left: 0.5rem !important;
 }
+
+/* Custom Class Added */
+.wrapper {
+  background: linear-gradient(45deg,#F17C58, #E94584, #24AADB , #27DBB1,#FFDC18, #FF3706);
+  animation: gradient 1s radial infinite;
+  animation-direction: alternate;
+}
+@keyframes gradient {
+  0% {background-position: 0%}
+  100% {background-position: 100%}
+}

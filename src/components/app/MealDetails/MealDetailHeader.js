@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
-import { Card, Row, Col, Spinner, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Row, Col, Spinner, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Flex from 'components/common/Flex';
 import FalconLightBox from 'components/common/FalconLightBox';
 import _ from 'lodash';
 import AppContext from 'context/Context';
 import { BsBookmarkStarFill } from 'react-icons/bs'
 import BookMarkCheck from 'components/product/BookmarkCheck';
+import FalconComponentCard from 'components/common/FalconComponentCard';
 
 const MealDetailHeader = ({ lookUpdata }) => {
   const { loading } = useContext(AppContext);
@@ -17,18 +18,13 @@ const MealDetailHeader = ({ lookUpdata }) => {
   } = BookMarkCheck(lookUpdata);
 
   return (
-    <Card className="p-0 mb-3">
-      {lookUpdata && (
-        <FalconLightBox image={lookUpdata.strMealThumb}>
-          <img className="card-img-top" src={lookUpdata.strMealThumb} alt={lookUpdata.strMeal} />
-        </FalconLightBox>
-      )}
-      {lookUpdata && <Card.Body className="overflow-hidden">
-        <Row className="flex-center">
+    <FalconComponentCard className="h-100">
+      <FalconComponentCard.Header noPreview>
+        {lookUpdata && <Row className="flex-center">
           <Col>
             <Flex>
-              <div className="fs--1">
-                <h5 className="fs-0 text-capitalize">{lookUpdata.strMeal}</h5>
+              <div>
+                <h3 className="text-capitalize">{lookUpdata.strMeal}</h3>
               </div>
             </Flex>
           </Col>
@@ -56,9 +52,14 @@ const MealDetailHeader = ({ lookUpdata }) => {
               </OverlayTrigger>
             }
           </Col>
-        </Row>
-      </Card.Body>}
-    </Card>
+        </Row>}
+      </FalconComponentCard.Header>
+      {lookUpdata && (
+        <FalconLightBox image={lookUpdata.strMealThumb}>
+          <img className="card-img-bottom" src={lookUpdata.strMealThumb} alt={lookUpdata.strMeal} />
+        </FalconLightBox>
+      )}
+    </FalconComponentCard>
   );
 };
 
