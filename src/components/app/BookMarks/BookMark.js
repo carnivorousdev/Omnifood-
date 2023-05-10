@@ -29,7 +29,7 @@ const BookMark = ({ details, isLast }) => {
       <Calendar strMealThumb={isUuidv4(idMeal) ? strMealThumb[0].preview : strMealThumb} />
       <div className="flex-1 position-relative ps-3">
         <h6 className="fs-0">
-          <Link to={isUuidv4(idMeal) ? `/myRecipe/${strMeal}/${idMeal}` : `/mealdetails/${idMeal}`}>
+          <Link to={isUuidv4(idMeal) ? `/myRecipe/${idMeal}` : `/mealdetails/${idMeal}`}>
             <span className="me-1">{strMeal}</span>
           </Link>
         </h6>

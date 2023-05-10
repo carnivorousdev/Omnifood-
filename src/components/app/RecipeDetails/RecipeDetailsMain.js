@@ -78,7 +78,7 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
     }
     return modifiedObj
   }
-  
+
   const {
     bookMarkLoading,
     checkHeartColor,
@@ -94,7 +94,7 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
           {strCategory?.map((category, index) => (
             <Link
               to="#!"
-              key={category.value}
+              key={category.value + '_' + index}
               className={classNames('text-capitalize', {
                 'ms-1': index > 0
               })}
@@ -137,7 +137,7 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
           {strTags?.map((tag, index) => (
             <Link
               to="#!"
-              key={tag.value}
+              key={tag.value + '-' + index}
               className={classNames('text-capitalize', {
                 'ms-2': index === 0,
                 'ms-1': index > 0
@@ -156,7 +156,7 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
           {strArea?.map((area, index) => (
             <Link
               to="#!"
-              key={area.value}
+              key={area.value + '-' + index}
               className={classNames('text-capitalize', {
                 'ms-2': index === 0,
                 'ms-1': index > 0
@@ -170,7 +170,6 @@ const RecipeDetailsMain = ({ ToBemodifiedObj, CreatedRecipe:
       <Row>
         <Col xs="auto" className="pe-0">
           <OverlayTrigger
-            key='top'
             placement='top'
             overlay={
               <Tooltip>

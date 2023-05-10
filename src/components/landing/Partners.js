@@ -18,8 +18,8 @@ const Partners = () => {
         </Col>
       </Row>
       <Row className="flex-center">
-        {featureList.map((feature, index) => (
-          <Partner key={index} {...feature} />
+        {featureList.map((feature) => (
+          <Partner key={feature.src} {...feature} />
         ))}
       </Row>
     </Section>

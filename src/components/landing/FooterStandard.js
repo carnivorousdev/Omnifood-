@@ -22,7 +22,7 @@ const FooterTitle = ({ children }) => {
 const FooterList = ({ list }) => (
   <ul className="list-unstyled">
     {list.map(({ title, to }, index) => (
-      <li className="mb-1" key={index}>
+      <li className="mb-1" key={title}>
         <Link className="text-600" to={to}>
           {title}
         </Link>

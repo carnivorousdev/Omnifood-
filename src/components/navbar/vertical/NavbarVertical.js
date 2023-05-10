@@ -217,7 +217,7 @@ const NavbarVertical = () => {
     <Navbar
       expand={navbarBreakPoint}
       className='navbar-vertical navbar-card'
-      variant="dark"
+      variant="light"
     >
 
       <Flex alignItems="center">
@@ -231,14 +231,14 @@ const NavbarVertical = () => {
         className={`${loading || createdRecipesLoading ? 'bg-400' : ''}`}
       >
         <div className="navbar-vertical-content scrollbar">
-          <Nav className="flex-column" as="ul">
+          {loading || createdRecipesLoading ? '' : <Nav className="flex-column" as="ul">
             {routesData.map((route, idx) => (
               <Fragment key={idx}>
                 {route.label == 'Kitchen creations' && <NavbarLabel label={capitalize(route.label)} />}
                 <NavbarVerticalMenu routes={route.children} />
               </Fragment>
             ))}
-          </Nav>
+          </Nav>}
         </div>
       </Navbar.Collapse>
     </Navbar>

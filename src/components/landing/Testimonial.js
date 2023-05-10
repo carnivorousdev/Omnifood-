@@ -41,8 +41,8 @@ const Testimonial = () => (
       <Col xs={10} lg={9} xl={8}>
         <Slider {...settings}>
           {isIterableArray(testimonials) &&
-            testimonials.map((testimonial, index) => (
-              <TestimonialItem {...testimonial} key={index} />
+            testimonials.map((testimonial) => (
+              <TestimonialItem {...testimonial} key={testimonial.author} />
             ))}
         </Slider>
       </Col>

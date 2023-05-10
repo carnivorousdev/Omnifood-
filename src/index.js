@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import Main from './Main';
 import 'helpers/initFA';
@@ -14,13 +14,14 @@ const loadingMarkup = () => (
     </Col>
   </Row>
 )
-ReactDOM.render(
+const root = createRoot(document.getElementById('main'));
+
+root.render(
   <Suspense fallback={loadingMarkup}>
     <BrowserRouter>
       <Main>
         <App />
       </Main>
     </BrowserRouter>
-  </Suspense>,
-  document.getElementById('main')
+  </Suspense>
 );

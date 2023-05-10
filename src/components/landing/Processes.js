@@ -13,7 +13,7 @@ const Processes = () => (
     />
     {isIterableArray(processList) &&
       processList.map((process, index) => (
-        <Process key={process.color} isFirst={index === 0} {...process} />
+        <Process key={process.title} isFirst={index === 0} {...process} />
       ))}
   </Section>
 );

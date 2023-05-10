@@ -25,7 +25,7 @@ const TinymceEditor = ({ value, handleChange }) => {
       onEditorChange={handleChange}
       apiKey={process.env.REACT_APP_TINYMCE_APIKEY}
       init={{
-        height: '50vh',
+        height: '70vh',
         menubar: false,
         content_style: `body { color: ${getColor('black')} }`,
         mobile: {
@@ -35,7 +35,9 @@ const TinymceEditor = ({ value, handleChange }) => {
         statusbar: false,
         plugins: 'lists directionality',
         toolbar:
-          'styleselect | bold italic bullist numlist blockquote undo redo',
+          'styleselect | undo redo | formatselect | bold italic | \
+        alignleft aligncenter alignright | \
+        bullist numlist outdent indent',
 
         directionality: isRTL ? 'rtl' : 'ltr',
         theme_advanced_toolbar_align: 'center'

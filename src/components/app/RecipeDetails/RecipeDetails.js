@@ -6,11 +6,10 @@ import RecipeDetailsMedia from './RecipeDetailsMedia';
 import RecipeDetailsMain from './RecipeDetailsMain';
 import RecipeDetailsFooter from './RecipeDetailsFooter';
 import { filter } from 'lodash';
-import { useEffect, useState, useContext } from 'react';
+import { useState, useContext, useEffect, useCallback } from 'react';
 import AppContext from 'context/Context';
 import { doc, getDoc } from 'firebase/firestore';
 import { OmnifoodServer } from 'config';
-import { toast } from 'react-toastify';
 
 const RecipeDetails = () => {
   const { recipeId } = useParams()
@@ -20,18 +19,12 @@ const RecipeDetails = () => {
     userInfo
   } = useContext(AppContext);
 
-  useEffect(() => {
-    if (Object.keys(userInfo).length > 0) {
-      setRecipeCreated()
-    } else return
-  }, [recipeId, userInfo])
-
-  const setRecipeCreated = async () => {
+  const memoizedCallback = useCallback(async () => {
     setRecipeLoading(true)
     const RecipeCreatedRef = doc(OmnifoodServer, userInfo.uid, 'RecipeCreated')
     const RecipeCreatedSnap = await getDoc(RecipeCreatedRef);
     if (RecipeCreatedSnap.exists()) {
-      const filterObj = filter(Object.values(RecipeCreatedSnap.data()), (data) => data.idIngredient === recipeId);
+      const filterObj = filter(Object.values(RecipeCreatedSnap.data()), (data) => data.idIngredient == recipeId);
       let updateUserInfo = filterObj.map((ele) => {
         return {
           ...ele,
@@ -44,12 +37,15 @@ const RecipeDetails = () => {
       setRecipeLoading(false)
     } else {
       setFilterData({})
-      toast.error('Some error occured. Please try after some time', {
-        theme: 'colored'
-      });
       setRecipeLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    if (Object.keys(userInfo).length > 0) {
+      memoizedCallback();
+    } else return
+  }, [memoizedCallback]);
 
   return (
     <>

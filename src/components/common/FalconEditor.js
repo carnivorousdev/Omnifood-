@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as reactBootstrap from 'react-bootstrap';
 import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live';
-import { defaultProps } from 'prism-react-renderer';
-import dracula from 'prism-react-renderer/themes/dracula';
 import classNames from 'classnames';
 
 const FalconEditor = ({
@@ -11,7 +9,6 @@ const FalconEditor = ({
   scope,
   language,
   hidePreview,
-  theme = dracula,
   className
 }) => {
   const importRegex =
@@ -46,7 +43,6 @@ const FalconEditor = ({
 
   return (
     <LiveProvider
-      {...defaultProps}
       theme={theme}
       language={language}
       scope={{ ...reactBootstrap, ...React, PropTypes, ...scope }}
@@ -75,9 +71,6 @@ FalconEditor.propTypes = {
   className: PropTypes.string
 };
 
-FalconEditor.defaultProps = {
-  language: 'markup',
-  hidePreview: false
-};
+
 
 export default FalconEditor;

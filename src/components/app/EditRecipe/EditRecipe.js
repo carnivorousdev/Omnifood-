@@ -116,7 +116,7 @@ const EditRecipe = () => {
     }
     handleCreatedRecipesLoading(false)
     setSubmitLoading(false)
-    navigate(`/myRecipe/${filteredData.strMeal}/${recipeId}`)
+    navigate(`/myRecipe/${recipeId}`)
     toast.success(`Recipe edited successfully`, {
       theme: 'colored'
     });

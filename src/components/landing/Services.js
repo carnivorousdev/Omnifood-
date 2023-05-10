@@ -17,7 +17,7 @@ const Services = () => (
         <Col
           lg={4}
           className={className({ 'mt-6 mt-lg-0': index > 0 })}
-          key={index}
+          key={service.title}
         >
           <CardService {...service} />
         </Col>

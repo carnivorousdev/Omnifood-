@@ -9,7 +9,7 @@ const RecipeFooter = ({ navigate, filteredData }) => {
           <Col></Col>
           <Col xs="auto">
             <Button variant="falcon-default" className='me-3' onClick={() =>
-              navigate(`/myRecipe/${filteredData.strMeal}/${filteredData.idIngredient}`)}>
+              navigate(`/myRecipe/${filteredData.idIngredient}`)}>
               Cancel
             </Button>
             <Button

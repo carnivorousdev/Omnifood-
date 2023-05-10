@@ -83,6 +83,7 @@ const SocialAuthButtons = ({ loginLoading }) => {
   const handleFacebookLogin = () => {
     signInWithPopup(firestoreAuth, facebookProvider)
       .then(async (result) => {
+        console.log('first',result)
         if (result.user.emailVerified) {
           const documentRef = doc(OmnifoodServer, result.user.uid, 'User-Data')
           const docSnap = await getDoc(documentRef);

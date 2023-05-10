@@ -63,7 +63,7 @@ const ProfileSettings = ({ userData }) => {
             authorEmail: userData.userEmail,
             authorProfile: payload.userProfilePhoto
           }
-          await updateDoc(updateUserInfo, { [ele.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
+          await updateDoc(updateUserInfo, { [ele.idIngredient]: recipeCreatedObj }, { capital: true }, { merge: true });
           handleCreatedRecipesData(updateUserInfo_RecipeCreator)
           handleCreatedRecipesLoading(false)
         } else {
@@ -72,7 +72,7 @@ const ProfileSettings = ({ userData }) => {
             authorName: payload.userName,
             authorEmail: userData.userEmail,
           }
-          await updateDoc(updateUserInfo, { [ele.strMeal]: recipeCreatedObj }, { capital: true }, { merge: true });
+          await updateDoc(updateUserInfo, { [ele.idIngredient]: recipeCreatedObj }, { capital: true }, { merge: true });
           handleCreatedRecipesData(updateUserInfo_RecipeCreator)
           handleCreatedRecipesLoading(false)
         }
