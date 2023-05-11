@@ -67,7 +67,7 @@ const SocialAuthButtons = ({ loginLoading }) => {
           toast.success(`Logged in as ${result.user.email}`, {
             theme: 'colored'
           });
-          // navigate('/dashboard')
+          navigate('/dashboard')
         } else {
           toast.warn(`Email not verified`, {
             theme: 'colored'
@@ -83,7 +83,6 @@ const SocialAuthButtons = ({ loginLoading }) => {
   const handleFacebookLogin = () => {
     signInWithPopup(firestoreAuth, facebookProvider)
       .then(async (result) => {
-        console.log('first',result)
         if (result.user.emailVerified) {
           const documentRef = doc(OmnifoodServer, result.user.uid, 'User-Data')
           const docSnap = await getDoc(documentRef);
