@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
-import { Row, Col, Spinner, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Row, Col, Spinner, OverlayTrigger, Tooltip, Image } from 'react-bootstrap';
 import Flex from 'components/common/Flex';
-import FalconLightBox from 'components/common/FalconLightBox';
 import _ from 'lodash';
 import AppContext from 'context/Context';
 import { BsBookmarkStarFill } from 'react-icons/bs'
@@ -55,9 +54,7 @@ const MealDetailHeader = ({ lookUpdata }) => {
         </Row>}
       </FalconComponentCard.Header>
       {lookUpdata && (
-        <FalconLightBox image={lookUpdata.strMealThumb}>
-          <img className="card-img-bottom" src={lookUpdata.strMealThumb} alt={lookUpdata.strMeal} />
-        </FalconLightBox>
+        <Image className="card-img-bottom" src={lookUpdata.strMealThumb} alt={lookUpdata.strMeal} />
       )}
     </FalconComponentCard>
   );

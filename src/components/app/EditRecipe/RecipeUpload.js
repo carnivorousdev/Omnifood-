@@ -49,7 +49,7 @@ const RecipeUpload = ({ register, setValue, watch, errors }) => {
   };
 
   return (
-    <Card className="mb-3">
+    <Card>
       <Card.Header as="h5">Upload Recipe Images</Card.Header>
       <Card.Body className="bg-light">
         <div {...getRootProps({ className: 'dropzone-area py-6' })}>

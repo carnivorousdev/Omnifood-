@@ -39,7 +39,7 @@ const RecipeDetails = () => {
       setFilterData({})
       setRecipeLoading(false)
     }
-  }, [])
+  }, [userInfo])
 
   useEffect(() => {
     if (Object.keys(userInfo).length > 0) {

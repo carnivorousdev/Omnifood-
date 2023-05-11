@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import 'react-toastify/dist/ReactToastify.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
-import Layout from './layouts/Layout';
 import './App.css';
 import ScrollToTop from 'react-scroll-to-top';
 import { FaArrowUp } from "react-icons/fa";
@@ -12,6 +11,8 @@ import { onAuthStateChanged } from "firebase/auth"
 import AppContext from 'context/Context';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Col, Row, Spinner } from 'react-bootstrap';
+import Loadable from 'react-loadable';
+import Layout from './layouts/Layout';
 
 const App = () => {
   const { pathname } = useLocation();
@@ -38,20 +39,28 @@ const App = () => {
     },
   };
 
-
   useEffect(() => {
     handleLoading(true)
-    onAuthStateChanged(firestoreAuth, async (user) => {
-      if (user) {
-        if (user.emailVerified) {
-          const documentRef = doc(OmnifoodServer, user.uid, 'User-Data')
-          const docSnap = await getDoc(documentRef);
-          if (docSnap.exists()) {
-            handleUserInfo(docSnap.data())
-            handleLoading(false)
-            if (excludedPaths.includes(pathname)) {
-              navigate('/dashboard')
-            } else navigate(pathname)
+    Loadable.preloadReady().then(() => {
+      onAuthStateChanged(firestoreAuth, async (user) => {
+        if (user) {
+          if (user.emailVerified) {
+            const documentRef = doc(OmnifoodServer, user.uid, 'User-Data')
+            const docSnap = await getDoc(documentRef);
+            if (docSnap.exists()) {
+              handleUserInfo(docSnap.data())
+              handleLoading(false)
+              if (excludedPaths.includes(pathname)) {
+                navigate('/dashboard')
+              } else navigate(pathname)
+            } else {
+              handleLoading(false)
+              if (pathname === '/') {
+                navigate('/')
+              } else {
+                navigate('/login')
+              }
+            }
           } else {
             handleLoading(false)
             if (pathname === '/') {
@@ -68,16 +77,9 @@ const App = () => {
             navigate('/login')
           }
         }
-      } else {
-        handleLoading(false)
-        if (pathname === '/') {
-          navigate('/')
-        } else {
-          navigate('/login')
-        }
-      }
-    })
-  }, [])
+      })
+    });
+  }, []);
 
   return (
     <>
@@ -88,7 +90,7 @@ const App = () => {
       </Row> : <>
         <ScrollToTop
           smooth
-          component={<FaArrowUp className='text-white'/>}
+          component={<FaArrowUp className='text-white' />}
           style={customStyles}
         />
         <Layout />
