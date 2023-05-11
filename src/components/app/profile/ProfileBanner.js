@@ -6,8 +6,8 @@ import classNames from 'classnames';
 
 const ProfileBannerHeader = ({ avatar, coverSrc, className }) => 
 {
-  const DefaultPic='https://i.ibb.co/L04HG8C/7.jpg'
-  const CoverPhoto='https://i.ibb.co/L04HG8C/5.jpg'
+  const DefaultPic='https://i.ibb.co/L04HG8C/5.jpg'
+  const CoverPhoto='https://i.ibb.co/CMBWZ3y/5.jpg'
   return (
     <Card.Header
       className={classNames(className, 'position-relative min-vh-25 mb-7')}
