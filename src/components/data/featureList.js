@@ -1,11 +1,6 @@
-import bw1 from '../../assets/img/illustrations/businessInsider.png';
-import bw2 from '../../assets/img/illustrations/forbes.png';
-import bw4 from '../../assets/img/illustrations/the-new-york-times.png';
-import bw5 from '../../assets/img/illustrations/usa-today.png';
-
 export default [
-  { src: bw1, height: 45 },
-  { src: bw2, height: 45 },
-  { src: bw4, height: 45 },
-  { src: bw5, height: 45 },
+  { src: 'https://i.ibb.co/Ks4kVQV/business-Insider.png', height: 45 },
+  { src: 'https://i.ibb.co/mJtTfLL/forbes.png', height: 45 },
+  { src: 'https://i.ibb.co/q0jD0Pt/the-new-york-times.png', height: 45 },
+  { src: 'https://i.ibb.co/q1mwn00/usa-today.png', height: 45 },
 ];

@@ -3,10 +3,11 @@ import { Card } from 'react-bootstrap';
 import Background from 'components/common/Background';
 import Avatar from 'components/common/Avatar';
 import classNames from 'classnames';
-import CoverPhoto from 'assets/img/illustrations/5.jpg';
-import DefaultPic from 'assets/img/team/7.jpg';
 
-const ProfileBannerHeader = ({ avatar, coverSrc, className }) => {
+const ProfileBannerHeader = ({ avatar, coverSrc, className }) => 
+{
+  const DefaultPic='https://i.ibb.co/L04HG8C/7.jpg'
+  const CoverPhoto='https://i.ibb.co/L04HG8C/5.jpg'
   return (
     <Card.Header
       className={classNames(className, 'position-relative min-vh-25 mb-7')}

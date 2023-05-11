@@ -1,8 +1,8 @@
 import PageHeader from 'components/common/PageHeader';
 import React from 'react';
-import CreateRecipeBg from 'assets/img/illustrations/corner-1.png'
 
 const RecipeHeader = () => {
+  const CreateRecipeBg = 'https://i.ibb.co/pPCDTst/corner-1.png'
   return (
     <PageHeader
       title="Edit Recipe"

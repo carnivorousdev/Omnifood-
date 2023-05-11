@@ -159,30 +159,6 @@ export const getColor = (name, dom = document.documentElement) => {
 
 //===============================
 
-// Echarts
-//===============================
-export const getPosition = (pos, params, dom, rect, size) => ({
-  top: pos[1] - size.contentSize[1] - 10,
-  left: pos[0] - size.contentSize[0] / 2
-});
-//===============================
-// E-Commerce
-//===============================
-export const calculateSale = (base, less = 0, fix = 2) =>
-  (base - base * (less / 100)).toFixed(fix);
-export const getTotalPrice = (cart, baseItems) =>
-  cart.reduce((accumulator, currentValue) => {
-    const { id, quantity } = currentValue;
-    const { price, sale } = baseItems.find(item => item.id === id);
-    return accumulator + calculateSale(price, sale) * quantity;
-  }, 0);
-export const getSubtotal = items =>
-  items.reduce((acc, curr) => curr.price * curr.quantity + acc, 0);
-export const getDiscountPrice = (total, discount) =>
-  total - total * (discount / 100);
-
-export const getProductsQuantity = products =>
-  products.reduce((acc, product) => product.quantity + acc, 0);
 
 //===============================
 // Helpers

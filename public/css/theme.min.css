@@ -19784,9 +19784,7 @@ html[dir*='rtl'] .tox-toolbar__primary {
 .leaflet-bottom .leaflet-control {
   margin-bottom: 1.25rem;
 }
-.emoji-mart .emoji-mart-anchor-bar {
-  background-color: #2c7be5 !important;
-}
+
 .table tfoot > tr > th:first-child,
 .table thead > tr > th:first-child,
 .table tr td:first-child,
@@ -23039,10 +23037,7 @@ html[dir='rtl'] .rtl-row-reverse {
 [aria-expanded='true'] .accordion-icon {
   transform: rotate(90deg);
 }
-.emoji-mart .section,
-.emoji-mart section {
-  padding: 0 !important;
-}
+
 .calendar {
   width: 5.125rem;
   line-height: 1;

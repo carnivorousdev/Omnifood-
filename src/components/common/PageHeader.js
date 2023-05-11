@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Card, Col, Row } from 'react-bootstrap';
 import Background from './Background';
-import corner4 from 'assets/img/illustrations/corner-4.png';
 import createMarkup from 'helpers/createMarkup';
 
 const PageHeader = ({
@@ -54,6 +53,10 @@ PageHeader.propTypes = {
   children: PropTypes.node
 };
 
-PageHeader.defaultProps = { col: { lg: 8 }, image: corner4, titleTag: 'h3' };
+PageHeader.defaultProps = {
+  col: { lg: 8 },
+  image: 'https://i.ibb.co/HY5tFg7/corner-4.png',
+  titleTag: 'h3'
+};
 
 export default PageHeader;

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
-import loadingGif from 'assets/img/team/7.jpg';
 import Avatar from 'components/common/Avatar';
 import { signOut } from "firebase/auth"
 import { firestoreAuth } from 'config'
@@ -9,6 +8,7 @@ import { toast } from 'react-toastify';
 import AppContext from 'context/Context';
 
 const ProfileDropdown = () => {
+  const loadingGif = 'https://i.ibb.co/pymdzwD/7.jpg'
   const navigate = useNavigate()
   const {
     setConfig,

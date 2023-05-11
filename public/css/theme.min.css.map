@@ -1,8 +1,6 @@
 {
   "version": 3,
   "sources": [
-    "webpack:///node_modules/leaflet/dist/leaflet.css",
-    "webpack:///node_modules/react-leaflet-markercluster/dist/styles.min.css",
     "webpack:///node_modules/simplebar/dist/simplebar.min.css",
     "webpack:///src/assets/scss/theme.scss",
     "webpack:///src/assets/scss/theme/mixins/_button.scss",
@@ -87,8 +85,6 @@
     "webpack:///src/assets/scss/theme/plugins/_dropzone.scss",
     "webpack:///src/assets/scss/theme/plugins/_slick.scss",
     "webpack:///src/assets/scss/theme/plugins/_lottie.scss",
-    "webpack:///src/assets/scss/theme/plugins/_echarts.scss",
-    "webpack:///src/assets/scss/theme/plugins/_react-table.scss",
     "webpack:///src/assets/scss/theme/plugins/_react-player.scss",
     "webpack:///src/assets/scss/theme/plugins/_full-calendar.scss",
     "webpack:///src/assets/scss/theme/_functions.scss",
@@ -97,7 +93,6 @@
     "webpack:///src/assets/scss/theme/plugins/_tinymce.scss",
     "webpack:///src/assets/scss/theme/plugins/_toastify.scss",
     "webpack:///src/assets/scss/theme/plugins/_leaflet.scss",
-    "webpack:///src/assets/scss/theme/plugins/_emoji-mart.scss",
     "webpack:///src/assets/scss/theme/_table.scss",
     "webpack:///src/assets/scss/theme/_type.scss",
     "webpack:///src/assets/scss/theme/_cursor.scss",

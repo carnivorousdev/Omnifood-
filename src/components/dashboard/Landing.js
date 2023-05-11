@@ -2,13 +2,6 @@ import PageHeader from 'components/common/PageHeader';
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Button, Spinner, Modal, Form, OverlayTrigger, Tooltip, Image, Dropdown } from 'react-bootstrap';
 import Avatar, { AvatarGroup } from 'components/common/Avatar';
-import user1 from 'assets/img/team/1.jpg'
-import user2 from 'assets/img/team/2.jpg'
-import user3 from 'assets/img/team/3.jpg'
-import user4 from 'assets/img/team/4.jpg'
-import user5 from 'assets/img/team/5.jpg'
-import user6 from 'assets/img/team/6.jpg'
-import generic1 from 'assets/img/illustrations/corner-1.png'
 import CountUp from 'react-countup';
 import Flex from 'components/common/Flex';
 import axios from 'axios';
@@ -28,6 +21,14 @@ import { useContext } from 'react';
 import Products from 'components/product/Products';
 
 const Landing = () => {
+  const generic1 = 'https://i.ibb.co/pPCDTst/corner-1.png'
+  const user1 = 'https://i.ibb.co/0GM1hG8/1.jpg'
+  const user2 = 'https://i.ibb.co/pQSkRZY/2.jpg'
+  const user3 = 'https://i.ibb.co/fYSJg8J/3.jpg'
+  const user4 = 'https://i.ibb.co/nw6NM2x/4.jpg'
+  const user5 = 'https://i.ibb.co/L04HG8C/5.jpg'
+  const user6 = 'https://i.ibb.co/HgWMvKH/6.jpg'
+
   const [ShowCaseData, setShowCaseData] = useState([])
   const [ShowCaseLoading, setShowCaseLoading] = useState(false)
   const [files, setFiles] = useState([]);

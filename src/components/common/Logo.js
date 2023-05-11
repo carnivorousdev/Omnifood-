@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import logo from 'assets/img/illustrations/omnifood-logo.png';
-import logoWt from 'assets/img/illustrations/omnifood-logo-wt.png';
 import { useContext } from 'react';
 import AppContext from 'context/Context';
 
@@ -14,6 +12,8 @@ const Logo = ({ at, width, className, textClass, ...rest }) => {
     userInfo
   } = useContext(AppContext);
 
+  const logo = 'https://i.ibb.co/Qk4F3rb/omnifood-logo.png'
+  const logoWt = 'https://i.ibb.co/NNLgxcD/omnifood-logo-wt.png'
 
   return (
     <>

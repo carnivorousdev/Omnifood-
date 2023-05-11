@@ -1,17 +1,17 @@
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
-import bg2 from 'assets/img/illustrations/meal-2.jpg';
 import Section from 'components/common/Section';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Cta = () => {
+  const bg2 = 'https://i.ibb.co/16k75S0/meal-2.jpg'
   return (
     <Section overlay position="center top" className="light"
       style={{
         background: `linear-gradient(180deg, rgba(253, 242, 233, 0.4), #382E24), 
-        url(${bg2}) center no-repeat fixed,
-        url(${bg2}) center no-repeat fixed`,
+        url('${bg2}') center no-repeat fixed,
+        url('${bg2}') center no-repeat fixed`,
         backgroundSize: 'cover',
       }}>
       <Row className="justify-content-center text-center">

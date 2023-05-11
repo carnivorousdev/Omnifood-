@@ -12,9 +12,9 @@ import _ from 'lodash';
 import { doc, getDoc } from 'firebase/firestore';
 import { OmnifoodServer } from 'config';
 import { capitalize } from 'helpers/utils';
-import defaultImg from 'assets/img/illustrations/meal-2.jpg'
 
 const NavbarVertical = () => {
+  const defaultImg = 'https://i.ibb.co/16k75S0/meal-1.jpg'
   const [loading, setLoading] = useState(false)
   const [routesData, setRoutesData] = useState([])
   const {

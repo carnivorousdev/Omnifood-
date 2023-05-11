@@ -6,10 +6,10 @@ import Avatar from 'components/common/Avatar';
 import Flex from 'components/common/Flex';
 import FalconCloseButton from 'components/common/FalconCloseButton';
 import axios from 'axios';
-import DefaultMeal from 'assets/img/illustrations/gallery-6.jpg'
 import AppContext from 'context/Context';
 
 const MediaSearchContent = ({ item }) => {
+  const DefaultMeal = 'https://i.ibb.co/NZZ2pVN/gallery-6.jpg'
   return (
     <Dropdown.Item className="px-card py-2" as={Link} to={`/mealdetails/${item.idMeal}`}>
       <Row>

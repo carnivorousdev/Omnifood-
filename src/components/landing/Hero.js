@@ -3,19 +3,19 @@ import Typed from 'react-typed';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Image } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import dashboard from 'assets/img/illustrations/hero.png'
 import Section from 'components/common/Section';
 import { useMediaQuery, useTheme } from '@mui/material';
 
 const Hero = () => {
   const theme = useTheme()
+  const dashboard = 'https://i.ibb.co/HtJD1SJ/hero.png'
   const isMatch = useMediaQuery(theme.breakpoints.down('md'))
   return (
     <Section
       className="py-0 overflow-hidden light"
       position="center bottom"
       overlay
-      style={{backgroundColor:'#fdf2e9'}}
+      style={{ backgroundColor: '#fdf2e9' }}
     >
       <Row className="justify-content-center align-items-center pt-8 pt-lg-10 pb-lg-9 pb-xl-0">
         <Col

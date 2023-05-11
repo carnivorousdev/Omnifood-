@@ -598,10 +598,6 @@
   --#{$variable-prefix}react-datepicker-bg: #{$white};
   --#{$variable-prefix}react-datepicker-header-bg: #{map-get($grays, '200')};
 
-  /* -------------------------------- Flatpickr ------------------------------- */
-  --#{$variable-prefix}leaflet-bar-bg: #{$white};
-  --#{$variable-prefix}leaflet-popup-content-wrapper-bg: #{$white};
-
   /* --------------------------------- Choices -------------------------------- */
   --#{$variable-prefix}choices-item-selectable-highlighted-bg: #{$white};
   --#{$variable-prefix}choices-item-has-no-choices-bg: #{$white};

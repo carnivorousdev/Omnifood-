@@ -449,9 +449,6 @@
   --#{$variable-prefix}react-datepicker-bg: #{$dark};
   --#{$variable-prefix}react-datepicker-header-bg: #{map-get($dark-grays, '900')};
 
-  /* -------------------------------- Leaflet ------------------------------- */
-  --#{$variable-prefix}leaflet-bar-bg: #{map-get($dark-grays, '300')};
-  --#{$variable-prefix}leaflet-popup-content-wrapper-bg: #{$dark};
 
   /* --------------------------------- Choices -------------------------------- */
   --#{$variable-prefix}choices-item-has-no-choices-bg: #{$dark};

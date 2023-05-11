@@ -3,9 +3,10 @@ import { Container, Navbar } from 'react-bootstrap';
 import handleNavbarTransparency from 'helpers/handleNavbarTransparency';
 import LandingRightSideNavItem from './LandingRightSideNavItem';
 import { topNavbarBreakpoint } from 'config';
-import logo from 'assets/img/illustrations/omnifood-logo.png';
 
 const NavbarStandard = () => {
+  const logo = 'https://i.ibb.co/Qk4F3rb/omnifood-logo.png'
+  
   useEffect(() => {
     window.addEventListener('scroll', handleNavbarTransparency);
     return () => window.removeEventListener('scroll', handleNavbarTransparency);

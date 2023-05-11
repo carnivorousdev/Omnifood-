@@ -12,10 +12,10 @@ import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage"
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppContext from 'context/Context';
-import DefaultPic from 'assets/img/team/7.jpg';
 import Avatar from 'components/common/Avatar';
 
 const ProfileSettings = ({ userData }) => {
+  const DefaultPic = 'https://i.ibb.co/pymdzwD/7.jpg'
   const [avatarLoader, setAvatarLoader] = useState(false)
   const [UpdateLoader, setUpdateLoader] = useState(false)
   const storage = getStorage();
