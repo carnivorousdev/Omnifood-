@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import AppContext from 'context/Context';
 
 const ProfileDropdown = () => {
-  const loadingGif = 'https://i.ibb.co/pymdzwD/7.jpg'
+  const loadingGif = 'https://i.ibb.co/pymdzwD/7.webp'
   const navigate = useNavigate()
   const {
     setConfig,
@@ -22,7 +22,7 @@ const ProfileDropdown = () => {
       toast.success(`Logged out successfully`, {
         theme: 'colored'
       });
-      navigate('/login')
+      location.replace('/login')
       setConfig('isDark', false)
       handleUserInfo({})
     }).catch((error) => {

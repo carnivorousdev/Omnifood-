@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom';
 import Section from 'components/common/Section';
 
 const ErrorLayout = () => {
-  const bgNavbar = 'https://i.ibb.co/k3ZLD8P/bg-1.jpg'
+  const bgNavbar = 'https://i.ibb.co/k3ZLD8P/bg-1.webp'
   return (
     <Section className="py-0"
       style={{

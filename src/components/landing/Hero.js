@@ -8,7 +8,7 @@ import { useMediaQuery, useTheme } from '@mui/material';
 
 const Hero = () => {
   const theme = useTheme()
-  const dashboard = 'https://i.ibb.co/HtJD1SJ/hero.png'
+  const dashboard = 'https://i.ibb.co/HtJD1SJ/hero.webp'
   const isMatch = useMediaQuery(theme.breakpoints.down('md'))
   return (
     <Section

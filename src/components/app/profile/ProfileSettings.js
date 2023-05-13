@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Button, Card, Col, Form, Image, OverlayTrigger, Row, Spinner, Tooltip } from 'react-bootstrap';
+import { Button, Card, Col, Form, OverlayTrigger, Row, Spinner, Tooltip } from 'react-bootstrap';
 import FalconCardHeader from 'components/common/FalconCardHeader';
 import { useForm } from 'react-hook-form';
 import Flex from 'components/common/Flex';
@@ -9,13 +9,12 @@ import cloudUpload from 'assets/img/illustrations/cloud-upload.svg';
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { OmnifoodServer } from 'config';
 import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppContext from 'context/Context';
 import Avatar from 'components/common/Avatar';
 
 const ProfileSettings = ({ userData }) => {
-  const DefaultPic = 'https://i.ibb.co/pymdzwD/7.jpg'
+  const DefaultPic = 'https://i.ibb.co/pymdzwD/7.webp'
   const [avatarLoader, setAvatarLoader] = useState(false)
   const [UpdateLoader, setUpdateLoader] = useState(false)
   const storage = getStorage();
@@ -48,7 +47,16 @@ const ProfileSettings = ({ userData }) => {
     setValue,
     watch,
     formState: { errors }
-  } = useForm();
+  } = useForm({
+    mode: 'onBlur',
+    defaultValues: {
+      'firstName': userData.firstName,
+      'lastName': userData.lastName,
+      'phone': userData.phoneNumber,
+      'heading': userData.profileHeading,
+      'profileImage': userData.userProfilePhoto,
+    }
+  });
 
   const updateUserInfo = async (payload) => {
     handleCreatedRecipesLoading(true)
@@ -135,15 +143,6 @@ const ProfileSettings = ({ userData }) => {
     }
   };
 
-  useEffect(() => {
-    if (userData) {
-      setValue('firstName', userData.firstName);
-      setValue('lastName', userData.lastName);
-      setValue('phone', userData.phoneNumber);
-      setValue('heading', userData.profileHeading);
-      setValue('profileImage', userData.userProfilePhoto)
-    }
-  }, [])
 
   return (
     <Card>

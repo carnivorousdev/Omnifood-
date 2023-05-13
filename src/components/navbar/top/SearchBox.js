@@ -9,7 +9,7 @@ import axios from 'axios';
 import AppContext from 'context/Context';
 
 const MediaSearchContent = ({ item }) => {
-  const DefaultMeal = 'https://i.ibb.co/NZZ2pVN/gallery-6.jpg'
+  const DefaultMeal = 'https://i.ibb.co/NZZ2pVN/gallery-6.webp'
   return (
     <Dropdown.Item className="px-card py-2" as={Link} to={`/mealdetails/${item.idMeal}`}>
       <Row>

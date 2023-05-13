@@ -15,6 +15,7 @@ import { OmnifoodServer } from 'config';
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useContext } from 'react';
 import AppContext from 'context/Context';
+import axios from 'axios';
 
 const LoginForm = ({ hasLabel }) => {
   const {
@@ -26,8 +27,14 @@ const LoginForm = ({ hasLabel }) => {
     handleUserInfo,
   } = useContext(AppContext);
   const navigate = useNavigate()
+  const [heading, setHeading] = useState('')
 
   const [loginLoading, setLoginLoading] = useState(false)
+
+  const fetchHeading = async () => {
+    const response = await axios.get(process.env.REACT_APP_RANDOM_PROFILE_HEADING_URL);
+    setHeading(response.data.content)
+  }
 
   const onSubmit = data => {
     setLoginLoading(true)
@@ -37,6 +44,9 @@ const LoginForm = ({ hasLabel }) => {
           if (user.emailVerified) {
             const documentRef = doc(OmnifoodServer, user.uid, 'User-Data')
             const docSnap = await getDoc(documentRef);
+            const parts = user.email.split("@")[0].split(".");
+            const firstName = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+            const lastName = parts[1].charAt(0).toUpperCase() + parts[1].slice(1);
             if (docSnap.exists()) {
               handleUserInfo(docSnap.data())
               await updateDoc(documentRef, {
@@ -44,7 +54,9 @@ const LoginForm = ({ hasLabel }) => {
               }, { capital: true }, { merge: true });
             } else {
               await setDoc(documentRef, {
-                userName: user.displayName,
+                userName: user.displayName ? user.displayName : firstName + ' ' + lastName,
+                firstName: firstName,
+                lastName: lastName,
                 userEmail: user.email,
                 userProfilePhoto: user.photoURL,
                 accessToken: user.accessToken,
@@ -53,10 +65,11 @@ const LoginForm = ({ hasLabel }) => {
                 isAnonymous: user.isAnonymous,
                 uid: user.uid,
                 providerData: user.providerData,
+                profileHeading: heading,
                 reloadUserInfo: user.reloadUserInfo
               }, { capital: true }, { merge: true });
               handleUserInfo({
-                userName: user.displayName,
+                userName: user.displayName ? user.displayName : firstName + ' ' + lastName,
                 userEmail: user.email,
                 userProfilePhoto: user.photoURL,
                 accessToken: user.accessToken,
@@ -65,7 +78,8 @@ const LoginForm = ({ hasLabel }) => {
                 isAnonymous: user.isAnonymous,
                 uid: user.uid,
                 providerData: user.providerData,
-                reloadUserInfo: user.reloadUserInfo
+                reloadUserInfo: user.reloadUserInfo,
+                profileHeading: heading,
               })
             }
             toast.success(`Logged in as ${data.email}`, {
@@ -91,6 +105,7 @@ const LoginForm = ({ hasLabel }) => {
 
 
   useEffect(() => {
+    fetchHeading()
     document.title = "Omnifood | Login";
   }, []);
 

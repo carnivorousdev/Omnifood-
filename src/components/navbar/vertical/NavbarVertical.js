@@ -14,7 +14,7 @@ import { OmnifoodServer } from 'config';
 import { capitalize } from 'helpers/utils';
 
 const NavbarVertical = () => {
-  const defaultImg = 'https://i.ibb.co/16k75S0/meal-1.jpg'
+  const defaultImg = 'https://i.ibb.co/16k75S0/meal-1.webp'
   const [loading, setLoading] = useState(false)
   const [routesData, setRoutesData] = useState([])
   const {

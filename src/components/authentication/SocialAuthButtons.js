@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Form, Button, Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, sendEmailVerification } from "firebase/auth"
@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { OmnifoodServer } from 'config';
 import AppContext from 'context/Context';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import axios from 'axios';
 
 
 const SocialAuthButtons = ({ loginLoading }) => {
@@ -15,6 +16,7 @@ const SocialAuthButtons = ({ loginLoading }) => {
     handleUserInfo,
   } = useContext(AppContext);
   const navigate = useNavigate()
+  const [heading, setHeading] = useState('')
   const googleProvider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider()
   facebookProvider.addScope('email');
@@ -27,6 +29,15 @@ const SocialAuthButtons = ({ loginLoading }) => {
     display: 'popup',
     prompt: 'select_account'
   });
+  useEffect(() => {
+    fetchHeading()
+  }, [])
+
+  const fetchHeading = async () => {
+    const response = await axios.get(process.env.REACT_APP_RANDOM_PROFILE_HEADING_URL);
+    setHeading(response.data.content)
+  }
+
   const handleGoogleLogin = () => {
     signInWithPopup(firestoreAuth, googleProvider)
       .then(async (result) => {
@@ -41,6 +52,9 @@ const SocialAuthButtons = ({ loginLoading }) => {
           } else {
             await setDoc(documentRef, {
               userName: result.user.displayName,
+              firstName: result._tokenResponse.firstName,
+              lastName: result._tokenResponse.lastName,
+              profileHeading: heading,
               userEmail: result.user.email,
               userProfilePhoto: result.user.photoURL,
               accessToken: result.user.accessToken,
@@ -53,6 +67,9 @@ const SocialAuthButtons = ({ loginLoading }) => {
             }, { capital: true }, { merge: true });
             handleUserInfo({
               userName: result.user.displayName,
+              firstName: result._tokenResponse.firstName,
+              lastName: result._tokenResponse.firstName,
+              profileHeading: heading,
               userEmail: result.user.email,
               userProfilePhoto: result.user.photoURL,
               accessToken: result.user.accessToken,
@@ -94,6 +111,9 @@ const SocialAuthButtons = ({ loginLoading }) => {
           } else {
             await setDoc(documentRef, {
               userName: result.user.displayName,
+              firstName: result._tokenResponse.firstName,
+              lastName: result._tokenResponse.firstName,
+              profileHeading: heading,
               userEmail: result.user.email,
               userProfilePhoto: result.user.photoURL,
               accessToken: result.user.accessToken,
@@ -106,6 +126,9 @@ const SocialAuthButtons = ({ loginLoading }) => {
             }, { capital: true }, { merge: true });
             handleUserInfo({
               userName: result.user.displayName,
+              firstName: result._tokenResponse.firstName,
+              lastName: result._tokenResponse.lastName,
+              profileHeading: heading,
               userEmail: result.user.email,
               userProfilePhoto: result.user.photoURL,
               accessToken: result.user.accessToken,

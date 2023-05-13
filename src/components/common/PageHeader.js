@@ -55,7 +55,7 @@ PageHeader.propTypes = {
 
 PageHeader.defaultProps = {
   col: { lg: 8 },
-  image: 'https://i.ibb.co/HY5tFg7/corner-4.png',
+  image: 'https://i.ibb.co/HY5tFg7/corner-4.webp',
   titleTag: 'h3'
 };
 

@@ -20,7 +20,7 @@ const MealDetailAside = ({ lookUpdata }) => {
                     overlay={
                       <Tooltip className='text-capitalize'>
                         <div className="calendar">
-                          <LazyLoadImage src={lookUpdata[`strIngredient${i + 1}`] ? process.env.REACT_APP_PHOTO_URL + lookUpdata[`strIngredient${i + 1}`] + '.png' : 'https://i.ibb.co/TMC9j4z/meal-1.jpg'} alt={lookUpdata[`strIngredient${i + 1}`]} className="card-img-top rounded fluid mb-1" />
+                          <LazyLoadImage src={lookUpdata[`strIngredient${i + 1}`] ? process.env.REACT_APP_PHOTO_URL + lookUpdata[`strIngredient${i + 1}`] + '.png' : 'https://i.ibb.co/TMC9j4z/meal-1.webp'} alt={lookUpdata[`strIngredient${i + 1}`]} className="card-img-top rounded fluid mb-1" />
                           {lookUpdata[`strIngredient${i + 1}`]}
                         </div>
                       </Tooltip>

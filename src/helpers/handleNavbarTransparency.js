@@ -1,8 +1,8 @@
 const windowHeight = window.innerHeight;
 
 export default () => {
-  const logo = 'https://i.ibb.co/Qk4F3rb/omnifood-logo.png'
-  const logoWt = 'https://i.ibb.co/NNLgxcD/omnifood-logo-wt.png'
+  const logo = 'https://i.ibb.co/Qk4F3rb/omnifood-logo.webp'
+  const logoWt = 'https://i.ibb.co/NNLgxcD/omnifood-logo-wt.webp'
   const scrollTop = window.scrollY;
   let alpha = (scrollTop / windowHeight) * 2;
   alpha >= 1 && (alpha = 1);

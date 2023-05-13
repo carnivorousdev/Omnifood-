@@ -1,11 +1,10 @@
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import Section from 'components/common/Section';
-import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Cta = () => {
-  const bg2 = 'https://i.ibb.co/16k75S0/meal-2.jpg'
+  const bg2 = 'https://i.ibb.co/16k75S0/meal-2.webp'
   return (
     <Section overlay position="center top" className="light"
       style={{

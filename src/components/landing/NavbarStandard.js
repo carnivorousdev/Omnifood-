@@ -5,7 +5,7 @@ import LandingRightSideNavItem from './LandingRightSideNavItem';
 import { topNavbarBreakpoint } from 'config';
 
 const NavbarStandard = () => {
-  const logo = 'https://i.ibb.co/Qk4F3rb/omnifood-logo.png'
+  const logo = 'https://i.ibb.co/Qk4F3rb/omnifood-logo.webp'
   
   useEffect(() => {
     window.addEventListener('scroll', handleNavbarTransparency);

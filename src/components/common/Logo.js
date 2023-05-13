@@ -12,8 +12,8 @@ const Logo = ({ at, width, className, textClass, ...rest }) => {
     userInfo
   } = useContext(AppContext);
 
-  const logo = 'https://i.ibb.co/Qk4F3rb/omnifood-logo.png'
-  const logoWt = 'https://i.ibb.co/NNLgxcD/omnifood-logo-wt.png'
+  const logo = 'https://i.ibb.co/Qk4F3rb/omnifood-logo.webp'
+  const logoWt = 'https://i.ibb.co/NNLgxcD/omnifood-logo-wt.webp'
 
   return (
     <>

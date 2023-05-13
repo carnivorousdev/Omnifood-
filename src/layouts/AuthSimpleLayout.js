@@ -7,7 +7,7 @@ import { Outlet } from 'react-router-dom';
 const AuthSimpleLayout = () => (
   <Section className="py-0 navbar-vibrant"
     style={{
-      backgroundImage: `linear-gradient(-45deg, rgba(0, 160, 255, 0.01), #0048a2),url('https://i.ibb.co/qJb7SXV/bg-2.jpg')`,
+      backgroundImage: `linear-gradient(-45deg, rgba(0, 160, 255, 0.01), #0048a2),url('https://i.ibb.co/qJb7SXV/bg-2.webp')`,
       backgroundRepeat: "no-repeat",
       backgroundSize: "cover",
     }}>
