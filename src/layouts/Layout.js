@@ -16,7 +16,7 @@ import Categories from 'components/dashboard/Categories';
 import Profile from 'components/app/profile/Profile';
 import AllBookMarksList from 'components/app/BookMarks/AllBookMarksList';
 import Settings from 'components/app/profile/Settings';
-// import WithoutAuthLanding from 'components/landing/Landing';
+import WithoutAuthLanding from 'components/landing/Landing';
 import Error401 from 'components/errors/Error401';
 import CreateRecipe from 'components/app/CreateRecipe/CreateRecipe';
 import Ingredients from 'components/dashboard/Ingredient';
@@ -60,7 +60,7 @@ const Layout = () => {
           <Route path="/editRecipe/:recipeName/:recipeId" element={<EditRecipe />} />
         </Route>
 
-        {/* <Route path="/" element={<WithoutAuthLanding />} /> */}
+        <Route path="/" element={<WithoutAuthLanding />} />
         <Route element={<AuthSimpleLayout />}>
           <Route path="/login" element={<SimpleLogin />} />
           <Route
