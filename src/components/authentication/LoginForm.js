@@ -190,7 +190,7 @@ const LoginForm = ({ hasLabel }) => {
 
       <Divider className="mt-4">or log in with</Divider>
 
-      <SocialAuthButtons loginLoading={loginLoading} />
+      <SocialAuthButtons loginLoading={loginLoading} setLoginLoading={setLoginLoading} />
     </Form>
   );
 };

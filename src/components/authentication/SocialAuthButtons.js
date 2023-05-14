@@ -11,7 +11,7 @@ import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import axios from 'axios';
 
 
-const SocialAuthButtons = ({ loginLoading }) => {
+const SocialAuthButtons = ({ loginLoading, setLoginLoading }) => {
   const {
     handleUserInfo,
   } = useContext(AppContext);
@@ -39,6 +39,7 @@ const SocialAuthButtons = ({ loginLoading }) => {
   }
 
   const handleGoogleLogin = () => {
+    setLoginLoading(true)
     signInWithPopup(firestoreAuth, googleProvider)
       .then(async (result) => {
         if (result.user.emailVerified) {
@@ -84,20 +85,24 @@ const SocialAuthButtons = ({ loginLoading }) => {
           toast.success(`Logged in as ${result.user.email}`, {
             theme: 'colored'
           });
+          setLoginLoading(false)
           navigate('/dashboard')
         } else {
           toast.warn(`Email not verified`, {
             theme: 'colored'
           });
         }
+        setLoginLoading(false)
       }).catch((error) => {
         toast.error(`${error.message}`, {
           theme: 'colored'
         });
+        setLoginLoading(false)
       });
   }
 
   const handleFacebookLogin = () => {
+    setLoginLoading(true)
     signInWithPopup(firestoreAuth, facebookProvider)
       .then(async (result) => {
         if (result.user.emailVerified) {
@@ -144,21 +149,25 @@ const SocialAuthButtons = ({ loginLoading }) => {
             theme: 'colored'
           });
           navigate('/dashboard')
+          setLoginLoading(false)
         } else {
           sendEmailVerification(firestoreAuth.currentUser).then(() => {
             toast.info(`Please verify your email. Verification link has been sent to your email`, {
               theme: 'colored'
             });
+            setLoginLoading(false)
           }).catch((err) => {
             toast.error(`${err.message}`, {
               theme: 'colored'
             });
+            setLoginLoading(false)
           })
         }
       }).catch((error) => {
         toast.error(`${error.message}`, {
           theme: 'colored'
         });
+        setLoginLoading(false)
       });
   }
 

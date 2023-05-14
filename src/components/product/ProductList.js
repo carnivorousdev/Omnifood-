@@ -79,7 +79,7 @@ const ProductList = ({ product }) => {
                 </div>
                 {Object.entries(idData).map((_, i) => (idData[`strIngredient${i + 1}`] && i < 10 ?
                   idData[`strIngredient${i + 1}`] != '' ?
-                    <Row key={i} className='fs--2 w-75'>
+                    <Row key={i} className='fs--2 w-100'>
                       <Col className='text-capitalize text-1000 fw-medium text-truncate' xs={5} md={5} lg={5}>
                         <Link
                           to={`/ingredient/${idData[`strIngredient${i + 1}`]}`}
