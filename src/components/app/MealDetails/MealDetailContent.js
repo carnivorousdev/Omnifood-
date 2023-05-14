@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactYoutubePlayer from 'react-player/youtube';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 const MealDetailContent = ({ lookUpdata }) => {
   const config = {
@@ -19,6 +20,14 @@ const MealDetailContent = ({ lookUpdata }) => {
       origin: window.location.origin
     }
   };
+  const truncateText = (text) => {
+    const truncatedText = text.length > 25 ? `${text.slice(0, 50)}...` : text
+    return truncatedText
+  }
+
+
+  const theme = useTheme()
+  const isMatch = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
     <Card className='mt-3'>
@@ -30,7 +39,7 @@ const MealDetailContent = ({ lookUpdata }) => {
         {lookUpdata.strTags && <span
           className="badge border link-secondary text-decoration-none me-1"
         >
-          {lookUpdata.strTags.replace(/,/g, ', ')}
+          {isMatch ? truncateText(lookUpdata.strTags) : lookUpdata.strTags.replace(/,/g, ', ')}
         </span>}
         <Link
           to={`/category/${lookUpdata.strCategory}`}
