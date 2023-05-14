@@ -68,7 +68,7 @@ const SocialAuthButtons = ({ loginLoading }) => {
             handleUserInfo({
               userName: result.user.displayName,
               firstName: result._tokenResponse.firstName,
-              lastName: result._tokenResponse.firstName,
+              lastName: result._tokenResponse.lastName,
               profileHeading: heading,
               userEmail: result.user.email,
               userProfilePhoto: result.user.photoURL,
@@ -112,7 +112,7 @@ const SocialAuthButtons = ({ loginLoading }) => {
             await setDoc(documentRef, {
               userName: result.user.displayName,
               firstName: result._tokenResponse.firstName,
-              lastName: result._tokenResponse.firstName,
+              lastName: result._tokenResponse.lastName,
               profileHeading: heading,
               userEmail: result.user.email,
               userProfilePhoto: result.user.photoURL,
