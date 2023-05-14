@@ -25,9 +25,9 @@ const Products = ({ ShowCaseData }) => {
 
   return (
     <Card className="mb-3">
-      <Card.Body className='p-0 overflow-hidden' >
+      <Card.Body>
         <Row
-          className='g-0'
+          className='g-4'
         >
           {paginatedProducts.map((product) =>
             <ProductList product={product} key={product.idMeal} />

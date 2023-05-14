@@ -37,7 +37,7 @@ const Logo = ({ at, width, className, textClass, ...rest }) => {
             className
           )}
         >
-          <img className="me-2 font-sans-serif" src={logo} alt="Logo" width={width ? width : 300} />
+          <img className="me-2 font-sans-serif" src={!isDark ? logo : logoWt} alt="Logo" width={width ? width : 300} />
         </div>
       </Link> : <>
         {Object.keys(userInfo).length > 0 ? <Link
