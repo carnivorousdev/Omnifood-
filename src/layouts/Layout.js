@@ -77,7 +77,8 @@ const Layout = () => {
       </Routes>
       <ToastContainer
         position={toast.POSITION.TOP_CENTER}
-        autoClose={3000}
+        autoClose={2000}
+        closeButton={false}
       />
     </>
   );

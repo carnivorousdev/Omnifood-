@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -9,6 +9,7 @@ import { firestoreAuth } from 'config'
 import { useForm } from 'react-hook-form';
 import Flex from 'components/common/Flex';
 import { useEffect } from 'react';
+import { LoginContext } from 'context/LoginProvider';
 
 const RegistrationForm = ({ hasLabel }) => {
   const navigate = useNavigate()
@@ -18,21 +19,22 @@ const RegistrationForm = ({ hasLabel }) => {
     watch,
     formState: { errors }
   } = useForm();
-  const [loading, setLoading] = useState(false);
+
+  const { loginLoading, handleLoginLoading } = useContext(LoginContext)
 
   const onSubmit = data => {
-    setLoading(true)
+    handleLoginLoading(true)
     createUserWithEmailAndPassword(firestoreAuth, data.email, data.confirmPassword)
       .then(() => {
         sendEmailVerification(firestoreAuth.currentUser).then(() => {
-          setLoading(false)
+          handleLoginLoading(false)
           navigate('/login')
           toast.success(`Successfully registered.Please verify your email`, {
             theme: 'colored'
           });
         })
           .catch((err) => {
-            setLoading(false)
+            handleLoginLoading(false)
             toast.error(`${err.message}`, {
               theme: 'colored'
             });
@@ -40,7 +42,7 @@ const RegistrationForm = ({ hasLabel }) => {
 
       })
       .catch((error) => {
-        setLoading(false)
+        handleLoginLoading(false)
         toast.error(`${error.message}`, {
           theme: 'colored'
         });
@@ -57,12 +59,12 @@ const RegistrationForm = ({ hasLabel }) => {
       role="form"
     >
       <Form.Group className="mb-3">
-        {hasLabel && <Form.Label>Email address</Form.Label>}
+        {hasLabel && <Form.Label>email@domain.com</Form.Label>}
         <Form.Control
-          placeholder={!hasLabel ? 'Email address' : ''}
+          placeholder={!hasLabel ? 'email@domain.com' : ''}
           name="email"
           isInvalid={!!errors.email}
-          disabled={loading}
+          disabled={loginLoading}
           type="email"
           {...register('email', {
             required: 'Email Id is required',
@@ -84,7 +86,7 @@ const RegistrationForm = ({ hasLabel }) => {
           placeholder={!hasLabel ? 'Password' : ''}
           name="password"
           type="password"
-          disabled={loading}
+          disabled={loginLoading}
           isInvalid={!!errors.password}
           {...register('password', {
             required: 'You must specify a password',
@@ -109,7 +111,7 @@ const RegistrationForm = ({ hasLabel }) => {
           placeholder={!hasLabel ? 'Confirm Password' : ''}
           name="confirmPassword"
           type="password"
-          disabled={loading}
+          disabled={loginLoading}
           isInvalid={!!errors.confirmPassword}
           {...register('confirmPassword', {
             required: 'You must confirm password',
@@ -127,7 +129,7 @@ const RegistrationForm = ({ hasLabel }) => {
           <Form.Check.Input
             type="checkbox"
             name="isAccepted"
-            disabled={loading}
+            disabled={loginLoading}
             isInvalid={!!errors.isAccepted}
             {...register('isAccepted', {
               required: 'You need to agree the terms and Privacy.',
@@ -144,11 +146,11 @@ const RegistrationForm = ({ hasLabel }) => {
       </Form.Group>
 
       <Form.Group className="mb-4">
-        {loading ? (
+        {loginLoading ? (
           <Row className="g-0">
             <Col xs={12} className="w-100 h-100 my-3">
               <Flex className="align-items-center justify-content-center">
-                <Spinner animation="border" variant="success" size='sm'/>
+                <Spinner animation="border" variant="success" size='sm' />
               </Flex>
             </Col>
           </Row>

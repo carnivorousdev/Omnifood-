@@ -13,6 +13,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Col, Row, Spinner } from 'react-bootstrap';
 import Loadable from 'react-loadable';
 import Layout from './layouts/Layout';
+import { LoginProvider } from 'context/LoginProvider';
 
 const App = () => {
   const { pathname } = useLocation();
@@ -88,12 +89,14 @@ const App = () => {
           <Spinner animation="border" variant="primary" />
         </Col>
       </Row> : <>
-        <ScrollToTop
-          smooth
-          component={<FaArrowUp className='text-white' />}
-          style={customStyles}
-        />
-        <Layout />
+        <LoginProvider>
+          <ScrollToTop
+            smooth
+            component={<FaArrowUp className='text-white' />}
+            style={customStyles}
+          />
+          <Layout />
+        </LoginProvider>
       </>}
     </>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { Button, Form, Row, Col, Spinner } from 'react-bootstrap';
@@ -7,6 +7,7 @@ import { firestoreAuth } from 'config'
 import { useForm } from 'react-hook-form';
 import Flex from 'components/common/Flex';
 import { sendPasswordResetEmail } from "firebase/auth";
+import { LoginContext } from 'context/LoginProvider';
 
 const ForgetPasswordForm = () => {
   const navigate = useNavigate();
@@ -15,10 +16,10 @@ const ForgetPasswordForm = () => {
     handleSubmit,
     formState: { errors }
   } = useForm();
-  const [loading, setLoading] = useState(false);
+  const { loginLoading, handleLoginLoading } = useContext(LoginContext)
 
   const onSubmit = data => {
-    setLoading(true)
+    handleLoginLoading(true)
     sendPasswordResetEmail(firestoreAuth, data.email)
       .then(() => {
         toast.success(`Password reset email sent!`, {
@@ -27,7 +28,7 @@ const ForgetPasswordForm = () => {
         navigate('/login')
       })
       .catch((error) => {
-        setLoading(false)
+        handleLoginLoading(false)
         toast.error(`${error.message}`, {
           theme: 'colored'
         });
@@ -45,10 +46,10 @@ const ForgetPasswordForm = () => {
       role="form">
       <Form.Group className="mb-3">
         <Form.Control
-          placeholder={'Email address'}
+          placeholder={'email@domain.com'}
           name="email"
           type="email"
-          disabled={loading}
+          disabled={loginLoading}
           isInvalid={!!errors.email}
           {...register('email', {
             required: 'Email Id is required',
@@ -66,7 +67,7 @@ const ForgetPasswordForm = () => {
       </Form.Group>
 
       <Form.Group className="mb-3">
-        {loading ? (
+        {loginLoading ? (
           <Row className="g-0">
             <Col xs={12} className="w-100 h-100 my-3">
               <Flex className="align-items-center justify-content-center">

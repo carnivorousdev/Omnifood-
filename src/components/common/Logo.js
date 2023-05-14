@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import AppContext from 'context/Context';
+import { LoginContext } from 'context/LoginProvider';
 
 const Logo = ({ at, width, className, textClass, ...rest }) => {
   const {
@@ -11,6 +12,8 @@ const Logo = ({ at, width, className, textClass, ...rest }) => {
     loading,
     userInfo
   } = useContext(AppContext);
+
+  const { loginLoading } = useContext(LoginContext)
 
   const logo = 'https://i.ibb.co/Qk4F3rb/omnifood-logo.webp'
   const logoWt = 'https://i.ibb.co/NNLgxcD/omnifood-logo-wt.webp'
@@ -41,7 +44,7 @@ const Logo = ({ at, width, className, textClass, ...rest }) => {
         </div>
       </Link> : <>
         {Object.keys(userInfo).length > 0 ? <Link
-          to='/dashboard'
+          to={loginLoading ? '#!' : '/dashboard'}
           className={classNames(
             'text-decoration-none',
             { 'navbar-brand text-left': at === 'navbar-vertical' },
@@ -63,7 +66,7 @@ const Logo = ({ at, width, className, textClass, ...rest }) => {
             <img className="me-2 font-sans-serif" src={!isDark ? logo : logoWt} alt="Logo" width={width ? width : 300} />
           </div>
         </Link> : <Link
-          to='/login'
+          to={loginLoading ? '#!' : '/login'}
           className={classNames(
             'text-decoration-none',
             { 'navbar-brand text-left': at === 'navbar-vertical' },

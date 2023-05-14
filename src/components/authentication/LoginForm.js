@@ -16,6 +16,7 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useContext } from 'react';
 import AppContext from 'context/Context';
 import axios from 'axios';
+import { LoginContext } from 'context/LoginProvider';
 
 const LoginForm = ({ hasLabel }) => {
   const {
@@ -26,10 +27,9 @@ const LoginForm = ({ hasLabel }) => {
   const {
     handleUserInfo,
   } = useContext(AppContext);
+  const { loginLoading, handleLoginLoading } = useContext(LoginContext)
   const navigate = useNavigate()
   const [heading, setHeading] = useState('')
-
-  const [loginLoading, setLoginLoading] = useState(false)
 
   const fetchHeading = async () => {
     const response = await axios.get(process.env.REACT_APP_RANDOM_PROFILE_HEADING_URL);
@@ -37,7 +37,7 @@ const LoginForm = ({ hasLabel }) => {
   }
 
   const onSubmit = data => {
-    setLoginLoading(true)
+    handleLoginLoading(true)
     signInWithEmailAndPassword(firestoreAuth, data.email, data.password)
       .then(() => {
         onAuthStateChanged(firestoreAuth, async (user) => {
@@ -85,10 +85,10 @@ const LoginForm = ({ hasLabel }) => {
             toast.success(`Logged in as ${data.email}`, {
               theme: 'colored'
             });
-            setLoginLoading(false)
+            handleLoginLoading(false)
             navigate('/dashboard')
           } else {
-            setLoginLoading(false)
+            handleLoginLoading(false)
             toast.warn(`Email not verified`, {
               theme: 'colored'
             });
@@ -96,7 +96,7 @@ const LoginForm = ({ hasLabel }) => {
         })
       })
       .catch((err) => {
-        setLoginLoading(false)
+        handleLoginLoading(false)
         toast.warn(`${err.message}`, {
           theme: 'colored'
         });
@@ -114,9 +114,9 @@ const LoginForm = ({ hasLabel }) => {
       onSubmit={handleSubmit(onSubmit)}
       role="form">
       <Form.Group className="mb-3">
-        {hasLabel && <Form.Label>Email address</Form.Label>}
+        {hasLabel && <Form.Label>email@domain.com</Form.Label>}
         <Form.Control
-          placeholder={!hasLabel ? 'Email address' : ''}
+          placeholder={!hasLabel ? 'email@domain.com' : ''}
           name="email"
           type="email"
           disabled={loginLoading}
@@ -190,7 +190,7 @@ const LoginForm = ({ hasLabel }) => {
 
       <Divider className="mt-4">or log in with</Divider>
 
-      <SocialAuthButtons loginLoading={loginLoading} setLoginLoading={setLoginLoading} />
+      <SocialAuthButtons loginLoading={loginLoading} setLoginLoading={handleLoginLoading} />
     </Form>
   );
 };

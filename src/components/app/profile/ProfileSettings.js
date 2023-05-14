@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Button, Card, Col, Form, OverlayTrigger, Row, Spinner, Tooltip } from 'react-bootstrap';
+import { Button, Card, Col, Form, Row, Spinner } from 'react-bootstrap';
 import FalconCardHeader from 'components/common/FalconCardHeader';
 import { useForm } from 'react-hook-form';
 import Flex from 'components/common/Flex';
@@ -12,11 +12,13 @@ import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage"
 import { useNavigate } from 'react-router-dom';
 import AppContext from 'context/Context';
 import Avatar from 'components/common/Avatar';
+import { ProfileContext } from 'context/ProfileProvider';
 
 const ProfileSettings = ({ userData }) => {
   const DefaultPic = 'https://i.ibb.co/pymdzwD/7.webp'
   const [avatarLoader, setAvatarLoader] = useState(false)
-  const [UpdateLoader, setUpdateLoader] = useState(false)
+  const { profileLoading, handleProfileLoading } = useContext(ProfileContext)
+
   const storage = getStorage();
   const navigate = useNavigate()
   const {
@@ -91,7 +93,7 @@ const ProfileSettings = ({ userData }) => {
   }
 
   const onSubmit = async (data) => {
-    setUpdateLoader(true)
+    handleProfileLoading(true)
     let fullName = data.firstName + ' ' + data.lastName
     if (watch('profileImage') != userData.userProfilePhoto) {
       const userProfileAvatar = ref(storage, userData.userEmail + '/' + 'Profile_Image/');
@@ -113,13 +115,13 @@ const ProfileSettings = ({ userData }) => {
               const UserRef = doc(OmnifoodServer, userData.uid, 'User-Data')
               const UserSnap = await getDoc(UserRef);
               handleUserInfo(UserSnap.data())
-              setUpdateLoader(false)
+              handleProfileLoading(false)
               navigate(`/profile/${userData.userName}`)
             }).catch(() => {
-              setUpdateLoader(false)
+              handleProfileLoading(false)
             });
         }).catch((err) => {
-          setUpdateLoader(false)
+          handleProfileLoading(false)
           toast.error(`${err.message}`, {
             theme: 'colored'
           });
@@ -138,7 +140,7 @@ const ProfileSettings = ({ userData }) => {
       const UserRef = doc(OmnifoodServer, userData.uid, 'User-Data')
       const UserSnap = await getDoc(UserRef);
       handleUserInfo(UserSnap.data())
-      setUpdateLoader(false)
+      handleProfileLoading(false)
       navigate(`/profile/${userData.userName}`)
     }
   };
@@ -156,7 +158,7 @@ const ProfileSettings = ({ userData }) => {
               <Form.Label>First Name</Form.Label>
               <Form.Control
                 type="text"
-                disabled={UpdateLoader}
+                disabled={profileLoading}
                 placeholder="First Name"
                 name="firstName"
                 isInvalid={!!errors.firstName}
@@ -174,7 +176,7 @@ const ProfileSettings = ({ userData }) => {
               <Form.Control
                 type="text"
                 placeholder="Last Name"
-                disabled={UpdateLoader}
+                disabled={profileLoading}
                 name="lastName"
                 isInvalid={!!errors.lastName}
                 {...register('lastName', {
@@ -190,32 +192,21 @@ const ProfileSettings = ({ userData }) => {
           <Row className="mb-3 g-3">
             <Form.Group as={Col} lg={6} controlId="email">
               <Form.Label>Email</Form.Label>
-              <OverlayTrigger
-                key='left'
-                placement='left'
-                overlay={
-                  <Tooltip className='w-auto'>
-                    {userData.userEmail}
-                  </Tooltip>
-                }
-              >
-                <Form.Control
-                  type="email"
-                  placeholder="Email"
-                  value={userData.userEmail}
-                  disabled
-                  className='text-truncate'
-                  name="email"
-                />
-              </OverlayTrigger>
+              <Form.Control
+                type="email"
+                placeholder="Email"
+                value={userData.userEmail}
+                disabled
+                className='text-truncate'
+                name="email"
+              />
             </Form.Group>
-
             <Form.Group as={Col} lg={6} controlId="phone">
               <Form.Label>Phone</Form.Label>
               <Form.Control
                 type="number"
                 placeholder="Phone"
-                disabled={UpdateLoader}
+                disabled={profileLoading}
                 name="phone"
                 isInvalid={!!errors.phone}
                 {...register('phone', {
@@ -238,7 +229,7 @@ const ProfileSettings = ({ userData }) => {
             <Form.Label>Profile Heading</Form.Label>
             <Form.Control
               type="text"
-              disabled={UpdateLoader}
+              disabled={profileLoading}
               placeholder="Profile Heading"
               name="heading"
               isInvalid={!!errors.heading}
@@ -266,7 +257,7 @@ const ProfileSettings = ({ userData }) => {
             </Col>
             <Col md={6} {...getRootProps({ className: 'dropzone-area py-3' })}>
               <input {...getInputProps()}
-                disabled={UpdateLoader} />
+                disabled={profileLoading} />
               <Flex justifyContent="center">
                 <img src={cloudUpload} alt="" width={25} className="me-2" />
                 <p className="fs-0 mb-0 text-700">Upload profile photo</p>
@@ -275,7 +266,7 @@ const ProfileSettings = ({ userData }) => {
           </Row>
 
           <div className="d-flex align-items-center justify-content-end">
-            {UpdateLoader ? <Spinner animation="border" variant="success" size='sm' /> :
+            {profileLoading ? <Spinner animation="border" variant="success" size='sm' /> :
               <Flex>
                 <Button variant="falcon-default" className='me-3' onClick={() =>
                   navigate(-1)}>
