@@ -16,7 +16,7 @@ import Layout from './layouts/Layout';
 
 const App = () => {
   const { pathname } = useLocation();
-  const excludedPaths = ['/login', '/register', '/forgot-password', '/', '/404', '/401'];
+  const excludedPaths = ['/login', '/register', '/forgot-password'];
   const {
     handleLoading,
     handleUserInfo,
@@ -55,27 +55,15 @@ const App = () => {
               } else navigate(pathname)
             } else {
               handleLoading(false)
-              if (pathname === '/') {
-                navigate('/')
-              } else {
-                navigate('/login')
-              }
+              navigate('/login')
             }
           } else {
             handleLoading(false)
-            if (pathname === '/') {
-              navigate('/')
-            } else {
-              navigate('/login')
-            }
+            navigate('/login')
           }
         } else {
           handleLoading(false)
-          if (pathname === '/') {
-            navigate('/')
-          } else {
-            navigate('/login')
-          }
+          navigate('/login')
         }
       })
     });
