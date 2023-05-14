@@ -22,7 +22,7 @@ const ProfileDropdown = () => {
       toast.success(`Logged out successfully`, {
         theme: 'colored'
       });
-      location.replace('/login')
+      navigate('/login')
       setConfig('isDark', false)
       handleUserInfo({})
     }).catch((error) => {
