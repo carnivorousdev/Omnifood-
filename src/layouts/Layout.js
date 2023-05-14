@@ -73,7 +73,7 @@ const Layout = () => {
           />
         </Route>
 
-        <Route path="*" element={<Navigate to="/401" replace />} />
+        <Route path="*" element={<Navigate to="/404" replace />} />
       </Routes>
       <ToastContainer
         position={toast.POSITION.TOP_CENTER}
