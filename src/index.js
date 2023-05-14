@@ -18,7 +18,7 @@ const root = createRoot(document.getElementById('main'));
 
 root.render(
   <Suspense fallback={loadingMarkup}>
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Main>
         <App />
       </Main>
