@@ -6,7 +6,6 @@ import Flex from 'components/common/Flex';
 import Logo from 'components/common/Logo';
 import NavbarVerticalMenu from './NavbarVerticalMenu';
 import ToggleButton from './ToggleButton';
-import { AreaCodes } from 'routes/routes';
 import axios from 'axios';
 import _ from 'lodash';
 import { doc, getDoc } from 'firebase/firestore';
@@ -101,14 +100,7 @@ const NavbarVertical = () => {
         }
         axios.get(process.env.REACT_APP_BASE_URL + `list.php?a=list`)
           .then(res => {
-            let MealDataByArea = res.data.meals.map((ele, idx) => {
-              return {
-                ...ele,
-                id: idx + 1
-              }
-            })
-            let merged = _.merge(_.keyBy(MealDataByArea, 'id'), _.keyBy(AreaCodes, 'id'));
-            let MergedValues = _.values(merged);
+            let MealDataByArea = res.data.meals
             AreaData = {
               label: 'areaData',
               children: [
@@ -116,7 +108,7 @@ const NavbarVertical = () => {
                   active: true,
                   icon: 'area',
                   name: 'Area',
-                  children: getAreaChildrenData(MergedValues.filter(ele => ele.strArea != 'Unknown'))
+                  children: getAreaChildrenData(MealDataByArea.filter(ele => ele.strArea != 'Unknown'))
                 }
               ]
             }
@@ -184,7 +176,7 @@ const NavbarVertical = () => {
       return {
         name: ele.strArea,
         active: true,
-        areaCode: ele.areaCode
+        areaCode: true
       }
     })
     return data

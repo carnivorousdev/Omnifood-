@@ -25,7 +25,13 @@ const BookMarkCheck = (lookUpdata) => {
         const docSnap = await getDoc(documentRef);
         if (docSnap.exists()) {
             setBookMarksLength(Object.values(docSnap.data()))
-            handleBookMarksData(Object.values(docSnap.data()))
+            const sortedData = Object.values(docSnap.data()).sort((a, b) => {
+                const aTimestamp = new Date(a.dateModified.toDate());
+                const bTimestamp = new Date(b.dateModified.toDate());
+
+                return bTimestamp - aTimestamp;
+            });
+            handleBookMarksData(sortedData)
             if (lookUpdata) {
                 var result = _.findKey(docSnap.data(), { 'idMeal': lookUpdata.idMeal });
                 if (result) {

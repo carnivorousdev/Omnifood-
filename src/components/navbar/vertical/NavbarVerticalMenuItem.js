@@ -7,6 +7,7 @@ import { MdFoodBank } from 'react-icons/md'
 import Avatar from 'components/common/Avatar';
 import Flag from 'react-world-flags'
 import Image from 'assets/img/illustrations/image.svg';
+import { getCountryCode } from './GetCountryFlag';
 
 const NavbarVerticalMenuItem = ({ route }) => {
   return (
@@ -35,7 +36,7 @@ const NavbarVerticalMenuItem = ({ route }) => {
       )}
       {route.areaCode && (
         <span className="nav-link-icon">
-          <Flag code={route.areaCode} fallback={<span className="nav-link-icon">
+          <Flag code={getCountryCode(route.name)} fallback={<span className="nav-link-icon">
             <Avatar src={Image} size="s" />
           </span>} className='avatar-s avatar' />
         </span>

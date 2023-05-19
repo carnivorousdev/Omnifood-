@@ -110,7 +110,13 @@ const EditRecipe = () => {
     const documentRef = doc(OmnifoodServer, uid, 'Bookmarks-Data')
     const docSnap = await getDoc(documentRef);
     if (docSnap.exists()) {
-      handleBookMarksData(Object.values(docSnap.data()))
+      const sortedData = Object.values(docSnap.data()).sort((a, b) => {
+        const aTimestamp = new Date(a.dateModified.toDate());
+        const bTimestamp = new Date(b.dateModified.toDate());
+
+        return bTimestamp - aTimestamp;
+      });
+      handleBookMarksData(sortedData)
     } else {
       handleBookMarksData([])
     }
