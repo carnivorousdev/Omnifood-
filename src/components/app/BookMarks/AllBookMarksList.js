@@ -11,7 +11,6 @@ import { useEffect } from 'react';
 
 const BookmarksFilterDropdownItem = ({ active, children, ...rest }) => (
   <Dropdown.Item
-    href="#!"
     as={Flex}
     justifyContent="between"
     className="text-capitalize cursor-pointer"
