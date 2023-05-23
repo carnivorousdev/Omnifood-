@@ -145,7 +145,7 @@ const RegistrationForm = ({ hasLabel }) => {
         </Form.Check>
       </Form.Group>
 
-      <Form.Group className="mb-4">
+      <Form.Group>
         {loginLoading ? (
           <Row className="g-0">
             <Col xs={12} className="w-100 h-100 my-3">
