@@ -4,7 +4,7 @@ import Section from 'components/common/Section';
 import { Row, Col, Image } from 'react-bootstrap';
 
 const Partner = props => (
-  <Col xs={3} sm="auto" className="my-1 my-sm-3 px-card">
+  <Col xs={4} sm="auto" className="my-1 my-sm-3 px-card">
     <Image className="landing-cta-img" {...props} alt="Partner" />
   </Col>
 );
