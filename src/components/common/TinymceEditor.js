@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Editor } from '@tinymce/tinymce-react';
+import { Editor } from '@tinymce/tinymce-react/lib/cjs/main/ts';
 import AppContext from 'context/Context';
 import { getColor } from 'helpers/utils';
 
@@ -29,15 +29,12 @@ const TinymceEditor = ({ value, handleChange }) => {
         menubar: false,
         content_style: `body { color: ${getColor('black')} }`,
         mobile: {
-          theme: 'mobile',
-          toolbar: ['undo', 'bold']
+          toolbar:'styleselect | bold italic link bullist numlist image blockquote undo redo'
         },
         statusbar: false,
-        plugins: 'lists directionality',
+        plugins: 'link image lists table media directionality',
         toolbar:
-          'styleselect | undo redo | formatselect | bold italic | \
-        alignleft aligncenter alignright | \
-        bullist numlist outdent indent',
+          'styleselect | bold italic link bullist numlist image blockquote table undo redo',
 
         directionality: isRTL ? 'rtl' : 'ltr',
         theme_advanced_toolbar_align: 'center'
