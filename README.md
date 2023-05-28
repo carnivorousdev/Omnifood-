@@ -1,100 +1,76 @@
 # Omnifood
 
-At Omnifood, we believe that healthy eating is about more than just food - it's about nourishing your mind, body, and soul. That's why we're committed to using only the highest quality ingredients, prepared with care and attention to detail, to create meals that not only taste great, but make you feel great too.
+This project built with a purview of:-
+- It is a global recipe search website that was developed to provide users with a seamless recipe browsing experience, free from annoying advertisements commonly found on other websites.
+
+- It allows users to create their own recipes by providing an intuitive and user-friendly interface. Users can input ingredients, cooking instructions, and other relevant details to share their culinary creations with others.
+
+- It aims to foster a sense of community by encouraging users to engage with one another. Users can learn from each other's recipes, share cooking tips and techniques, and even collaborate on recipe variations or modifications.
+
 
 **Solo construct week Fynd Project executed within 1.5 weeks.**
-
-![Logo](https://i.ibb.co/L88Sx4Z/omnifood-logo.webp)
 
 ## Demo 🎥
 
 - Deployed Link:- [Enjoy the Experience](https://omnifood.in/)
 
-## How to get Started 🚀
-
-**There are two methods for getting started with this repo.**
-
-#### Familiar with Git ?
-
-```
-> git clone https://github.com/icyflame21/Omnifood.git
-> cd Omnifood
-> npm install
-> npm start
-```
-
-#### Not Familiar with Git ?
-
-download the .zip file. Extract the contents of the zip file, then open your terminal, change to the project directory, and:
-
-```
-> cd Omnifood
-> npm install
-> npm start
-```
-
 ## Tech Stack 💻
 
 - React
-- CSS (Bootstrap, MUI)
+- CSS (Bootstrap, MUI), SCSS
 - Firebase (Products integrated)
     - Authentication (Email, Google, Facebook)
     - Firestore Database
     - Storage
     - Custom Domain Hosting via GoDaddy
     - App Check
+- Third Party Recipe API (MealDB)
 
 ## Features ✨
 
-- In Landing Page user can fetch its current location and search bar is enabled with debouncing effect.
-- Login / Register Page is enabled with conditional rendering , OTP authentication is implemented via Firebase.
-- User can sort according to its demand like according to cost, rating etc, and also select the food items from multiple filter section.
-- Address Drawer show current location of the user in a customized map implemented using React-Map-Gl.
-- For Payment , Razorpay gateway is been used.
+- Mobile First Design: Our platform is designed to be fully compatible with all types of devices, ensuring a seamless experience for users regardless of their device.
 
-## Responsibilities 💪
+- Password-less Sign-In: Users can sign in using either their email and password or choose a password-less sign-in option through Firebase Authentication. Only verified email addresses are allowed for sign-in.
 
-- Creating Pixel Perfect pure css Animations without using css library, and pixel perfect layouts for every page.
-- All pages are conditionally controlled using State Hooks, Local Storage.
-- Optimization of all page layouts with its raw css files and its libraries, for the user to have a smoother UI.
+- Social Media Sign-In: It offers convenient sign-in methods using Google and Facebook accounts. Email addresses associated with these accounts are automatically verified.
 
-## Snap Shots 📷
+- Forgot Password Functionality: If users forget their passwords, they can initiate a password reset process. An email will be sent to them with instructions on creating a new password.
 
-**Landing Page**
+- Verified Email Access: Only users with verified email addresses are granted access to the platform's content, ensuring security and authenticity.
 
-![Logo](https://images2.imgbox.com/d6/35/dapHztFi_o.jpg)
+- White Labelling and URL Redirection: We provide white labelling options for key URLs, such as authentication URLs and the index URL. Additionally, there are forceful redirections to prevent users from accessing inappropriate URLs based on their login status.
 
-**Register / Log In Drawer controlled via Conditional Rendering**
+- Secure Data Storage: All data, including user information and recipes, is stored in Firebase Database and Storage. Our platform implements strict security rules to protect data and restrict access to verified email addresses only.
 
-![Logo](https://images2.imgbox.com/d3/7e/IRjy3CQ5_o.jpg)
+- SEO Optimization: We have optimized our platform for search engines by adding URL prefixes and domain properties verified through Google Search Console. We have also ensured high performance by using PageSpeed Insights.
 
-**Multi Filter Section Drawer**
+- Recipe Filtration: Users can easily filter recipes based on areas, categories, and ingredients, allowing them to find specific recipes that meet their preferences.
 
-![Logo](https://images2.imgbox.com/7f/9f/mz0doOdW_o.jpg)
+- Smooth and Minimalistic UI: This platform offers a smooth and minimalistic user interface, enhancing the overall user experience and making it intuitive and easy to navigate.
 
-**Food Details Page**
+- Account Deactivation: Users have the option to deactivate their accounts within 24 hours of creating them. After this time period, the account deactivation feature is no longer available.
 
-![Logo](https://images2.imgbox.com/72/e5/bawhJbvf_o.jpg)
+- Password Reset and Profile Editing: Users can reset their passwords if needed and also have the ability to edit their profiles, ensuring they have control over their account information.
 
-**Payment Page**
+- Create and Edit Recipes: Users can create and edit their own recipes, allowing them to contribute their unique culinary creations to the platform.
 
-![Logo](https://images2.imgbox.com/28/2c/NrF6G6p7_o.jpg)
-
-# Security Policy
-
-## Supported Versions
-
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+- Dark Mode Support: Our platform fully supports dark mode, providing users with the option to switch to a darker color scheme for improved visibility and reduced eye strain.
 
 
-## Creator 😇
+- Autosuggested Search and Recipe Details: We offer autosuggested search functionality, making it easier for users to find relevant recipes. Each recipe also has detailed information, ensuring users have all the necessary instructions and ingredients.
 
-- 👤 [Biswaranjan](https://www.github.com/icyflame21)
+- Different UI for Self-Created Recipes: Self-created recipe details have a distinct user interface, allowing users to showcase their own recipes in a unique and personalized way while maintaining accessibility and visibility within the broader recipe collection.
+
+
+## Overall Performance Insights
+
+- The Overall Performance score from PageSpeed Insights, along with the accompanying score image, provides a trustworthy and visual representation of the website's speed and performance. 
+- This comprehensive evaluation considers factors such as performance, accessibility, best practices and SEO, giving you a clear and easy-to-understand assessment of the website's overall performance. 
+- By analyzing the below score image, you can quickly grasp how well the website is optimized and determine whether it delivers a fast and seamless user experience.
+
+![Overall Performance Score](https://i.ibb.co/7kpxXnW/Diagnose-Performance-Issues-Omnifood-in.png)
+
+## Sweeping review  
+
+![Sweeping review](https://i.ibb.co/WcRsgss/Git-Readme.jpg)
+
