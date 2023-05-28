@@ -25,7 +25,7 @@ const TinymceEditor = ({ value, handleChange }) => {
       onEditorChange={handleChange}
       apiKey={process.env.REACT_APP_TINYMCE_APIKEY}
       init={{
-        height: '70vh',
+        height: '50vh',
         menubar: false,
         content_style: `body { color: ${getColor('black')} }`,
         mobile: {

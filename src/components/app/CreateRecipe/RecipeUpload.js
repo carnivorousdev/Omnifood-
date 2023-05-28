@@ -25,7 +25,7 @@ const RecipeUpload = ({ register, setValue, watch, errors }) => {
           });
           newImages = newImages.filter((newFile) =>
             watch('strRecipesImages').every((file) => file.path !== newFile.path && file.size !== newFile.size)
-          );
+          ).filter(file => file.type.startsWith('image/'));
           setValue('strRecipesImages', [...watch('strRecipesImages'), ...newImages])
         }
       }
