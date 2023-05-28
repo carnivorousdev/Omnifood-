@@ -5,7 +5,11 @@ This project built with a purview of:-
 
 - It allows users to create their own recipes by providing an intuitive and user-friendly interface. Users can input ingredients, cooking instructions, and other relevant details to share their culinary creations with others.
 
-- It aims to foster a sense of community by encouraging users to engage with one another. Users can learn from each other's recipes, share cooking tips and techniques, and even collaborate on recipe variations or modifications.
+- It leverages a robust search functionality, allowing users to find recipes based on specific ingredients, dietary preferences, cooking times, and other relevant criteria. This helps users easily locate recipes that suit their needs and preferences.
+
+- This website also provides additional features such as nutritional information, cooking tips, and user ratings for recipes, enabling users to make informed decisions about the dishes they want to try.
+
+- It prioritizes user privacy and data security, ensuring that personal information remains protected and confidential.
 
 
 **Solo construct week Fynd Project executed within 2 weeks.**
