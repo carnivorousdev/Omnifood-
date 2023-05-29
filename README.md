@@ -33,7 +33,9 @@ This project built with a purview of:-
 - **Mobile First Design**: This web-app is designed to be fully compatible with all types of devices, ensuring a seamless experience for users regardless of their device.
 
 - **Advanced Code Splitting**: This web-app utilizes advanced code splitting techniques to optimize performance and reduce load times by lazy loading components only when needed.
-
+- 
+- **Reusable Common Components**: This web-app incorporates reusable components, which promote code reusability, reduce development time, and ensure consistency across the user interface. This approach improves maintainability and scalability while enhancing the overall user experience.
+- 
 - **State Management via useReducers**: It leverage the power of useReducers for efficient state management, ensuring smooth interactions and seamless user experiences.
 
 - **Data Flow Management via Context API**:  I have used the Context API to manage data flow across components, simplifying data management and enhancing performance.
