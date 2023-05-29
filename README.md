@@ -21,7 +21,7 @@ This project built with a purview of:-
 - React
 - CSS Libraries (Bootstrap, MUI), SCSS
 - Firebase (Products integrated)
-    - Authentication (Email, Google, Facebook)
+    - Authentication (Email Link (Passwordless sign-in) and Email/Password, Google, Facebook)
     - Firestore Database
     - Storage
     - Custom Domain Hosting via GoDaddy
