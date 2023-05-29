@@ -21,7 +21,7 @@ This project built with a purview of:-
 ## Tech Stack 💻
 
 - React
-- CSS (Bootstrap, MUI), SCSS
+- CSS Libraries (Bootstrap, MUI), SCSS
 - Firebase (Products integrated)
     - Authentication (Email, Google, Facebook)
     - Firestore Database
