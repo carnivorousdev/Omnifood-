@@ -7,8 +7,6 @@ This project built with a purview of:-
 
 - It leverages a robust search functionality, allowing users to find recipes based on specific ingredients, dietary preferences, cooking times, and other relevant criteria. This helps users easily locate recipes that suit their needs and preferences.
 
-- This website also provides additional features such as nutritional information, cooking tips, and user ratings for recipes, enabling users to make informed decisions about the dishes they want to try.
-
 - It prioritizes user privacy and data security, ensuring that personal information remains protected and confidential.
 
 
