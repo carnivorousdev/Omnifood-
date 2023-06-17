@@ -1,16 +1,5 @@
 # Omnifood
-
-This project built with a purview of:-
-- It is a global recipe search website that was developed to provide users with a seamless recipe browsing experience, free from annoying advertisements commonly found on other websites.
-
-- It allows users to create their own recipes by providing an intuitive and user-friendly interface. Users can input ingredients, cooking instructions, and other relevant details to share their culinary creations with others.
-
-- It leverages a robust search functionality, allowing users to find recipes based on specific ingredients, dietary preferences, cooking times, and other relevant criteria. This helps users easily locate recipes that suit their needs and preferences.
-
-- It prioritizes user privacy and data security, ensuring that personal information remains protected and confidential.
-
-
-**Solo construct week Fynd Project executed within 2 weeks.**
+It is a global recipe search website that was developed to provide users with a seamless recipe browsing experience, free from annoying advertisements commonly found on other websites.
 
 ## Demo 🎥
 
