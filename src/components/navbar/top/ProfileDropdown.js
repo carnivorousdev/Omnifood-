@@ -25,6 +25,7 @@ const ProfileDropdown = () => {
       handleUserInfo({})
       setConfig('isDark', false)
       navigate('/login')
+      navigate(0)
     }).catch((error) => {
       toast.error(`${error.message}`, {
         theme: 'colored'
