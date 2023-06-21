@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, Form, Row, Col, Spinner } from 'react-bootstrap';
@@ -10,7 +9,7 @@ import Flex from 'components/common/Flex';
 import { useEffect } from 'react';
 import { LoginContext } from 'context/LoginProvider';
 
-const RegistrationForm = ({ hasLabel }) => {
+const RegistrationForm = () => {
   const {
     register,
     handleSubmit,
@@ -59,9 +58,8 @@ const RegistrationForm = ({ hasLabel }) => {
       role="form"
     >
       <Form.Group className="mb-3">
-        {hasLabel && <Form.Label>email@domain.com</Form.Label>}
         <Form.Control
-          placeholder={!hasLabel ? 'email@domain.com' : ''}
+          placeholder='email@domain.com'
           name="email"
           isInvalid={!!errors.email}
           disabled={loginLoading}
@@ -81,9 +79,8 @@ const RegistrationForm = ({ hasLabel }) => {
         </Form.Control.Feedback>
       </Form.Group>
       <Form.Group className="mb-3">
-        {hasLabel && <Form.Label>Password</Form.Label>}
         <Form.Control
-          placeholder={!hasLabel ? 'Password' : ''}
+          placeholder='Password'
           name="password"
           type="password"
           disabled={loginLoading}
@@ -106,9 +103,8 @@ const RegistrationForm = ({ hasLabel }) => {
         </Form.Control.Feedback>
       </Form.Group>
       <Form.Group className="mb-3">
-        {hasLabel && <Form.Label>Confirm Password</Form.Label>}
         <Form.Control
-          placeholder={!hasLabel ? 'Confirm Password' : ''}
+          placeholder='Confirm Password'
           name="confirmPassword"
           type="password"
           disabled={loginLoading}
@@ -165,8 +161,5 @@ const RegistrationForm = ({ hasLabel }) => {
   );
 };
 
-RegistrationForm.propTypes = {
-  hasLabel: PropTypes.bool
-};
 
 export default RegistrationForm;

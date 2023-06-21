@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Section from 'components/common/Section';
-import IconGroup from 'components/common/icon/IconGroup';
+import IconGroup from 'components/common/IconGroup';
 import { Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { menuList1, menuList2, menuList3 } from '../data/footer';

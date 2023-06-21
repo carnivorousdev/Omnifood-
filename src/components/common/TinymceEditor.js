@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { Editor } from '@tinymce/tinymce-react/lib/cjs/main/ts';
 import AppContext from 'context/Context';
 import { getColor } from 'helpers/utils';
@@ -41,11 +40,6 @@ const TinymceEditor = ({ value, handleChange }) => {
       }}
     />
   );
-};
-
-TinymceEditor.propTypes = {
-  value: PropTypes.string,
-  handleChange: PropTypes.func
 };
 
 export default TinymceEditor;

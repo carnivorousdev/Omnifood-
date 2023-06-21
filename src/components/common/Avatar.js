@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { isIterableArray } from 'helpers/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Flex from './Flex';
@@ -81,17 +80,7 @@ export const AvatarGroup = ({ children, dense, className }) => {
   );
 };
 
-Avatar.propTypes = {
-  size: PropTypes.oneOf(['s', 'm', 'l', 'xl', '2xl', '3xl', '4xl', '5xl']),
-  rounded: PropTypes.string,
-  src: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
-  name: PropTypes.string,
-  emoji: PropTypes.string,
-  className: PropTypes.string,
-  mediaClass: PropTypes.string,
-  isExact: PropTypes.bool,
-  icon: PropTypes.string
-};
+
 
 Avatar.defaultProps = {
   size: 'xl',
@@ -100,10 +89,5 @@ Avatar.defaultProps = {
   isExact: false
 };
 
-AvatarGroup.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  dense: PropTypes.bool
-};
 
 export default Avatar;

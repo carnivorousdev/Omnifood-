@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, Form, Row, Col, Spinner } from 'react-bootstrap';
@@ -18,7 +17,7 @@ import AppContext from 'context/Context';
 import axios from 'axios';
 import { LoginContext } from 'context/LoginProvider';
 
-const LoginForm = ({ hasLabel }) => {
+const LoginForm = () => {
   const {
     register,
     handleSubmit,
@@ -120,9 +119,8 @@ const LoginForm = ({ hasLabel }) => {
       onSubmit={handleSubmit(onSubmit)}
       role="form">
       <Form.Group className="mb-3">
-        {hasLabel && <Form.Label>email@domain.com</Form.Label>}
         <Form.Control
-          placeholder={!hasLabel ? 'email@domain.com' : ''}
+          placeholder='email@domain.com'
           name="email"
           type="email"
           disabled={loginLoading}
@@ -143,9 +141,8 @@ const LoginForm = ({ hasLabel }) => {
       </Form.Group>
 
       <Form.Group className="mb-3">
-        {hasLabel && <Form.Label>Password</Form.Label>}
         <Form.Control
-          placeholder={!hasLabel ? 'Password' : ''}
+          placeholder='Password'
           name="password"
           type="password"
           disabled={loginLoading}
@@ -200,15 +197,4 @@ const LoginForm = ({ hasLabel }) => {
     </Form>
   );
 };
-
-LoginForm.propTypes = {
-  layout: PropTypes.string,
-  hasLabel: PropTypes.bool
-};
-
-LoginForm.defaultProps = {
-  layout: 'simple',
-  hasLabel: false
-};
-
 export default LoginForm;

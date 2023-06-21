@@ -1,5 +1,4 @@
 import React, { useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { Button, Form, Row, Col, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -84,11 +83,5 @@ const ForgetPasswordForm = () => {
     </Form>
   );
 };
-
-ForgetPasswordForm.propTypes = {
-  layout: PropTypes.string
-};
-
-ForgetPasswordForm.defaultProps = { layout: 'simple' };
 
 export default ForgetPasswordForm;

@@ -1,13 +1,8 @@
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { Card, Tab, Row, Col} from 'react-bootstrap';
 import classNames from 'classnames';
-import { HashLink } from 'react-router-hash-link';
 import Flex from './Flex';
-import { useLocation } from 'react-router';
 import { camelize } from '../../helpers/utils';
-import AppContext from 'context/Context';
-
 
 const FalconComponentCardHeader = ({
   light,
@@ -15,10 +10,7 @@ const FalconComponentCardHeader = ({
   title,
   children,
 }) => {
-  const location = useLocation();
-  const {
-    config: { isRTL }
-  } = useContext(AppContext);
+
   return (
     <Card.Header className={classNames({ 'bg-light': light }, className)}>
       <Row className="align-items-end g-2">
@@ -26,29 +18,6 @@ const FalconComponentCardHeader = ({
           {title && (
             <Flex>
               <h5 className="mb-0 hover-actions-trigger" id={camelize(title)}>
-                {isRTL ? (
-                  <>
-                    <HashLink
-                      to={`${location.pathname}#${camelize(title)}`}
-                      className="hover-actions ps-2"
-                      style={{ top: 0, left: '-25px' }}
-                    >
-                      #
-                    </HashLink>
-                    {title}
-                  </>
-                ) : (
-                  <>
-                    {title}
-                    <HashLink
-                      to={`${location.pathname}#${camelize(title)}`}
-                      className="hover-actions ps-2"
-                      style={{ top: 0, right: '-25px' }}
-                    >
-                      #
-                    </HashLink>
-                  </>
-                )}
               </h5>
             </Flex>
           )}
@@ -78,18 +47,5 @@ const FalconComponentCard = ({
 
 FalconComponentCard.Header = FalconComponentCardHeader;
 
-FalconComponentCard.propTypes = {
-  children: PropTypes.node,
-  multiSections: PropTypes.bool,
-  noGuttersBottom: PropTypes.bool
-};
-
-FalconComponentCardHeader.propTypes = {
-  light: PropTypes.bool,
-  className: PropTypes.string,
-  title: PropTypes.string,
-  children: PropTypes.node,
-  noPreview: PropTypes.bool
-};
 
 export default FalconComponentCard;

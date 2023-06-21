@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { Dropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
@@ -47,11 +46,6 @@ const CardDropdown = ({
   );
 };
 
-CardDropdown.propTypes = {
-  btnRevealClass: PropTypes.string,
-  drop: PropTypes.string,
-  children: PropTypes.node,
-  icon: PropTypes.string
-};
+
 
 export default CardDropdown;

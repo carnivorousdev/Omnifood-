@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
@@ -92,11 +91,5 @@ const Logo = ({ at, width, className, textClass, ...rest }) => {
   );
 };
 
-Logo.propTypes = {
-  at: PropTypes.oneOf(['navbar-vertical', 'navbar-top', 'auth']),
-  width: PropTypes.number,
-  className: PropTypes.string,
-  textClass: PropTypes.string
-};
 
 export default Logo;

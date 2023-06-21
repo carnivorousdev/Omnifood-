@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Col, Row } from 'react-bootstrap';
 import Logo from 'components/common/Logo';
 import { Outlet } from 'react-router-dom';
@@ -22,10 +21,6 @@ const ErrorLayout = () => {
       </Row>
     </Section>
   );
-};
-
-ErrorLayout.propTypes = {
-  match: PropTypes.object
 };
 
 export default ErrorLayout;

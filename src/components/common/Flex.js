@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const Flex = ({
@@ -36,17 +35,5 @@ const Flex = ({
   );
 };
 
-Flex.propTypes = {
-  children: PropTypes.node.isRequired,
-  justifyContent: PropTypes.string,
-  inline: PropTypes.bool,
-  alignItems: PropTypes.string,
-  alignContent: PropTypes.string,
-  wrap: PropTypes.string,
-  className: PropTypes.string,
-  tag: PropTypes.string,
-  breakpoint: PropTypes.string,
-  direction: PropTypes.string
-};
 
 export default Flex;

@@ -27,7 +27,7 @@ const App = () => {
   const navigate = useNavigate()
   
   const customStyles = {
-    backgroundColor: "#2c7be5",
+    backgroundColor: "#E67E22",
     borderRadius: "50%",
     width: "40px",
     height: "40px",

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { cssTransition } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -13,5 +12,3 @@ export const CloseButton = ({ closeToast }) => (
     onClick={closeToast}
   />
 );
-
-CloseButton.propTypes = { closeToast: PropTypes.func };
