@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, Form, Row, Col, Spinner } from 'react-bootstrap';
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth"
-import { useNavigate } from 'react-router-dom';
 import { firestoreAuth } from 'config'
 import { useForm } from 'react-hook-form';
 import Flex from 'components/common/Flex';
@@ -12,7 +11,6 @@ import { useEffect } from 'react';
 import { LoginContext } from 'context/LoginProvider';
 
 const RegistrationForm = ({ hasLabel }) => {
-  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -26,13 +24,15 @@ const RegistrationForm = ({ hasLabel }) => {
     handleLoginLoading(true)
     createUserWithEmailAndPassword(firestoreAuth, data.email, data.confirmPassword)
       .then(() => {
-        sendEmailVerification(firestoreAuth.currentUser).then(() => {
-          handleLoginLoading(false)
-          navigate('/login')
-          toast.success(`Successfully registered.Please verify your email`, {
-            theme: 'colored'
-          });
-        })
+        sendEmailVerification(firestoreAuth.currentUser,
+          {
+            url: window.location.origin + '/login'
+          }).then(() => {
+            handleLoginLoading(false)
+            toast.success(`Successfully registered.Please verify your email`, {
+              theme: 'colored'
+            });
+          })
           .catch((err) => {
             handleLoginLoading(false)
             toast.error(`${err.message}`, {

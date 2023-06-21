@@ -25,6 +25,7 @@ const App = () => {
   } = useContext(AppContext);
 
   const navigate = useNavigate()
+  
   const customStyles = {
     backgroundColor: "#2c7be5",
     borderRadius: "50%",

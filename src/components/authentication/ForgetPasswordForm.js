@@ -20,12 +20,14 @@ const ForgetPasswordForm = () => {
 
   const onSubmit = data => {
     handleLoginLoading(true)
-    sendPasswordResetEmail(firestoreAuth, data.email)
+    sendPasswordResetEmail(firestoreAuth, data.email, {
+      url: window.location.origin + '/login'
+    })
       .then(() => {
+        handleLoginLoading(false)
         toast.success(`Password reset email sent!`, {
           theme: 'colored'
         });
-        navigate('/login')
       })
       .catch((error) => {
         handleLoginLoading(false)

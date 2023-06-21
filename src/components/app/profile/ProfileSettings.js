@@ -255,14 +255,14 @@ const ProfileSettings = ({ userData }) => {
                 }
               />}
             </Col>
-            <Col md={6} {...getRootProps({ className: 'dropzone-area py-3' })}>
+            {profileLoading ? '' : <Col md={6} {...getRootProps({ className: 'dropzone-area py-3' })}>
               <input {...getInputProps()}
                 disabled={profileLoading} />
               <Flex justifyContent="center">
                 <img src={cloudUpload} alt="" width={25} className="me-2" />
                 <p className="fs-0 mb-0 text-700">Upload profile photo</p>
               </Flex>
-            </Col>
+            </Col>}
           </Row>
 
           <div className="d-flex align-items-center justify-content-end">

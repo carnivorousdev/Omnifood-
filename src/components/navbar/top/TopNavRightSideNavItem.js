@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { Nav, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 import ProfileDropdown from 'components/navbar/top/ProfileDropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AppContext from 'context/Context';
@@ -29,7 +29,6 @@ const TopNavRightSideNavItem = () => {
       const sortedData = Object.values(docSnap.data()).sort((a, b) => {
         const aTimestamp = new Date(a.dateModified.toDate());
         const bTimestamp = new Date(b.dateModified.toDate());
-
         return bTimestamp - aTimestamp;
       });
       handleBookMarksData(sortedData)
@@ -52,22 +51,12 @@ const TopNavRightSideNavItem = () => {
           className="px-2 theme-control-toggle"
           onClick={() => setConfig('isDark', !isDark)}
         >
-          <OverlayTrigger
-            key="bottom"
-            placement='bottom'
-            overlay={
-              <Tooltip id="ThemeColor">
-                {isDark ? 'Switch to light theme' : 'Switch to dark theme'}
-              </Tooltip>
-            }
-          >
-            <div className="theme-control-toggle-label">
-              <FontAwesomeIcon
-                icon={isDark ? 'sun' : 'moon'}
-                className="fs-0"
-              />
-            </div>
-          </OverlayTrigger>
+          <div className="theme-control-toggle-label">
+            <FontAwesomeIcon
+              icon={isDark ? 'sun' : 'moon'}
+              className="fs-0"
+            />
+          </div>
         </Nav.Link>
       </Nav.Item>
       {loading ? '' : showBookMarks.length > 0 ? <BookMarksNotification /> : ''}

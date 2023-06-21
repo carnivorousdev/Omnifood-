@@ -22,9 +22,9 @@ const ProfileDropdown = () => {
       toast.success(`Logged out successfully`, {
         theme: 'colored'
       });
-      navigate('/login', { replace: true })
-      setConfig('isDark', false)
       handleUserInfo({})
+      setConfig('isDark', false)
+      navigate('/login')
     }).catch((error) => {
       toast.error(`${error.message}`, {
         theme: 'colored'

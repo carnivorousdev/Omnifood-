@@ -41,57 +41,63 @@ const LoginForm = ({ hasLabel }) => {
     signInWithEmailAndPassword(firestoreAuth, data.email, data.password)
       .then(() => {
         onAuthStateChanged(firestoreAuth, async (user) => {
-          if (user.emailVerified) {
-            const documentRef = doc(OmnifoodServer, user.uid, 'User-Data')
-            const docSnap = await getDoc(documentRef);
-            const parts = user.email.split("@")[0].split(".");
-            const firstName = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
-            const lastName = parts[1].charAt(0).toUpperCase() + parts[1].slice(1);
-            if (docSnap.exists()) {
-              handleUserInfo(docSnap.data())
-              await updateDoc(documentRef, {
-                accessToken: user.accessToken,
-              }, { capital: true }, { merge: true });
+          if (user) {
+            if (user.emailVerified) {
+              const documentRef = doc(OmnifoodServer, user.uid, 'User-Data')
+              const docSnap = await getDoc(documentRef);
+              const parts = user.email.split("@")[0].split(".");
+              const firstName = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+              const lastName = parts[1].charAt(0).toUpperCase() + parts[1].slice(1);
+              if (docSnap.exists()) {
+                handleUserInfo(docSnap.data())
+                await updateDoc(documentRef, {
+                  accessToken: user.accessToken,
+                }, { capital: true }, { merge: true });
+              } else {
+                await setDoc(documentRef, {
+                  userName: user.displayName ? user.displayName : firstName + ' ' + lastName,
+                  firstName: firstName,
+                  lastName: lastName,
+                  userEmail: user.email,
+                  userProfilePhoto: user.photoURL,
+                  accessToken: user.accessToken,
+                  providerData: user.providerData,
+                  emailVerified: user.emailVerified,
+                  isAnonymous: user.isAnonymous,
+                  uid: user.uid,
+                  providerData: user.providerData,
+                  profileHeading: heading,
+                  reloadUserInfo: user.reloadUserInfo
+                }, { capital: true }, { merge: true });
+                handleUserInfo({
+                  userName: user.displayName ? user.displayName : firstName + ' ' + lastName,
+                  firstName: firstName,
+                  lastName: lastName,
+                  userEmail: user.email,
+                  userProfilePhoto: user.photoURL,
+                  accessToken: user.accessToken,
+                  providerData: user.providerData,
+                  emailVerified: user.emailVerified,
+                  isAnonymous: user.isAnonymous,
+                  uid: user.uid,
+                  providerData: user.providerData,
+                  reloadUserInfo: user.reloadUserInfo,
+                  profileHeading: heading,
+                })
+              }
+              toast.success(`Logged in as ${data.email}`, {
+                theme: 'colored'
+              });
+              handleLoginLoading(false)
+              navigate('/dashboard')
             } else {
-              await setDoc(documentRef, {
-                userName: user.displayName ? user.displayName : firstName + ' ' + lastName,
-                firstName: firstName,
-                lastName: lastName,
-                userEmail: user.email,
-                userProfilePhoto: user.photoURL,
-                accessToken: user.accessToken,
-                providerData: user.providerData,
-                emailVerified: user.emailVerified,
-                isAnonymous: user.isAnonymous,
-                uid: user.uid,
-                providerData: user.providerData,
-                profileHeading: heading,
-                reloadUserInfo: user.reloadUserInfo
-              }, { capital: true }, { merge: true });
-              handleUserInfo({
-                userName: user.displayName ? user.displayName : firstName + ' ' + lastName,
-                userEmail: user.email,
-                userProfilePhoto: user.photoURL,
-                accessToken: user.accessToken,
-                providerData: user.providerData,
-                emailVerified: user.emailVerified,
-                isAnonymous: user.isAnonymous,
-                uid: user.uid,
-                providerData: user.providerData,
-                reloadUserInfo: user.reloadUserInfo,
-                profileHeading: heading,
-              })
+              handleLoginLoading(false)
+              toast.warn(`Email not verified`, {
+                theme: 'colored'
+              });
             }
-            toast.success(`Logged in as ${data.email}`, {
-              theme: 'colored'
-            });
-            handleLoginLoading(false)
-            navigate('/dashboard')
           } else {
             handleLoginLoading(false)
-            toast.warn(`Email not verified`, {
-              theme: 'colored'
-            });
           }
         })
       })
