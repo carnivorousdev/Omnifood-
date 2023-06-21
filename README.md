@@ -13,7 +13,7 @@ It is a global recipe search website that was developed to provide users with a 
     - Authentication (Email Link (Passwordless sign-in) and Email/Password, Google, Facebook)
     - Firestore Database
     - Storage
-    - Custom Domain Hosting via GoDaddy
+    - Custom Domain Hosting
     - App Check
 - Third Party Recipe API (MealDB)
 
